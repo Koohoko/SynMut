@@ -1,0 +1,12 @@
+Package: DinuMut
+Type: Package
+Title: DinuMut: Designing Synonymous Mutants for Viral Research
+Version: 0.0.0.9000
+Authors@R: person("Haogao ", "Gu", email = "hggu@connect.hku.hk",
+    role = c("aut", "cre"))
+Description: DinuMut designs synonymous mutants for viral research. It can 
+    take both dinucleotide preference and codon usage bias into account while 
+    designing mutants.    
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
