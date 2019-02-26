@@ -1,5 +1,8 @@
-.Rproj.user
+.Rproj.user/**
 .Rhistory
 .RData
 .Ruserdata
+*.Rproj
 buliding.R
+building.R
+.Rproj.user
