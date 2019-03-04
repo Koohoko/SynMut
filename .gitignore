@@ -1,3 +1,4 @@
+inst/doc
 .Rproj.user/**
 .Rhistory
 .RData
@@ -6,3 +7,6 @@
 buliding.R
 building.R
 .Rproj.user
+~$ckage_work_flow.docx
+Package_work_flow.docx
+*.tmp

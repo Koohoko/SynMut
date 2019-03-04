@@ -1,6 +1,6 @@
 Package: SynMut
 Type: Package
-Title: SynMut: Designing Synonymous Mutants for Viral Research
+Title: SynMut: Tools for designing Synonymous codon/dinucleotide Mutants in Virus Research
 Version: 0.0.0.9000
 Authors@R: person("Haogao ", "Gu", email = "hggu@connect.hku.hk",
     role = c("aut", "cre"))
@@ -13,3 +13,12 @@ Description: SynMut designs synonymous mutants for viral research.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
+    dplyr,
+    seqinr,
+    methods,
+    Biostrings
