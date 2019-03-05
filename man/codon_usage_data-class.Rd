@@ -3,20 +3,22 @@
 \docType{class}
 \name{codon_usage_data-class}
 \alias{codon_usage_data-class}
-\title{\code{codon_usage_data}: An S4 class to record codon usage of a sequence}
+\title{codon_usage_data: An S4 class to record codon usage of a sequence}
 \description{
 Recording codon usage matrix.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{cu}}{a matrix recording the codon usage}
+\item{\code{\code{cu}}}{a matrix recording the codon usage}
 
-\item{\code{DNAStringSet}}{a DNAStingSet object recording the sequence(s)}
+\item{\code{\code{dnaseq}}}{a DNAStingSet object recording the sequence(s)}
+
+\item{\code{\code{region}}}{a list specifying paticular regions allowed to be mutated}
 }}
 
 \seealso{
-\code{\link{codon_usage}}, \code{\link{get_cu}}
+\code{\link{codon_usage}}, \code{\link{get_cu}}, \code{\link{get_region}}
 
 cu
 }

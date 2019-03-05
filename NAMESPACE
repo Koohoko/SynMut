@@ -2,6 +2,7 @@
 
 export(codon_usage)
 export(get_cu)
+export(get_region)
 exportClasses(codon_usage_data)
 exportMethods(codon_usage)
 importFrom(Biostrings,oligonucleotideFrequency)

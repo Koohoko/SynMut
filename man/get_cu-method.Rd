@@ -3,25 +3,24 @@
 \docType{methods}
 \name{get_cu}
 \alias{get_cu}
-\alias{get_cu,codon_usage_data-method}
-\title{\code{get_cu}: access the codon usage matrix}
+\title{get_cu: get codon usage matrix}
 \usage{
 get_cu(object, ...)
 
 \S4method{get_cu}{codon_usage_data}(object)
 }
 \arguments{
-\item{cu}{codon_usage_data}
+\item{\code{cu}}{codon_usage_data}
 }
 \value{
 matrix
 }
 \description{
-\code{get_cu}: access the codon usage matrix
+access the codon usage matrix
 }
 \examples{
 codon.matrix <- get_cu(cu)
 }
 \seealso{
-\code{\link{codon_usage}}
+\code{\link{codon_usage}}, \code{\link{get_region}}
 }
