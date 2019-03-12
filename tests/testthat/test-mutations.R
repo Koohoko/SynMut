@@ -5,9 +5,13 @@ filepath.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
 region <- read.csv(filepath.csv)
 rgd.seq <- input_seq(filepath, region)
 
+filepath <- system.file("extdata", "example2.fasta", package = "SynMut")
+rgd.seq2 <- input_seq(filepath)
+
 test_that("codon_random", {
   tmp <- codon_random(rgd.seq, n = 0.5)
   expect_true(class(tmp)[1] == "regioned_dna")
+  expect_silent(codon_random(rgd.seq2, n = 0.5))
 })
 
 test_that("codon_to", {
@@ -16,6 +20,7 @@ test_that("codon_to", {
   expect_error(codon_to(rgd.seq, min.codon = "aaaa"))
   tmp <- get_cu(codon_to(rgd.seq, max.codon = "AAC")) - get_cu(rgd.seq)
   expect_true(class(tmp)[1] == "matrix")
+  expect_silent(codon_to(rgd.seq2, min.codon = "aaa"))
 })
 
 test_that("dinu_to", {
@@ -23,6 +28,7 @@ test_that("dinu_to", {
   expect_true(class(tmp)[1] == "regioned_dna")
   tmp <- get_du(dinu_to(rgd.seq, min = "aa")) - get_du(rgd.seq)
   expect_true(class(tmp)[1] == "matrix")
+  expect_silent(dinu_to(rgd.seq2, max = "cg"))
 })
 
 test_that("codon_mimic", {
@@ -35,4 +41,6 @@ test_that("codon_mimic", {
   new <- codon_mimic(rgd.seq, alt = target)
   tmp <- get_cu(new) - get_cu(rgd.seq)
   expect_true(class(tmp)[1] == "matrix")
+
+  expect_silent(codon_mimic(rgd.seq2, alt = target))
 })

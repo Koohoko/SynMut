@@ -91,5 +91,9 @@ setMethod(f = "codon_random", signature = "regioned_dna",
     }
     seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
 
-    return(input_seq(seq.mut, region = object@region))
+    return(new(
+      "regioned_dna",
+      dnaseq = seq.mut,
+      region = object@region
+    ))
   })

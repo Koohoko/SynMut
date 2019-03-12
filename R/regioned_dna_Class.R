@@ -51,7 +51,7 @@ setValidity("regioned_dna",
 setMethod(f = "show", signature = "regioned_dna",
   definition = function(object){
     cat("An object of class ", class(object), "\n", sep = "")
-    cat("Number of sequences: ", length(object@dnaseq), "\n", sep = "")
+    cat("Number of sequences: ", length(object@dnaseq)-1, "\n", sep = "")
   })
 
 
@@ -76,7 +76,7 @@ setGeneric(name = "get_region",
 #' @rdname get_region-method
 setMethod(f = "get_region", signature = "regioned_dna",
   definition = function(object){
-    object@region
+    object@region[seq_len(length(object@region)-1)]
   })
 
 #' Get the DNAStringSet data
@@ -100,7 +100,7 @@ setGeneric(name = "get_dna",
 #' @rdname get_dna-method
 setMethod(f = "get_dna", signature = "regioned_dna",
   definition = function(object){
-    return(object@dnaseq)
+    return(object@dnaseq[seq_len(length(object@dnaseq)-1)])
   })
 
 
@@ -126,7 +126,8 @@ setGeneric(name = "get_cu",
 #' @rdname get_cu-method
 setMethod(f = "get_cu", signature = "regioned_dna",
   definition = function(object){
-    Biostrings::oligonucleotideFrequency(object@dnaseq, width = 3, step = 3)
+    dnaseq <- object@dnaseq[seq_len(length(object@dnaseq)-1)]
+    Biostrings::oligonucleotideFrequency(dnaseq, width = 3, step = 3)
   })
 
 #' @name get_cu
@@ -156,7 +157,8 @@ setGeneric(name = "get_du",
 #' @rdname get_du-method
 setMethod(f = "get_du", signature = "regioned_dna",
   definition = function(object){
-    Biostrings::oligonucleotideFrequency(object@dnaseq, width = 2, step = 2)
+    dnaseq <- object@dnaseq[seq_len(length(object@dnaseq)-1)]
+    Biostrings::oligonucleotideFrequency(dnaseq, width = 2, step = 2)
   })
 
 #' @name get_du
@@ -187,7 +189,8 @@ setGeneric(name = "get_freq",
 #' @rdname get_freq-method
 setMethod(f = "get_freq", signature = "regioned_dna",
   definition = function(object){
-    tmp <- Biostrings::oligonucleotideFrequency(object@dnaseq,
+    dnaseq <- object@dnaseq[seq_len(length(object@dnaseq)-1)]
+    tmp <- Biostrings::oligonucleotideFrequency(dnaseq,
       width = 3, step = 3)
     tmp <- apply(tmp, 1, function(x){
       r <- freq(x)
@@ -255,7 +258,8 @@ setGeneric(name = "get_rscu",
 #' @rdname get_rscu-method
 setMethod(f = "get_rscu", signature = "regioned_dna",
   definition = function(object){
-    tmp <- Biostrings::oligonucleotideFrequency(object@dnaseq,
+    dnaseq <- object@dnaseq[seq_len(length(object@dnaseq)-1)]
+    tmp <- Biostrings::oligonucleotideFrequency(dnaseq,
       width = 3, step = 3)
     tmp <- apply(tmp, 1, function(x){
       r <- freq(x)

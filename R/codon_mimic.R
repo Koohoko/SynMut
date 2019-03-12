@@ -136,7 +136,11 @@ codon.mimic <- function(cu.target, dna.seq, region){
     }, seq, region, seq.mut)
   }
   seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
-  return(input_seq(seq.mut, region = region))
+  return(new(
+    "regioned_dna",
+    dnaseq = seq.mut,
+    region = region
+  ))
 }
 
 

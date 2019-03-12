@@ -5,9 +5,9 @@
 \alias{dinu_to}
 \title{Maximize or minimize the usage of certain dinucleotide.}
 \usage{
-dinu_to(object, max.dinu = NA, min.dinu = NA, ...)
+dinu_to(object, max.dinu = NA, min.dinu = NA, keep = FALSE, ...)
 
-\S4method{dinu_to}{regioned_dna}(object, max.dinu, min.dinu)
+\S4method{dinu_to}{regioned_dna}(object, max.dinu, min.dinu, keep)
 }
 \arguments{
 \item{object}{A regioned_dna object.}
@@ -15,6 +15,9 @@ dinu_to(object, max.dinu = NA, min.dinu = NA, ...)
 \item{max.dinu}{A string of a dinucleotide.}
 
 \item{min.dinu}{A string of a dinucleotide.}
+
+\item{keep}{A logical varibale stating if the codon usage of the original
+sequences should be keep. Default: False.}
 }
 \value{
 regioned_dna
@@ -27,6 +30,7 @@ dinucleotide23.
 }
 \examples{
 get_du(dinu_to(rgd.seq, max = "cg")) - get_du(rgd.seq)
+get_du(dinu_to(rgd.seq, max = "cg", keep = TRUE)) - get_du(rgd.seq)
 get_du(dinu_to(rgd.seq, min = "aa")) - get_du(rgd.seq)
 }
 \seealso{

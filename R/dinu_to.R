@@ -9,6 +9,8 @@
 #' @param ...
 #' @param max.dinu A string of a dinucleotide.
 #' @param min.dinu A string of a dinucleotide.
+#' @param keep A logical varibale stating if the codon usage of the original
+#'   sequences should be keep. Default: False.
 #'
 #' @return regioned_dna
 #' @export
@@ -17,19 +19,20 @@
 #'   \code{\link{codon_mimic_dinu_to}}
 #' @examples
 #' get_du(dinu_to(rgd.seq, max = "cg")) - get_du(rgd.seq)
+#' get_du(dinu_to(rgd.seq, max = "cg", keep = TRUE)) - get_du(rgd.seq)
 #' get_du(dinu_to(rgd.seq, min = "aa")) - get_du(rgd.seq)
 #' @include regioned_dna_Class.R
 #' @name dinu_to
 #' @rdname dinu_to-method
 setGeneric(name = "dinu_to",
-  def = function(object, max.dinu = NA, min.dinu = NA, ...){
+  def = function(object, max.dinu = NA, min.dinu = NA, keep = FALSE, ...){
     standardGeneric("dinu_to")
   })
 
 #' @name dinu_to
 #' @rdname dinu_to-method
 setMethod(f = "dinu_to", signature = "regioned_dna",
-  definition = function(object, max.dinu, min.dinu){
+  definition = function(object, max.dinu, min.dinu, keep){
     max.dinu <- toupper(max.dinu)
     min.dinu <- toupper(min.dinu)
     dinu.input <- c(max.dinu, min.dinu)
@@ -52,83 +55,96 @@ setMethod(f = "dinu_to", signature = "regioned_dna",
 
     check.region <- all(is.na(object@region))
     if(!check.region){
-      seq <- sapply(as.character(object@dnaseq), function(x){splitseq(s2c(x))})
+      seq <- lapply(as.character(object@dnaseq), function(x){splitseq(s2c(x))})
       seq.region <- mapply(function(x, y){
         return(x[y])
       }, seq, object@region)
     } else {
-      seq.region <- sapply(as.character(object@dnaseq),
+      seq.region <- lapply(as.character(object@dnaseq),
         function(x){splitseq(s2c(x))})
     }
 
     # mutation ----------------------------------------------------------------
 
-    codon.list <- sapply(seqinr::ucoweight(''), function(x){toupper(names(x))})
+    codon.list <- lapply(seqinr::ucoweight(''), function(x){toupper(names(x))})
     codon.list.alt <- codon.list[sapply(codon.list, function(x){length(x)>1})]
 
     ## get optimal dinucleotide -----------------------------------------------
 
-    if(!is.na(max.dinu)){ #max.dinu
-      codon.list.optm <- lapply(codon.list.alt, function(x){
-        filter1 <- x[stringr::str_detect(x, pattern = max.dinu)]
-        if(length(filter1) == 1){
-          return(filter1)
-        } else if(length(filter1) < 1){
-          filter2.1 <- x[stringr::str_detect(x,
-            pattern = paste0("^", substr(max.dinu, 2, 2)))]
-          filter2.2 <- x[stringr::str_detect(x,
-            pattern = paste0(substr(max.dinu, 1, 1), "$"))]
-          filter2 <- c(filter2.1, filter2.2)
-          if(length(filter2)<1){
-            return(sample(x, 1))
-          } else{
-            return(names(sort(table(filter2), decreasing = T))[1])
+    if(keep == FALSE){
+      if(!is.na(max.dinu)){ #max.dinu
+        codon.list.optm <- lapply(codon.list.alt, function(x){
+          filter1 <- x[stringr::str_detect(x, pattern = max.dinu)]
+          if(length(filter1) == 1){
+            return(filter1)
+          } else if(length(filter1) < 1){
+            filter2.1 <- x[stringr::str_detect(x,
+              pattern = paste0("^", substr(max.dinu, 2, 2)))]
+            filter2.2 <- x[stringr::str_detect(x,
+              pattern = paste0(substr(max.dinu, 1, 1), "$"))]
+            filter2 <- c(filter2.1, filter2.2)
+            if(length(filter2)<1){
+              return(sample(x, 1))
+            } else{
+              return(names(sort(table(filter2), decreasing = T))[1])
+            }
+          } else {
+            filter2.1 <- filter1[stringr::str_detect(filter1,
+              pattern = paste0("^", substr(max.dinu, 2, 2)))]
+            filter2.2 <- filter1[stringr::str_detect(filter1,
+              pattern = paste0(substr(max.dinu, 1, 1), "$"))]
+            return(names(sort(table(c(filter2.1, filter2.2)),decreasing = T))[1])
           }
-        } else {
-          filter2.1 <- filter1[stringr::str_detect(filter1,
-            pattern = paste0("^", substr(max.dinu, 2, 2)))]
-          filter2.2 <- filter1[stringr::str_detect(filter1,
-            pattern = paste0(substr(max.dinu, 1, 1), "$"))]
-          return(names(sort(table(c(filter2.1, filter2.2)),decreasing = T))[1])
-        }
-      })
-    } else { #min.dinu
-      codon.list.optm <- lapply(codon.list.alt, function(x){
-        filter1 <- x[!stringr::str_detect(x, pattern = min.dinu)]
-        if(length(filter1) == 1){
-          return(filter1)
-        } else if(length(filter1) < 1){
-          filter2.1 <- x[!stringr::str_detect(x,
-            pattern = paste0("^", substr(min.dinu, 2, 2)))]
-          filter2.2 <- x[!stringr::str_detect(x,
-            pattern = paste0(substr(min.dinu, 1, 1), "$"))]
-          filter2 <- c(filter2.1, filter2.2)
-          if(length(filter2)<1){
-            return(sample(x, 1))
-          } else{
-            return(names(sort(table(filter2), decreasing = T))[1])
+        })
+      } else { #min.dinu
+        codon.list.optm <- lapply(codon.list.alt, function(x){
+          filter1 <- x[!stringr::str_detect(x, pattern = min.dinu)]
+          if(length(filter1) == 1){
+            return(filter1)
+          } else if(length(filter1) < 1){
+            filter2.1 <- x[!stringr::str_detect(x,
+              pattern = paste0("^", substr(min.dinu, 2, 2)))]
+            filter2.2 <- x[!stringr::str_detect(x,
+              pattern = paste0(substr(min.dinu, 1, 1), "$"))]
+            filter2 <- c(filter2.1, filter2.2)
+            if(length(filter2)<1){
+              return(sample(x, 1))
+            } else{
+              return(names(sort(table(filter2), decreasing = T))[1])
+            }
+          } else {
+            filter2.1 <- filter1[!stringr::str_detect(filter1,
+              pattern = paste0("^", substr(min.dinu, 2, 2)))]
+            filter2.2 <- filter1[!stringr::str_detect(filter1,
+              pattern = paste0(substr(min.dinu, 1, 1), "$"))]
+            return(names(sort(table(c(filter2.1, filter2.2)),decreasing = T))[1])
           }
-        } else {
-          filter2.1 <- filter1[!stringr::str_detect(filter1,
-            pattern = paste0("^", substr(min.dinu, 2, 2)))]
-          filter2.2 <- filter1[!stringr::str_detect(filter1,
-            pattern = paste0(substr(min.dinu, 1, 1), "$"))]
-          return(names(sort(table(c(filter2.1, filter2.2)),decreasing = T))[1])
+        })
+
+
+        ## mutate codons to optimals ----------------------------------------------
+
+        seq.mut <- seq.region
+
+        for(i in seq_along(codon.list.optm)){
+          codons.alt <- codon.list.alt[[i]]
+          codons.alt <- codons.alt[codons.alt != codon.list.optm[[i]]]
+          seq.mut <- lapply(seq.mut, function(x){
+            x[x %in% codons.alt] <- codon.list.optm[[i]]
+            return(x)
+          })
         }
-      })
+      }
     }
 
-    ## mutate codons to optimals ----------------------------------------------
+    # codon junction interchange ----------------------------------------------
 
-    seq.mut <- seq.region
-
-    for(i in seq_along(codon.list.optm)){
-      codons.alt <- codon.list.alt[[i]]
-      codons.alt <- codons.alt[codons.alt != codon.list.optm[[i]]]
-      seq.mut <- sapply(seq.mut, function(x){
-        x[x %in% codons.alt] <- codon.list.optm[[i]]
-        return(x)
-      })
+    if(keep == TRUE){
+      seq.mut <- dinu_to.keep(check.region, seq, seq.region, max.dinu, min.dinu,
+        codon.list.alt)
+    } else {
+      seq.mut <- dinu_to.keep(check.region, seq, seq.mut, max.dinu, min.dinu,
+        codon.list.alt)
     }
 
     # merge region ------------------------------------------------------------
@@ -139,7 +155,55 @@ setMethod(f = "dinu_to", signature = "regioned_dna",
         return(x)
       }, seq, object@region, seq.mut)
     }
-    seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
-    return(input_seq(seq.mut, region = object@region))
+    seq.mut <- Biostrings::DNAStringSet(lapply(seq.mut, c2s))
+    return(new(
+      "regioned_dna",
+      dnaseq = seq.mut,
+      region = objectregion
+    ))
 
   })
+
+
+# internal_function -------------------------------------------------------
+
+dinu_to.keep <- function(check.region, seq, seq.region, max.dinu, min.dinu,
+  codon.list.alt){
+  if(check.region){ #not regioned data
+    if(!is.na(max.dinu)){ #max dinu
+      #rearrange the 2nd codons, if start with "G", pass
+      flexible.aa <- return.flexible.aa(substr(max.dinu, 2, 2))
+      if(length(flexible.aa) > 0){
+        seq.region.aa <- lapply(seq.region, function(x){
+          seqinr::translate(s2c(c2s(x)))
+        })
+        for(i in seq_along(flexible.aa)){
+          flexible.aa[i]
+        }
+      }
+
+
+
+    } else { #min dinu
+
+    }
+
+  } else { #regioned data
+    if(!is.na(max.dinu)){ #max dinu
+      seq.region
+    } else { #min dinu
+
+    }
+  }
+
+}
+
+
+return.flexible.aa <- function(x){
+  x <- toupper(x)
+  if(x == 'C'){return(c("L", "R"))} else
+    if (x == "A"){return(c("S", "R"))} else
+      if (x == "T"){return(c("L", "S"))} else{
+        return(NULL)
+      }
+}
