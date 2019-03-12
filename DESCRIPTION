@@ -15,7 +15,8 @@ Encoding: UTF-8
 LazyData: true
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 Imports: 
     dplyr,
@@ -23,3 +24,10 @@ Imports:
     methods,
     Biostrings
 RoxygenNote: 6.1.1
+Collate: 
+    'regioned_dna_Class.R'
+    'codon_mimic.R'
+    'input_seq.R'
+    'codon_random.R'
+    'codon_to.R'
+    'dinu_to.R'
