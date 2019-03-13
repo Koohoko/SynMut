@@ -27,7 +27,7 @@ A regioned_dna-class object
 }
 \description{
 Constructing \code{regioned_dna} from DNAStringSet. Optionally input a
-\doce{region} data.frame to define restricted amino-acid region for mutation.
+\code{region} data.frame to define restricted amino-acid region for mutation.
 }
 \examples{
 # Creating a input_seq class directly from system file
@@ -46,5 +46,5 @@ rgd.seq <- input_seq(seq)
 }
 \seealso{
 \code{\link{get_cu}}, \code{\link{get_du}},
-  \code{\link{get_region}}, \code{\link{get_dnaseq}}
+  \code{\link{get_region}}, \code{\link{get_dna}}
 }

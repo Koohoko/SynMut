@@ -1,7 +1,9 @@
 context("regioned_dna-Class")
 library("SynMut")
-filepath <- system.file("extdata", "example.fasta", package = "SynMut")
-filepath.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
+filepath <-
+  system.file("extdata", "example.fasta", package = "SynMut")
+filepath.csv <-
+  system.file("extdata", "target_regions.csv", package = "SynMut")
 region <- read.csv(filepath.csv)
 rgd.seq <- input_seq(filepath, region)
 

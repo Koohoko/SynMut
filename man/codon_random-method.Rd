@@ -32,6 +32,5 @@ get_cu(codon_random(rgd.seq))
 }
 \seealso{
 \code{\link{input_seq}}, \code{\link{dinu_to}},
-  \code{\link{codon_to}}, \code{\link{codon_mimic}},
-  \code{\link{codon_mimic_dinu_to}}
+  \code{\link{codon_to}}, \code{\link{codon_mimic}}
 }

@@ -25,5 +25,6 @@ get_du(rgd.seq)
 }
 \seealso{
 \code{\link{input_seq}}, \code{\link{get_region}},
-  \code{\link{get_cu}}, \code{\link{get_freq}}, \code{\link{get_rscu}}
+  \code{\link{get_nu}}, \code{\link{get_cu}}, \code{\link{get_freq}},
+  \code{\link{get_rscu}}
 }

@@ -29,12 +29,12 @@ Using a greedy algorithm with priority given to dinucleotide12 or
 dinucleotide23.
 }
 \examples{
-get_du(dinu_to(rgd.seq, max = "cg")) - get_du(rgd.seq)
-get_du(dinu_to(rgd.seq, max = "cg", keep = TRUE)) - get_du(rgd.seq)
-get_du(dinu_to(rgd.seq, min = "aa")) - get_du(rgd.seq)
+get_du(dinu_to(rgd.seq, max.dinu = "cg")) - get_du(rgd.seq)
+get_du(dinu_to(rgd.seq, min.dinu = "AA")) - get_du(rgd.seq)
+get_du(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_du(rgd.seq)
+get_cu(dinu_to(rgd.seq, max.dinu = "CG", keep = TRUE)) - get_cu(rgd.seq)
 }
 \seealso{
 \code{\link{input_seq}}, \code{\link{codon_to}},
-  \code{\link{codon_random}}, \code{\link{codon_mimic}},
-  \code{\link{codon_mimic_dinu_to}}
+  \code{\link{codon_random}}, \code{\link{codon_mimic}}
 }

@@ -37,6 +37,5 @@ get_rscu(new) - get_rscu(rgd.seq)
 }
 \seealso{
 \code{\link{input_seq}}, \code{\link{codon_to}},
-  \code{\link{codon_random}}, \code{\link{dinu_to}},
-  \code{\link{codon_mimic_dinu_to}}
+  \code{\link{codon_random}}, \code{\link{dinu_to}}
 }
