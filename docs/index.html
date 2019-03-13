@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Haogao Gu" />
+
+<meta name="date" content="2019-03-13" />
+
+<title>SynMut: Tools for designing Synonymous Mutants in Virus Research</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SynMut: Tools for designing Synonymous Mutants in Virus Research</h1>
+<h4 class="author"><em>Haogao Gu</em></h4>
+<h4 class="date"><em>2019-03-13</em></h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Synonymous mutations refer to the mutations in DNA/RNA sequences that cause <strong>no</strong> modification in the translated amino acid sequence. Most of the synonymous mutations are also silent mutations as they do not have observable effects on the organism’s phenotype. Designing mutant sequences with synonymous mutations is often applied in many biological studies as a method to control some unwanted changes in the amino acid sequences.</p>
+<p>The codon usage bias and dinucleotide usage bias are two genomic signatures of different sequences, even for synonymous sequences. Characterizing the functions of synonymous sequences with different codon usage bias or dinucleotide usage bias help to study their impacts on various biological functions. In fact, this method has been applied in many virology researches.</p>
+<p><code>SynMut</code> provides tools for generating multiple synonymous DNA sequences of different features (in particular codon/dinucleotide usage pattern). User can also specify mutable regions in the sequences (this is particular useful as there are some conserved regions in the genome which we would not want to modify). This tool was originally designed for generating recombinant virus sequences in influenza A virus to study the effects of different dinucleotide usage and codon usage, yet the functions provided in this package can be generic to a variety of other biological researches.</p>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>#TODO</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;SynMut&quot;</span>)
+<span class="co">#&gt; SynMut: Tools for designing Synonymous Mutants in Virus Research</span>
+<span class="co">#&gt;     -----------------------------------------------------------------------------------</span>
+<span class="co">#&gt;     For disccussion, please access: https://github.com/Koohoko/SynMut/issues</span></code></pre></div>
+</div>
+<div id="input-data" class="section level2">
+<h2>Input data</h2>
+<p>We use the example data in the package. The fasta file contains the segment 7 and segment 8 DNA sequences of Influenza A/Brisbane/59/2007 (H1N1) (BR59). The region file in csv format reads as a <code>data.frame</code> specifying the mutable positions (in amino acid sense) correspond to the DNA sequences.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filepath.fasta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example.fasta&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SynMut&quot;</span>)
+filepath.csv &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;target_regions.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SynMut&quot;</span>)
+region &lt;-<span class="st"> </span><span class="kw">read.csv</span>(filepath.csv)
+<span class="kw">head</span>(region)
+<span class="co">#&gt;   M NS</span>
+<span class="co">#&gt; 1 0  0</span>
+<span class="co">#&gt; 2 0  0</span>
+<span class="co">#&gt; 3 0  0</span>
+<span class="co">#&gt; 4 0  0</span>
+<span class="co">#&gt; 5 0  0</span>
+<span class="co">#&gt; 6 0  0</span></code></pre></div>
+<p>The <code>input_seq</code> function takes either a system file in fasta format or a DNAStringSet object as input, to construct a <code>regioned_dna</code> object that is used in the <code>SynMut</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rgd.seq &lt;-<span class="st"> </span><span class="kw">input_seq</span>(filepath.fasta, region)
+rgd.seq
+<span class="co">#&gt; An object of class regioned_dna</span>
+<span class="co">#&gt; Number of sequences: 2</span></code></pre></div>
+</div>
+<div id="access-data" class="section level2">
+<h2>Access data</h2>
+<p>Various <code>get_</code> functions were used to get the data:</p>
+<ul>
+<li>Access the DNA sequences. This will return a DNAStringSet object (from <code>Biostrings</code> package).</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_dna</span>(rgd.seq)
+<span class="co">#&gt;   A DNAStringSet instance of length 2</span>
+<span class="co">#&gt;     width seq                                          names               </span>
+<span class="co">#&gt; [1]   759 ATGAGTCTTCTAACCGAGGTC...AGATGCAACGATTCAAGTGA A/Brisbane/59/200...</span>
+<span class="co">#&gt; [2]   693 ATGGATTCCCACACTGTGTCA...CAACTAGGTCAGAAGTTTGA A/Brisbane/59/200...</span></code></pre></div>
+<ul>
+<li>Access the specified mutable region.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get_region return a list</span>
+<span class="kw">str</span>(<span class="kw">get_region</span>(rgd.seq))
+<span class="co">#&gt; List of 2</span>
+<span class="co">#&gt;  $ M : logi [1:253] FALSE FALSE FALSE FALSE FALSE FALSE ...</span>
+<span class="co">#&gt;  $ NS: logi [1:231] FALSE FALSE FALSE FALSE FALSE FALSE ...</span></code></pre></div>
+<ul>
+<li>Get the codon usage / dinucleotide usage / nucleotide usage</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_cu</span>(rgd.seq)
+<span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span>
+<span class="co">#&gt; [1,]   5   2   8   9   5   7   2   4   7   4   4   5   5   4  14   3   5</span>
+<span class="co">#&gt; [2,]   8   3   5   6   6   2   0  10   4   3   4   2   3   3  10   5   4</span>
+<span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span>
+<span class="co">#&gt; [1,]   1  10   4   3   2   1   2   4   1   0   1   2   7   5   9   7   2</span>
+<span class="co">#&gt; [2,]   1   5   2   3   2   0   3   2   2   4   0   5   3   4   7  10   5</span>
+<span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span>
+<span class="co">#&gt; [1,]  10   4   8  10   0   9   5   2   7   2   2   3   5   3   0   2   0</span>
+<span class="co">#&gt; [2,]   6  10   6   2   2   6   7   4   3   1   2   5   3   5   0   1   0</span>
+<span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span>
+<span class="co">#&gt; [1,]   3   3   1   1   4   1   0   1   3   3   3   0   4</span>
+<span class="co">#&gt; [2,]   0   4   3   1   3   1   1   4   2   1   7   2   3</span>
+<span class="kw">get_du</span>(rgd.seq)
+<span class="co">#&gt;      AA AC AG AT CA CC CG CT GA GC GG GT TA TC TG TT</span>
+<span class="co">#&gt; [1,] 30 27 34 36 29 19  8 18 25 27 27 17 13 23 29 17</span>
+<span class="co">#&gt; [2,] 37 21 27 17 25 12  9 27 30 13 27 10 11 28 31 21</span>
+<span class="kw">get_nu</span>(rgd.seq)
+<span class="co">#&gt;        A   C   G   T</span>
+<span class="co">#&gt; [1,] 225 170 194 170</span>
+<span class="co">#&gt; [2,] 206 147 174 166</span></code></pre></div>
+<ul>
+<li>We also provide functions to:
+<ul>
+<li>get the codon usage frequency of synonymous codons: <code>get_freq</code></li>
+<li>get Relative Synonymous Codon Usage (rscu) of synonymous codons: <code>get_rscu</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="generating-random-synonymous-sequences" class="section level1">
+<h1>Generating random synonymous sequences</h1>
+<p>Generating radom synonymous mutations (in specific region if provided in the <code>input_seq</code>), with optionally keeping or not the original codon usage bias.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)
+<span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span>
+<span class="co">#&gt; [1,]   2   2  -2  -2   0  -2   1   1  -2  -2  -3  -2  -2   1   0   1  -2</span>
+<span class="co">#&gt; [2,]  -2   0   2   0   0  -1   0   1   0   1  -1   0   1   1   0  -2   0</span>
+<span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span>
+<span class="co">#&gt; [1,]   2   2  -2  -3   1   2   0  -2   2   2   3   2  -3  -1  -4   2  -1</span>
+<span class="co">#&gt; [2,]   0   0   0   1  -1   1  -1   0   0   1   0   1   1  -2  -1  -1  -1</span>
+<span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span>
+<span class="co">#&gt; [1,]  -2   1  -3  -2   5   0  -1   3  -2   0  -1  -1  -1   3   0   1   0</span>
+<span class="co">#&gt; [2,]   1   1  -1   1   1  -1  -2   2   1  -1   0   0   0   0   0  -1   0</span>
+<span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span>
+<span class="co">#&gt; [1,]  -1   0   1   3   0   0   2   0  -2   1   0   5   0</span>
+<span class="co">#&gt; [2,]   1  -1  -1   1   0   0   0   0   0   1   0   0   0</span>
+<span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq, <span class="dt">keep =</span> <span class="ot">TRUE</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)
+<span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span>
+<span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span>
+<span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span>
+<span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span>
+<span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0</span></code></pre></div>
+<p>We can also specify the <code>n</code> parameter to control the proportion of the codons to be mutate.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq, <span class="dt">n =</span> <span class="fl">0.5</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)
+<span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span>
+<span class="co">#&gt; [1,]   0   2   0  -2  -1  -1   1   1  -2  -3  -2  -1   0   0   0   0   1</span>
+<span class="co">#&gt; [2,]   0   0   0   0   0   1   0  -1   0   0  -2   1   0   1   0  -1   1</span>
+<span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span>
+<span class="co">#&gt; [1,]   0  -1   0   0   0   0   0   0  -1   4   1   2  -1   1  -3   1   0</span>
+<span class="co">#&gt; [2,]   0  -1   0   0   0   0   0   1   1   0   0   0   0  -1  -1   0  -1</span>
+<span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span>
+<span class="co">#&gt; [1,]  -1   0   1  -2   5  -4   0   1  -2   1   2   0  -1  -1   0   0   0</span>
+<span class="co">#&gt; [2,]   0   1   1   1  -1  -1   0   0   0   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span>
+<span class="co">#&gt; [1,]   0   2   3   1  -2   0   1   0  -1   0   0   1   0</span>
+<span class="co">#&gt; [2,]   0   0  -1   0   0   0   0   0   0   1   0   1   0</span></code></pre></div>
+</div>
+<div id="generating-synonymous-sequences-with-maximumminimum-usage-of-specific-codon" class="section level1">
+<h1>Generating synonymous sequences with maximum/minimum usage of specific codon</h1>
+</div>
+<div id="generating-synonymous-sequences-with-maximumminimum-usage-of-specific-dinucleotide" class="section level1">
+<h1>Generating synonymous sequences with maximum/minimum usage of specific dinucleotide</h1>
+</div>
+<div id="generating-synonymous-sequences-mimicing-a-specific-codon-usage-pattern" class="section level1">
+<h1>Generating synonymous sequences mimicing a specific codon usage pattern</h1>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
