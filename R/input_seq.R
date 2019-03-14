@@ -26,9 +26,9 @@
 #' # Creating from exsisting DNAStringSet object
 #' seq <- Biostrings::DNAStringSet("ATCGATCGA")
 #' rgd.seq <- input_seq(seq)
-#' @export
+#' @exportMethod input_seq
 #' @name input_seq
-#' @rdname input_seq-method
+#' @rdname input_seq-methods
 setGeneric(
   name = "input_seq",
   def = function(object, region = NA, ...) {
@@ -40,8 +40,7 @@ setGeneric(
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom Biostrings oligonucleotideFrequency
 #' @name input_seq
-#' @rdname input_seq-method
-#' @export
+#' @rdname input_seq-methods
 setMethod(
   f = "input_seq",
   signature = signature(object = "character"),
@@ -72,8 +71,7 @@ setMethod(
 )
 
 #' @name input_seq
-#' @rdname input_seq-method
-#' @export
+#' @rdname input_seq-methods
 setMethod(
   f = "input_seq",
   signature = "DNAStringSet",
@@ -103,8 +101,7 @@ setMethod(
 )
 
 #' @name input_seq
-#' @rdname input_seq-method
-#' @export
+#' @rdname input_seq-methods
 setMethod(
   f = "input_seq",
   signature = "DNAString",

@@ -3,7 +3,11 @@
 \docType{class}
 \name{regioned_dna-class}
 \alias{regioned_dna-class}
+\alias{show}
 \title{An S4 class to record DNA sequences and variable regions for mutations}
+\usage{
+\S4method{show}{regioned_dna}(object)
+}
 \description{
 Recording codon DNA sequences and region.
 }

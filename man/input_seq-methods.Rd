@@ -3,6 +3,8 @@
 \docType{methods}
 \name{input_seq}
 \alias{input_seq}
+\alias{input_seq,DNAStringSet-method}
+\alias{input_seq,DNAString-method}
 \title{Import region / constructing regioned_dna object}
 \usage{
 input_seq(object, region = NA, ...)

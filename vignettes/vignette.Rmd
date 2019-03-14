@@ -42,7 +42,7 @@ other biological researches.
 ## Getting started
 ### Installation
 ```{r}
-library("SynMut")
+devtools::install_github("Koohoko/SynMut")
 ```
 
 ### Input data
@@ -67,7 +67,7 @@ DNAStringSet object as input, to construct a `regioned_dna` object that is used
 in the `SynMut` package.
 
 ```{r}
-rgd.seq <- input_seq(filepath.fasta, region)
+rgd.seq <- SynMut::input_seq(filepath.fasta, region)
 rgd.seq
 ```
 

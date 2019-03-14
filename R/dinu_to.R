@@ -12,7 +12,6 @@
 #'   sequences should be keep. Default: False.
 #'
 #' @return regioned_dna
-#' @export
 #' @seealso \code{\link{input_seq}}, \code{\link{codon_to}},
 #'   \code{\link{codon_random}}, \code{\link{codon_mimic}}
 #' @examples
@@ -21,8 +20,9 @@
 #' get_du(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_du(rgd.seq)
 #' get_cu(dinu_to(rgd.seq, max.dinu = "CG", keep = TRUE)) - get_cu(rgd.seq)
 #' @include regioned_dna_Class.R
+#' @exportMethod dinu_to
 #' @name dinu_to
-#' @rdname dinu_to-method
+#' @rdname dinu_to-methods
 setGeneric(
   name = "dinu_to",
   def = function(object,
@@ -35,7 +35,7 @@ setGeneric(
 )
 
 #' @name dinu_to
-#' @rdname dinu_to-method
+#' @rdname dinu_to-methods
 setMethod(
   f = "dinu_to",
   signature = "regioned_dna",

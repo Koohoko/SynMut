@@ -8,7 +8,7 @@
 #'   target codon usage
 #'
 #' @return regioned_dna
-#' @export
+#' @exportMethod codon_mimic
 #' @include regioned_dna_Class.R
 #' @seealso \code{\link{input_seq}}, \code{\link{codon_to}},
 #'   \code{\link{codon_random}}, \code{\link{dinu_to}}
@@ -23,7 +23,7 @@
 #' get_freq(new) - get_freq(rgd.seq)
 #' get_rscu(new) - get_rscu(rgd.seq)
 #' @name codon_mimic
-#' @rdname codon_mimic-method
+#' @rdname codon_mimic-methods
 setGeneric(
   name = "codon_mimic",
   def = function(object, alt, ...) {
@@ -31,8 +31,9 @@ setGeneric(
   }
 )
 
+
+#' @rdname codon_mimic-methods
 #' @name codon_mimic
-#' @rdname codon_mimic-method
 setMethod(
   f = "codon_mimic",
   signature = signature(object = "regioned_dna",
@@ -50,7 +51,7 @@ setMethod(
 )
 
 #' @name codon_mimic
-#' @rdname codon_mimic-method
+#' @rdname codon_mimic-methods
 setMethod(
   f = "codon_mimic",
   signature = signature(object = "regioned_dna",

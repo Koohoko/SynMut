@@ -17,9 +17,9 @@
 #' get_cu(codon_random(rgd.seq, n = 0.5))
 #' get_cu(codon_random(rgd.seq))
 #' @name codon_random
-#' @rdname codon_random-method
+#' @rdname codon_random-methods
 #'
-#' @export
+#' @exportMethod codon_random
 #' @importFrom seqinr c2s s2c synsequence splitseq syncodons
 #' @include regioned_dna_Class.R input_seq.R
 setGeneric(
@@ -33,7 +33,7 @@ setGeneric(
 )
 
 #' @name codon_random
-#' @rdname codon_random-method
+#' @rdname codon_random-methods
 setMethod(
   f = "codon_random",
   signature = "regioned_dna",

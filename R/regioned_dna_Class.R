@@ -19,8 +19,11 @@
 #' @importFrom methods setClass
 #' @seealso \code{\link{input_seq}}, \code{\link{get_cu}},
 #'   \code{\link{get_region}}
-#' @export
 #' @author Haogao Gu
+#' @name regioned_dna-class
+#' @rdname regioned_dna-class
+#' @exportClass regioned_dna
+
 setClass(Class = "regioned_dna",
   slots = c(dnaseq = "DNAStringSet",
     region = "list"))
@@ -50,6 +53,8 @@ setValidity("regioned_dna",
   })
 
 ##viewer
+#' @name show
+#' @rdname regioned_dna-class
 setMethod(
   f = "show",
   signature = "regioned_dna",
@@ -71,9 +76,9 @@ setMethod(
 #' @seealso \code{\link{input_seq}}, \code{\link{get_cu}}
 #' @examples
 #' get_region(rgd.seq)
-#' @export
 #' @name get_region
-#' @rdname get_region-method
+#' @rdname get_region-methods
+#' @exportMethod get_region
 setGeneric(
   name = "get_region",
   def = function(object, ...) {
@@ -81,8 +86,9 @@ setGeneric(
   }
 )
 
+
 #' @name get_region
-#' @rdname get_region-method
+#' @rdname get_region-methods
 setMethod(
   f = "get_region",
   signature = "regioned_dna",
@@ -99,9 +105,9 @@ setMethod(
 #' @param ...
 #'
 #' @return DNAStringSet
-#' @export
+#' @exportMethod get_dna
 #' @name get_dna
-#' @rdname get_dna-method
+#' @rdname get_dna-methods
 #'
 #' @examples
 #' get_dna(rgd.seq)
@@ -113,7 +119,7 @@ setGeneric(
 )
 
 #' @name get_dna
-#' @rdname get_dna-method
+#' @rdname get_dna-methods
 setMethod(
   f = "get_dna",
   signature = "regioned_dna",
@@ -136,9 +142,9 @@ setMethod(
 #'   \code{\link{get_rscu}}
 #' @examples
 #' get_cu(rgd.seq)
-#' @export
+#' @exportMethod get_cu
 #' @name get_cu
-#' @rdname get_cu-method
+#' @rdname get_cu-methods
 setGeneric(
   name = "get_cu",
   def = function(object, ...) {
@@ -147,7 +153,7 @@ setGeneric(
 )
 
 #' @name get_cu
-#' @rdname get_cu-method
+#' @rdname get_cu-methods
 setMethod(
   f = "get_cu",
   signature = "regioned_dna",
@@ -158,7 +164,7 @@ setMethod(
 )
 
 #' @name get_cu
-#' @rdname get_cu-method
+#' @rdname get_cu-methods
 setMethod(
   f = "get_cu",
   signature = "DNAStringSet",
@@ -178,9 +184,9 @@ setMethod(
 #'   \code{\link{get_rscu}}
 #' @examples
 #' get_du(rgd.seq)
-#' @export
+#' @exportMethod get_du
 #' @name get_du
-#' @rdname get_du-method
+#' @rdname get_du-methods
 setGeneric(
   name = "get_du",
   def = function(object, ...) {
@@ -189,7 +195,7 @@ setGeneric(
 )
 
 #' @name get_du
-#' @rdname get_du-method
+#' @rdname get_du-methods
 setMethod(
   f = "get_du",
   signature = "regioned_dna",
@@ -200,7 +206,7 @@ setMethod(
 )
 
 #' @name get_du
-#' @rdname get_du-method
+#' @rdname get_du-methods
 setMethod(
   f = "get_du",
   signature = "DNAStringSet",
@@ -219,9 +225,9 @@ setMethod(
 #'   \code{\link{get_cu}}, \code{\link{get_du}}, \code{\link{get_rscu}}
 #' @examples
 #' get_nu(rgd.seq)
-#' @export
+#' @exportMethod get_nu
 #' @name get_nu
-#' @rdname get_nu-method
+#' @rdname get_nu-methods
 setGeneric(
   name = "get_nu",
   def = function(object, ...) {
@@ -230,7 +236,7 @@ setGeneric(
 )
 
 #' @name get_nu
-#' @rdname get_nu-method
+#' @rdname get_nu-methods
 setMethod(
   f = "get_nu",
   signature = "regioned_dna",
@@ -241,7 +247,7 @@ setMethod(
 )
 
 #' @name get_nu
-#' @rdname get_nu-method
+#' @rdname get_nu-methods
 setMethod(
   f = "get_nu",
   signature = "DNAStringSet",
@@ -260,9 +266,9 @@ setMethod(
 #'   \code{\link{get_cu}}, \code{\link{get_du}}, \code{\link{get_rscu}}
 #' @examples
 #' get_freq(rgd.seq)
-#' @export
+#' @exportMethod get_freq
 #' @name get_freq
-#' @rdname get_freq-method
+#' @rdname get_freq-methods
 setGeneric(
   name = "get_freq",
   def = function(object, ...) {
@@ -271,7 +277,7 @@ setGeneric(
 )
 
 #' @name get_freq
-#' @rdname get_freq-method
+#' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
   signature = "regioned_dna",
@@ -290,7 +296,7 @@ setMethod(
 )
 
 #' @name get_freq
-#' @rdname get_freq-method
+#' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
   signature = "DNAStringSet",
@@ -308,7 +314,7 @@ setMethod(
 )
 
 #' @name get_freq
-#' @rdname get_freq-method
+#' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
   signature = "matrix",
@@ -324,7 +330,7 @@ setMethod(
 )
 
 #' @name get_freq
-#' @rdname get_freq-method
+#' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
   signature = "vector",
@@ -346,9 +352,9 @@ setMethod(
 #'   \code{\link{get_cu}}, \code{\link{get_du}}, \code{\link{get_freq}}
 #' @examples
 #' get_rscu(rgd.seq)
-#' @export
+#' @exportMethod get_rscu
 #' @name get_rscu
-#' @rdname get_rscu-method
+#' @rdname get_rscu-methods
 setGeneric(
   name = "get_rscu",
   def = function(object, ...) {
@@ -357,7 +363,7 @@ setGeneric(
 )
 
 #' @name get_rscu
-#' @rdname get_rscu-method
+#' @rdname get_rscu-methods
 setMethod(
   f = "get_rscu",
   signature = "regioned_dna",
@@ -379,7 +385,7 @@ setMethod(
 )
 
 #' @name get_rscu
-#' @rdname get_rscu-method
+#' @rdname get_rscu-methods
 setMethod(
   f = "get_rscu",
   signature = "DNAStringSet",

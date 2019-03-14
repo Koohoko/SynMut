@@ -9,15 +9,15 @@
 #' @param ...
 #'
 #' @return A regioned_dna object.
-#' @export
 #' @seealso \code{\link{input_seq}}, \code{\link{dinu_to}},
 #'   \code{\link{codon_random}}, \code{\link{codon_mimic}}
 #' @examples
 #' get_cu(codon_to(rgd.seq, max.codon = "AAC")) - get_cu(rgd.seq)
 #' get_cu(codon_to(rgd.seq, min.codon = "AAC")) - get_cu(rgd.seq)
 #'
+#' @exportMethod codon_to
 #' @name codon_to
-#' @rdname codon_to-method
+#' @rdname codon_to-methods
 #' @include regioned_dna_Class.R
 setGeneric(
   name = "codon_to",
@@ -30,7 +30,8 @@ setGeneric(
 )
 
 #' @name codon_to
-#' @rdname codon_to-method
+#' @rdname codon_to-methods
+#' @export
 setMethod(
   f = "codon_to",
   signature = "regioned_dna",

@@ -1,3 +1,5 @@
+Meta
+doc
 inst/doc
 .Rproj.user/**
 .Rhistory
@@ -11,3 +13,4 @@ building.R
 Package_work_flow.docx
 *.tmp
 codon_mimic.drawio
+algorithms.Rmd
