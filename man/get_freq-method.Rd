@@ -3,7 +3,7 @@
 \docType{methods}
 \name{get_freq}
 \alias{get_freq}
-\title{Get Relative Codon Usage Frequency of synonymous codons}
+\title{Get codon usage frequency of synonymous codons}
 \usage{
 get_freq(object, ...)
 
@@ -22,7 +22,7 @@ get_freq(object, ...)
 matrix
 }
 \description{
-Access the Relative Synonymous Codon Usage
+Access the synonymous codon usage frequency
 }
 \examples{
 get_freq(rgd.seq)

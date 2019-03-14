@@ -1,5 +1,5 @@
 ---
-title: "SynMut: Tools for designing Synonymous Mutants in Virus Research"
+title: "SynMut: Tools for Designing Synonymous Mutants in Virus Research"
 author: "Haogao Gu"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Introduction
+## Introduction
 Synonymous mutations refer to the mutations in DNA/RNA sequences that cause
 __no__ modification in the translated amino acid sequence. Most of the
 synonymous mutations are also silent mutations as they do not have observable
@@ -31,21 +31,21 @@ bias help to study their impacts on various biological functions. In fact, this
 method has been applied in many virology researches.
 
 `SynMut` provides tools for generating multiple synonymous DNA sequences of
-different features (in particular codon / dinucleotide usage pattern). Users can
+different features (in particular codon/dinucleotide usage pattern). Users can
 also specify mutable regions in the sequences (this is particular useful as
 there are some conserved regions in the genome which we do not want to modify).
 This tool was originally designed for generating recombinant virus sequences in
 influenza A virus to study the effects of different dinucleotide usage and codon
-usage, yet the functions provided in this package can be generic to a variety of
+usage, yet these functions provided in this package can be generic to a variety of
 other biological researches.
 
-# Getting started
-## Installation
+## Getting started
+### Installation
 ```{r}
 library("SynMut")
 ```
 
-## Input data
+### Input data
 
 We use the example data in the package. 
 
@@ -71,7 +71,7 @@ rgd.seq <- input_seq(filepath.fasta, region)
 rgd.seq
 ```
 
-## Access data
+### Access data
 Various `get_` functions were used to get some useful information:
 
 * `get_dna`: Access the DNA sequences. This will return a DNAStringSet object
@@ -103,10 +103,12 @@ get_nu(rgd.seq)
     - get the codon usage frequency of synonymous codons: `get_freq`
     - get Relative Synonymous Codon Usage (rscu) of synonymous codons: `get_rscu`
 
-# Generating random synonymous sequences
+## Generating mutations
+### Generating random synonymous sequences
 
 Generating random synonymous mutations (in specific region if provided in the
-`input_seq`), with optional keeping or not keeping the original codon usage bias.
+`input_seq`), with optional keeping or not keeping the original codon usage
+bias.
 
 ```{r}
 get_cu(codon_random(rgd.seq)) - get_cu(rgd.seq)
@@ -122,10 +124,10 @@ be mutated.
 get_cu(codon_random(rgd.seq, n = 0.5)) - get_cu(rgd.seq)
 ```
 
-# Generating synonymous sequences with maximum/minimum usage of specific codon
+### Generating synonymous sequences with maximal/minimal usage of specific codon
 
-When studying the role of a particular codon, it would be very useful to have
-the mutants with maximal / minimal usage of that codon. The `codon_to` function
+When studying the role of a particular codon, it would be useful to have
+the mutants with maximal/minimal usage of that codon. The `codon_to` function
 will do this job for you. Pass a string of codon to either the `max.codon` or
 `min.codon` argument to maximize or minimize the usage of certain codon in the 
 sequence.
@@ -135,11 +137,64 @@ get_cu(codon_to(rgd.seq, max.codon = "AAC")) - get_cu(rgd.seq)
 get_cu(codon_to(rgd.seq, min.codon = "AAC")) - get_cu(rgd.seq)
 ```
 
-# Generating synonymous sequences with maximum/minimum usage of specific dinucleotide
+### Generating synonymous sequences with maximal/minimal usage of specific
+dinucleotide 
+Use `dinu_to` to generate mutations with maximal/minimal usage of specific 
+dinucleotide. This was done by a two-step heuristic greedy algorithm, details 
+can be found at this [link](https://koohoko.github.io/SynMut/algorithm.html).
+
+An alternative `keep = TRUE` argument allow retaining the original codon usage
+bias. This can be useful when in combination with `codon_mimic` in the [next
+section](#codon_mimic) to design mutant sequences with similar codon usage bias
+but distinct specific dinucleotide usage.
+
+```{r}
+# maximaize the usage of "CG" dinucleotide in the pre-defined region
+# check the dinucelotide usage difference between the mutant and the original
+get_du(dinu_to(rgd.seq, max.dinu = "cg")) - get_du(rgd.seq)
+
+# minimize the usage of "CA",
+get_du(dinu_to(rgd.seq, min.dinu = "CA")) - get_du(rgd.seq)
+
+# maximize the usage of "CG" while keeping the original codon usage
+get_du(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_du(rgd.seq)
+get_cu(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_cu(rgd.seq)
+
+```
+
+### Generating synonymous sequences mimicing a specific codon usage pattern {#codon_mimic}
+
+The function `codon_mimic` mutates the sequences to mimic a target codon usage 
+patterns. Detail algorithm was provided at this [link](https://koohoko.github.io/SynMut/algorithm.html).
+
+The `alt` argument specifies the target codon usage in either a codon usage 
+vector (result from `get_cu`) or a DNAStringSet of length 1 representing the 
+desired codon usage.
+
+```{R}
+# use a codon usage vector as a target
+target <- get_cu(rgd.seq)[2,]
+new <- codon_mimic(rgd.seq, alt = target)
+get_cu(new) - get_cu(rgd.seq)
+
+# use a sequence as a target
+target <- Biostrings::DNAStringSet("TTGAAAA-CTC-N--AAG")
+new <- codon_mimic(rgd.seq, alt = target)
+get_cu(new) - get_cu(rgd.seq)
+get_freq(new) - get_freq(rgd.seq)
+get_rscu(new) - get_rscu(rgd.seq)
+
+```
+
+## Output the results
+
+Output the DNA mutant sequcens
+```{r, eval = FALSE}
+Biostrings::writeXStringSet(get_dna(rgd.seq), "rgd.fasta")
+```
 
 
 
-# Generating synonymous sequences mimicing a specific codon usage pattern
 
 
 
