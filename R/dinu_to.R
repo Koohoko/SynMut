@@ -10,11 +10,14 @@
 #' @param min.dinu A string of a dinucleotide.
 #' @param keep A logical varibale stating if the codon usage of the original
 #'   sequences should be keep. Default: False.
+#' @param ... ...
 #'
 #' @return regioned_dna
 #' @seealso \code{\link{input_seq}}, \code{\link{codon_to}},
 #'   \code{\link{codon_random}}, \code{\link{codon_mimic}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_du(dinu_to(rgd.seq, max.dinu = "cg")) - get_du(rgd.seq)
 #' get_du(dinu_to(rgd.seq, min.dinu = "AA")) - get_du(rgd.seq)
 #' get_du(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_du(rgd.seq)
@@ -34,7 +37,6 @@ setGeneric(
   }
 )
 
-#' @name dinu_to
 #' @rdname dinu_to-methods
 setMethod(
   f = "dinu_to",
@@ -115,7 +117,7 @@ setMethod(
     # merge region ------------------------------------------------------------
 
     seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
-    return(new(
+    return(methods::new(
       "regioned_dna",
       dnaseq = seq.mut,
       region = object@region

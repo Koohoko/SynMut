@@ -3,11 +3,12 @@
 #' Constructing \code{regioned_dna} from DNAStringSet. Optionally input a
 #' \code{region} data.frame to define restricted amino-acid region for mutation.
 #'
-#' @param \code{object} Filepath or DNAstringSet. The input sequences is
+#' @param object Filepath or DNAstringSet. The input sequences is
 #'   suggested to be in open reading frame(ORF).
-#' @param \code{region} A data.frame specifying paticular regions (positions in
+#' @param region A data.frame specifying paticular regions (positions in
 #'   amino acid sequence) that is allowed to be mutated in the sequences. Both
 #'   \code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to
+#' @param ... ...
 #'   Examples below for reference.
 #' @return A regioned_dna-class object
 #' @seealso \code{\link{get_cu}}, \code{\link{get_du}},
@@ -39,7 +40,6 @@ setGeneric(
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom Biostrings oligonucleotideFrequency
-#' @name input_seq
 #' @rdname input_seq-methods
 setMethod(
   f = "input_seq",
@@ -49,7 +49,7 @@ setMethod(
     dnaseq <-
       BiocGenerics::append(dnaseq, DNAStringSet('atg')) #helper sequence
     if (all(is.na(region))) {
-      return(new("regioned_dna",
+      return(methods::new("regioned_dna",
         dnaseq = dnaseq,
         region = list(NA)))
     } else {
@@ -61,7 +61,7 @@ setMethod(
         lapply(region, function(x) {
           as.logical(x[!is.na(x)])
         })
-      return(new(
+      return(methods::new(
         "regioned_dna",
         dnaseq = dnaseq,
         region = c(region, list(TRUE))
@@ -70,7 +70,6 @@ setMethod(
   }
 )
 
-#' @name input_seq
 #' @rdname input_seq-methods
 setMethod(
   f = "input_seq",
@@ -79,7 +78,7 @@ setMethod(
     dnaseq <-
       BiocGenerics::append(object, DNAStringSet('atg')) #helper sequence
     if (all(is.na(region))) {
-      return(new("regioned_dna",
+      return(methods::new("regioned_dna",
         dnaseq = dnaseq,
         region = list(NA)))
     } else {
@@ -91,7 +90,7 @@ setMethod(
         lapply(region, function(x) {
           as.logical(x[!is.na(x)])
         })
-      return(new(
+      return(methods::new(
         "regioned_dna",
         dnaseq = dnaseq,
         region = c(region, list(TRUE))
@@ -100,7 +99,6 @@ setMethod(
   }
 )
 
-#' @name input_seq
 #' @rdname input_seq-methods
 setMethod(
   f = "input_seq",
@@ -109,7 +107,7 @@ setMethod(
     dnaseq <-
       BiocGenerics::append(DNAStringSet(object), DNAStringSet('atg')) #helper sequence
     if (all(is.na(region))) {
-      return(new("regioned_dna",
+      return(methods::new("regioned_dna",
         dnaseq = dnaseq,
         region = list(NA)))
     } else {
@@ -121,7 +119,7 @@ setMethod(
         lapply(region, function(x) {
           as.logical(x[!is.na(x)])
         })
-      return(new(
+      return(methods::new(
         "regioned_dna",
         dnaseq = dnaseq,
         region = c(region, list(TRUE))

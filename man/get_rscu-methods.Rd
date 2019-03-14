@@ -3,6 +3,8 @@
 \docType{methods}
 \name{get_rscu}
 \alias{get_rscu}
+\alias{get_rscu,regioned_dna-method}
+\alias{get_rscu,DNAStringSet-method}
 \title{Get Relative Synonymous Codon Usage (rscu) of synonymous codons}
 \usage{
 get_rscu(object, ...)
@@ -13,6 +15,8 @@ get_rscu(object, ...)
 }
 \arguments{
 \item{object}{regioned_dna / DNAStringSet / codon usage matrix (vector)}
+
+\item{...}{...}
 }
 \value{
 matrix
@@ -21,6 +25,8 @@ matrix
 Access the Relative Synonymous Codon Usage rscu
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_rscu(rgd.seq)
 }
 \seealso{

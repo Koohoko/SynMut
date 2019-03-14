@@ -3,6 +3,7 @@
 \docType{methods}
 \name{get_dna}
 \alias{get_dna}
+\alias{get_dna,regioned_dna-method}
 \title{Get the DNAStringSet data}
 \usage{
 get_dna(object, ...)
@@ -12,7 +13,7 @@ get_dna(object, ...)
 \arguments{
 \item{object}{A regioned_dna object.}
 
-\item{...}{}
+\item{...}{...}
 }
 \value{
 DNAStringSet
@@ -21,5 +22,7 @@ DNAStringSet
 Access the DNA sequence data in DNAStringSet.
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_dna(rgd.seq)
 }

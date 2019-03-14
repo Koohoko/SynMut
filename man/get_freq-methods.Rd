@@ -3,6 +3,10 @@
 \docType{methods}
 \name{get_freq}
 \alias{get_freq}
+\alias{get_freq,regioned_dna-method}
+\alias{get_freq,DNAStringSet-method}
+\alias{get_freq,matrix-method}
+\alias{get_freq,vector-method}
 \title{Get codon usage frequency of synonymous codons}
 \usage{
 get_freq(object, ...)
@@ -17,6 +21,8 @@ get_freq(object, ...)
 }
 \arguments{
 \item{object}{regioned_dna / DNAStringSet / codon usage matrix (vector)}
+
+\item{...}{...}
 }
 \value{
 matrix
@@ -25,6 +31,8 @@ matrix
 Access the synonymous codon usage frequency
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_freq(rgd.seq)
 }
 \seealso{

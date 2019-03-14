@@ -1,19 +1,11 @@
-.onAttach <- function(libname, pkgname) {
-  packageStartupMessage(
-    "SynMut: Tools for designing Synonymous Mutants in Virus Research
-    -----------------------------------------------------------------------------------
-    For disccussion, please access: https://github.com/Koohoko/SynMut/issues "
-  )
-}
-
 # Class definition --------------------------------------------------------
 
 #' An S4 class to record DNA sequences and variable regions for mutations
 #'
 #' Recording codon DNA sequences and region.
 #'
-#' @slot \code{dnaseq} a DNAStingSet object recording the sequence(s)
-#' @slot \code{region} a list specifying paticular regions in the sequences
+#' @slot dnaseq a DNAStingSet object recording the sequence(s)
+#' @slot region a list specifying paticular regions in the sequences
 #'   allowed to be mutated
 #'
 #' @importFrom methods setClass
@@ -53,8 +45,6 @@ setValidity("regioned_dna",
   })
 
 ##viewer
-#' @name show
-#' @rdname regioned_dna-class
 setMethod(
   f = "show",
   signature = "regioned_dna",
@@ -72,9 +62,13 @@ setMethod(
 #' Access the variable regions
 #'
 #' @param object regioned_dna
+#' @param ... ...
+#'
 #' @return list
 #' @seealso \code{\link{input_seq}}, \code{\link{get_cu}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_region(rgd.seq)
 #' @name get_region
 #' @rdname get_region-methods
@@ -86,8 +80,6 @@ setGeneric(
   }
 )
 
-
-#' @name get_region
 #' @rdname get_region-methods
 setMethod(
   f = "get_region",
@@ -102,7 +94,7 @@ setMethod(
 #' Access the DNA sequence data in DNAStringSet.
 #'
 #' @param object A regioned_dna object.
-#' @param ...
+#' @param ... ...
 #'
 #' @return DNAStringSet
 #' @exportMethod get_dna
@@ -110,6 +102,8 @@ setMethod(
 #' @rdname get_dna-methods
 #'
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_dna(rgd.seq)
 setGeneric(
   name = "get_dna",
@@ -118,7 +112,6 @@ setGeneric(
   }
 )
 
-#' @name get_dna
 #' @rdname get_dna-methods
 setMethod(
   f = "get_dna",
@@ -136,11 +129,15 @@ setMethod(
 #' Access the codon usage matrix
 #'
 #' @param object regioned_dna / DNAStringSet
+#' @param ... ...
+#'
 #' @return matrix
 #' @seealso \code{\link{input_seq}}, \code{\link{get_region}},
 #'   \code{\link{get_nu}}, \code{\link{get_du}}, \code{\link{get_freq}},
 #'   \code{\link{get_rscu}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_cu(rgd.seq)
 #' @exportMethod get_cu
 #' @name get_cu
@@ -152,7 +149,6 @@ setGeneric(
   }
 )
 
-#' @name get_cu
 #' @rdname get_cu-methods
 setMethod(
   f = "get_cu",
@@ -163,7 +159,6 @@ setMethod(
   }
 )
 
-#' @name get_cu
 #' @rdname get_cu-methods
 setMethod(
   f = "get_cu",
@@ -178,11 +173,15 @@ setMethod(
 #' Access the dinucleotide usage matrix
 #'
 #' @param object regioned_dna / DNAStringSet
+#' @param ... ...
+#'
 #' @return matrix
 #' @seealso \code{\link{input_seq}}, \code{\link{get_region}},
 #'   \code{\link{get_nu}}, \code{\link{get_cu}}, \code{\link{get_freq}},
 #'   \code{\link{get_rscu}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_du(rgd.seq)
 #' @exportMethod get_du
 #' @name get_du
@@ -194,7 +193,6 @@ setGeneric(
   }
 )
 
-#' @name get_du
 #' @rdname get_du-methods
 setMethod(
   f = "get_du",
@@ -205,7 +203,6 @@ setMethod(
   }
 )
 
-#' @name get_du
 #' @rdname get_du-methods
 setMethod(
   f = "get_du",
@@ -220,10 +217,14 @@ setMethod(
 #' Access the nucleotide usage matrix
 #'
 #' @param object regioned_dna / DNAStringSet
+#' @param ... ...
+#'
 #' @return matrix
 #' @seealso \code{\link{input_seq}}, \code{\link{get_region}},
 #'   \code{\link{get_cu}}, \code{\link{get_du}}, \code{\link{get_rscu}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_nu(rgd.seq)
 #' @exportMethod get_nu
 #' @name get_nu
@@ -235,7 +236,6 @@ setGeneric(
   }
 )
 
-#' @name get_nu
 #' @rdname get_nu-methods
 setMethod(
   f = "get_nu",
@@ -246,7 +246,6 @@ setMethod(
   }
 )
 
-#' @name get_nu
 #' @rdname get_nu-methods
 setMethod(
   f = "get_nu",
@@ -261,10 +260,14 @@ setMethod(
 #' Access the synonymous codon usage frequency
 #'
 #' @param object regioned_dna / DNAStringSet / codon usage matrix (vector)
+#' @param ... ...
+#'
 #' @return matrix
 #' @seealso \code{\link{input_seq}}, \code{\link{get_region}},
 #'   \code{\link{get_cu}}, \code{\link{get_du}}, \code{\link{get_rscu}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_freq(rgd.seq)
 #' @exportMethod get_freq
 #' @name get_freq
@@ -276,7 +279,6 @@ setGeneric(
   }
 )
 
-#' @name get_freq
 #' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
@@ -295,7 +297,6 @@ setMethod(
   }
 )
 
-#' @name get_freq
 #' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
@@ -313,7 +314,6 @@ setMethod(
   }
 )
 
-#' @name get_freq
 #' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
@@ -329,7 +329,6 @@ setMethod(
   }
 )
 
-#' @name get_freq
 #' @rdname get_freq-methods
 setMethod(
   f = "get_freq",
@@ -347,10 +346,14 @@ setMethod(
 #' Access the Relative Synonymous Codon Usage rscu
 #'
 #' @param object regioned_dna / DNAStringSet / codon usage matrix (vector)
+#' @param ... ...
+#'
 #' @return matrix
 #' @seealso \code{\link{input_seq}}, \code{\link{get_region}},
 #'   \code{\link{get_cu}}, \code{\link{get_du}}, \code{\link{get_freq}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_rscu(rgd.seq)
 #' @exportMethod get_rscu
 #' @name get_rscu
@@ -362,7 +365,6 @@ setGeneric(
   }
 )
 
-#' @name get_rscu
 #' @rdname get_rscu-methods
 setMethod(
   f = "get_rscu",
@@ -384,7 +386,6 @@ setMethod(
   }
 )
 
-#' @name get_rscu
 #' @rdname get_rscu-methods
 setMethod(
   f = "get_rscu",

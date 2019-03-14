@@ -3,6 +3,7 @@
 \docType{methods}
 \name{codon_to}
 \alias{codon_to}
+\alias{codon_to,regioned_dna-method}
 \title{Maximize or minimize the usage of certain codon.}
 \usage{
 codon_to(object, max.codon = NA, min.codon = NA, ...)
@@ -16,7 +17,7 @@ codon_to(object, max.codon = NA, min.codon = NA, ...)
 
 \item{min.codon}{A string of a codon.}
 
-\item{...}{}
+\item{...}{...}
 }
 \value{
 A regioned_dna object.
@@ -26,6 +27,8 @@ Input string of a codon to either the "max.codon = " or "min.codon = "
 parameter to maximize or minimize the usage of certain codon in the sequence.
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_cu(codon_to(rgd.seq, max.codon = "AAC")) - get_cu(rgd.seq)
 get_cu(codon_to(rgd.seq, min.codon = "AAC")) - get_cu(rgd.seq)
 

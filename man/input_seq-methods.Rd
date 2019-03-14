@@ -3,6 +3,7 @@
 \docType{methods}
 \name{input_seq}
 \alias{input_seq}
+\alias{input_seq,character-method}
 \alias{input_seq,DNAStringSet-method}
 \alias{input_seq,DNAString-method}
 \title{Import region / constructing regioned_dna object}
@@ -16,12 +17,14 @@ input_seq(object, region = NA, ...)
 \S4method{input_seq}{DNAString}(object, region)
 }
 \arguments{
-\item{\code{object}}{Filepath or DNAstringSet. The input sequences is
+\item{object}{Filepath or DNAstringSet. The input sequences is
 suggested to be in open reading frame(ORF).}
 
-\item{\code{region}}{A data.frame specifying paticular regions (positions in
+\item{region}{A data.frame specifying paticular regions (positions in
 amino acid sequence) that is allowed to be mutated in the sequences. Both
-\code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to
+\code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to}
+
+\item{...}{...
 Examples below for reference.}
 }
 \value{

@@ -3,6 +3,8 @@
 \docType{methods}
 \name{codon_mimic}
 \alias{codon_mimic}
+\alias{codon_mimic,regioned_dna,vector-method}
+\alias{codon_mimic,regioned_dna,DNAStringSet-method}
 \title{Mimic a target codon usage bias}
 \usage{
 codon_mimic(object, alt, ...)
@@ -16,6 +18,8 @@ codon_mimic(object, alt, ...)
 
 \item{alt}{target codon usage vector or DNAStringSet object representing
 target codon usage}
+
+\item{...}{...}
 }
 \value{
 regioned_dna
@@ -25,6 +29,8 @@ Mutating the current DNA sequences in the regioned_dna object to mimic a
 target codon usage pattern.
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 target <- get_cu(rgd.seq)[2,]
 new <- codon_mimic(rgd.seq, alt = target)
 get_cu(new) - get_cu(rgd.seq)

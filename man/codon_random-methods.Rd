@@ -3,6 +3,7 @@
 \docType{methods}
 \name{codon_random}
 \alias{codon_random}
+\alias{codon_random,regioned_dna-method}
 \title{Generate random synonymous mutations}
 \usage{
 codon_random(object, n = NA, keep = FALSE, ...)
@@ -10,13 +11,15 @@ codon_random(object, n = NA, keep = FALSE, ...)
 \S4method{codon_random}{regioned_dna}(object, n, keep)
 }
 \arguments{
-\item{\code{object}}{A regioned_dna object.}
+\item{object}{A regioned_dna object.}
 
-\item{\code{n}}{Optional n parameter specifying what proportion of the codons
+\item{n}{Optional n parameter specifying what proportion of the codons
 to be mutate. Default value: \code{NA}.}
 
-\item{\code{keep}}{Logical parameter controling whether keeping the codon
+\item{keep}{Logical parameter controling whether keeping the codon
 usage bias of the original sequence. Default value: \code{FALSE}.}
+
+\item{...}{...}
 }
 \value{
 A regioned_dna object containing the mutants
@@ -26,7 +29,9 @@ Generating radom synonymous mutations (in user-defined region), with
 optionally keeping/not keeping the original codon usage bias.
 }
 \examples{
-setseed(2019)
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
+set.seed(2019)
 get_cu(codon_random(rgd.seq, n = 0.5))
 get_cu(codon_random(rgd.seq))
 }

@@ -3,6 +3,7 @@
 \docType{methods}
 \name{get_region}
 \alias{get_region}
+\alias{get_region,regioned_dna-method}
 \title{Get the variable region}
 \usage{
 get_region(object, ...)
@@ -11,6 +12,8 @@ get_region(object, ...)
 }
 \arguments{
 \item{object}{regioned_dna}
+
+\item{...}{...}
 }
 \value{
 list
@@ -19,6 +22,8 @@ list
 Access the variable regions
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_region(rgd.seq)
 }
 \seealso{

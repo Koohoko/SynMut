@@ -3,17 +3,20 @@
 #' Generating radom synonymous mutations (in user-defined region), with
 #' optionally keeping/not keeping the original codon usage bias.
 #'
-#' @param \code{object} A regioned_dna object.
-#' @param \code{n} Optional n parameter specifying what proportion of the codons
+#' @param object A regioned_dna object.
+#' @param n Optional n parameter specifying what proportion of the codons
 #'   to be mutate. Default value: \code{NA}.
-#' @param \code{keep} Logical parameter controling whether keeping the codon
+#' @param keep Logical parameter controling whether keeping the codon
 #'   usage bias of the original sequence. Default value: \code{FALSE}.
+#' @param ... ...
 #'
 #' @return A regioned_dna object containing the mutants
 #' @seealso \code{\link{input_seq}}, \code{\link{dinu_to}},
 #'   \code{\link{codon_to}}, \code{\link{codon_mimic}}
 #' @examples
-#' setseed(2019)
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
+#' set.seed(2019)
 #' get_cu(codon_random(rgd.seq, n = 0.5))
 #' get_cu(codon_random(rgd.seq))
 #' @name codon_random
@@ -32,7 +35,6 @@ setGeneric(
   }
 )
 
-#' @name codon_random
 #' @rdname codon_random-methods
 setMethod(
   f = "codon_random",
@@ -104,7 +106,7 @@ setMethod(
     }
     seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
 
-    return(new(
+    return(methods::new(
       "regioned_dna",
       dnaseq = seq.mut,
       region = object@region

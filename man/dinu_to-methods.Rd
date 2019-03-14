@@ -3,6 +3,7 @@
 \docType{methods}
 \name{dinu_to}
 \alias{dinu_to}
+\alias{dinu_to,regioned_dna-method}
 \title{Maximize or minimize the usage of certain dinucleotide.}
 \usage{
 dinu_to(object, max.dinu = NA, min.dinu = NA, keep = FALSE, ...)
@@ -18,6 +19,8 @@ dinu_to(object, max.dinu = NA, min.dinu = NA, keep = FALSE, ...)
 
 \item{keep}{A logical varibale stating if the codon usage of the original
 sequences should be keep. Default: False.}
+
+\item{...}{...}
 }
 \value{
 regioned_dna
@@ -29,6 +32,8 @@ Using a greedy algorithm with priority given to dinucleotide12 or
 dinucleotide23.
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_du(dinu_to(rgd.seq, max.dinu = "cg")) - get_du(rgd.seq)
 get_du(dinu_to(rgd.seq, min.dinu = "AA")) - get_du(rgd.seq)
 get_du(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_du(rgd.seq)

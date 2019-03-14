@@ -6,6 +6,7 @@
 #' @param object regioned_dna object
 #' @param alt target codon usage vector or DNAStringSet object representing
 #'   target codon usage
+#' @param ... ...
 #'
 #' @return regioned_dna
 #' @exportMethod codon_mimic
@@ -13,6 +14,8 @@
 #' @seealso \code{\link{input_seq}}, \code{\link{codon_to}},
 #'   \code{\link{codon_random}}, \code{\link{dinu_to}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' target <- get_cu(rgd.seq)[2,]
 #' new <- codon_mimic(rgd.seq, alt = target)
 #' get_cu(new) - get_cu(rgd.seq)
@@ -31,9 +34,7 @@ setGeneric(
   }
 )
 
-
 #' @rdname codon_mimic-methods
-#' @name codon_mimic
 setMethod(
   f = "codon_mimic",
   signature = signature(object = "regioned_dna",
@@ -50,7 +51,6 @@ setMethod(
   }
 )
 
-#' @name codon_mimic
 #' @rdname codon_mimic-methods
 setMethod(
   f = "codon_mimic",
@@ -165,7 +165,7 @@ codon.mimic <- function(cu.target, dna.seq, region) {
     }, seq, region, seq.mut, SIMPLIFY = FALSE)
   }
   seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
-  return(new("regioned_dna",
+  return(methods::new("regioned_dna",
     dnaseq = seq.mut,
     region = region))
 }

@@ -16,12 +16,14 @@ LazyData: true
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    devtools
 VignetteBuilder: knitr
 Imports: 
     seqinr,
     methods,
-    Biostrings
+    Biostrings,
+    stringr
 RoxygenNote: 6.1.1
 Collate: 
     'regioned_dna_Class.R'
@@ -30,3 +32,4 @@ Collate:
     'codon_random.R'
     'codon_to.R'
     'dinu_to.R'
+    'zzz.R'

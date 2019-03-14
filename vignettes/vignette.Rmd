@@ -2,7 +2,10 @@
 title: "SynMut: Tools for Designing Synonymous Mutants in Virus Research"
 author: "Haogao Gu"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
 vignette: >
   %\VignetteIndexEntry{SynMut: Designing Synonymous Mutants for Viral Research}
   %\VignetteEngine{knitr::rmarkdown}
@@ -42,7 +45,8 @@ other biological researches.
 ## Getting started
 ### Installation
 ```{r}
-devtools::install_github("Koohoko/SynMut")
+devtools::install_github("Koohoko/SynMut", quiet = TRUE )
+library(SynMut)
 ```
 
 ### Input data
@@ -67,7 +71,7 @@ DNAStringSet object as input, to construct a `regioned_dna` object that is used
 in the `SynMut` package.
 
 ```{r}
-rgd.seq <- SynMut::input_seq(filepath.fasta, region)
+rgd.seq <- input_seq(filepath.fasta, region)
 rgd.seq
 ```
 

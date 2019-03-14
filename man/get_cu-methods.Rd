@@ -3,6 +3,8 @@
 \docType{methods}
 \name{get_cu}
 \alias{get_cu}
+\alias{get_cu,regioned_dna-method}
+\alias{get_cu,DNAStringSet-method}
 \title{Get codon usage matrix}
 \usage{
 get_cu(object, ...)
@@ -13,6 +15,8 @@ get_cu(object, ...)
 }
 \arguments{
 \item{object}{regioned_dna / DNAStringSet}
+
+\item{...}{...}
 }
 \value{
 matrix
@@ -21,6 +25,8 @@ matrix
 Access the codon usage matrix
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_cu(rgd.seq)
 }
 \seealso{

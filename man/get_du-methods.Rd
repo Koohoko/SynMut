@@ -3,6 +3,8 @@
 \docType{methods}
 \name{get_du}
 \alias{get_du}
+\alias{get_du,regioned_dna-method}
+\alias{get_du,DNAStringSet-method}
 \title{Get dinucleotide usage matrix}
 \usage{
 get_du(object, ...)
@@ -13,6 +15,8 @@ get_du(object, ...)
 }
 \arguments{
 \item{object}{regioned_dna / DNAStringSet}
+
+\item{...}{...}
 }
 \value{
 matrix
@@ -21,6 +25,8 @@ matrix
 Access the dinucleotide usage matrix
 }
 \examples{
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+rgd.seq <- input_seq(filepath)
 get_du(rgd.seq)
 }
 \seealso{

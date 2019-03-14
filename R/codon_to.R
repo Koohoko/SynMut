@@ -6,12 +6,14 @@
 #' @param object A regioned_dna object.
 #' @param max.codon A string of a codon.
 #' @param min.codon A string of a codon.
-#' @param ...
+#' @param ... ...
 #'
 #' @return A regioned_dna object.
 #' @seealso \code{\link{input_seq}}, \code{\link{dinu_to}},
 #'   \code{\link{codon_random}}, \code{\link{codon_mimic}}
 #' @examples
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' rgd.seq <- input_seq(filepath)
 #' get_cu(codon_to(rgd.seq, max.codon = "AAC")) - get_cu(rgd.seq)
 #' get_cu(codon_to(rgd.seq, min.codon = "AAC")) - get_cu(rgd.seq)
 #'
@@ -29,9 +31,8 @@ setGeneric(
   }
 )
 
-#' @name codon_to
+
 #' @rdname codon_to-methods
-#' @export
 setMethod(
   f = "codon_to",
   signature = "regioned_dna",
@@ -117,7 +118,7 @@ setMethod(
     }
     seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
 
-    return(new(
+    return(methods::new(
       "regioned_dna",
       dnaseq = seq.mut,
       region = object@region
