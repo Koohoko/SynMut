@@ -45,7 +45,7 @@ other biological researches.
 ## Getting started
 ### Installation
 ```{r}
-devtools::install_github("Koohoko/SynMut", quiet = TRUE )
+devtools::install_github("Koohoko/SynMut", quiet = TRUE)
 library(SynMut)
 ```
 

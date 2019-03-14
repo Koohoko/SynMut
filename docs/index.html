@@ -90,8 +90,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Getting started</h2>
 <div id="installation" class="section level3">
 <h3>Installation</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;Koohoko/SynMut&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SynMut)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;Koohoko/SynMut&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
+<span class="kw">library</span>(SynMut)
+<span class="co">#&gt; SynMut: Tools for designing Synonymous Mutants in Virus Research</span>
+<span class="co">#&gt;     -----------------------------------------------------------------------------------</span>
+<span class="co">#&gt;     For disccussion, please access: https://github.com/Koohoko/SynMut/issues</span></code></pre></div>
 </div>
 <div id="input-data" class="section level3">
 <h3>Input data</h3>
@@ -179,17 +182,17 @@ rgd.seq
 <p>Generating random synonymous mutations (in specific region if provided in the <code>input_seq</code>), with optional keeping or not keeping the original codon usage bias.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)
 <span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span>
-<span class="co">#&gt; [1,]   0   3   0  -3  -2  -2   3   1  -3   0  -2  -2   0   1   0  -1   1</span>
-<span class="co">#&gt; [2,]  -1   0   1   0   0  -1   1   0   0   0  -1  -1   1   0   0  -1  -1</span>
+<span class="co">#&gt; [1,]   1   4  -1  -4   0  -1   2  -1  -2   0  -3  -2   0   2   0  -2   1</span>
+<span class="co">#&gt; [2,]  -1   1   1  -1   1  -1   0   0   0   0   0   0   1   1   0  -2   1</span>
 <span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span>
-<span class="co">#&gt; [1,]   3  -1  -3  -3   0   4  -1   0   0   3   2  -1  -3   0  -2   1   1</span>
-<span class="co">#&gt; [2,]   0   1   0   0   0   0   0   0   0   0   1   1   1  -3   1  -1   0</span>
+<span class="co">#&gt; [1,]   0  -1   0  -2   1   0   1   0   0   4   1   1   1  -1  -5  -3   0</span>
+<span class="co">#&gt; [2,]   0  -1   0   1  -1   0   0   0   0   0   0   1   0  -3  -1  -1   0</span>
 <span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span>
-<span class="co">#&gt; [1,]  -1  -1  -1  -4   8  -3   3   2  -6   1   2  -1  -2   1   0   0   0</span>
-<span class="co">#&gt; [2,]   1   0   0   1   0  -1  -1  -1   3  -1   0   0   0   0   0   0   0</span>
+<span class="co">#&gt; [1,]   3   0   1  -2   4  -3  -1   3  -3   1  -1   1  -1   1   0   1   0</span>
+<span class="co">#&gt; [2,]   1   0  -1   2   1  -2  -2   1   1   0   0   0   0   0   0   0   0</span>
 <span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span>
-<span class="co">#&gt; [1,]   0   0   2   1  -1   0   3   0  -3   2   1   4  -1</span>
-<span class="co">#&gt; [2,]   0  -1   0   1   1   0   0   0   0   0   0   0   0</span>
+<span class="co">#&gt; [1,]  -1   3   1   0  -2   0   2   0  -2   1   0   3   0</span>
+<span class="co">#&gt; [2,]   0  -1  -1   1   1   0   0   0   0   2  -1   1   1</span>
 
 <span class="co"># keeping the original codon usage pattern</span>
 <span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq, <span class="dt">keep =</span> <span class="ot">TRUE</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)
@@ -208,17 +211,17 @@ rgd.seq
 <p>We can also specify the <code>n</code> parameter to control the proportion of the codons to be mutated.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq, <span class="dt">n =</span> <span class="fl">0.5</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)
 <span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span>
-<span class="co">#&gt; [1,]   1  -1  -1   1  -1   0   1   0  -2  -1   0   0  -1   0   0   1  -1</span>
-<span class="co">#&gt; [2,]   0   0   0   0   1  -1   1  -1   0   0  -1   0   0   0   0   0   1</span>
+<span class="co">#&gt; [1,]   3   0  -3   0  -1  -1   2   0  -2   0  -2  -1   0   0   0   0   1</span>
+<span class="co">#&gt; [2,]  -2   0   2   0   1  -1   1  -1   1   0  -1   0   0   2   0  -2   0</span>
 <span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span>
-<span class="co">#&gt; [1,]   2   1  -2  -2   0   1   1   1   0   0   1   0  -1  -1   1  -1   1</span>
-<span class="co">#&gt; [2,]   0  -1   0   1   0   0  -1   1   0   0   0   0   0  -1  -1  -1  -1</span>
+<span class="co">#&gt; [1,]  -1  -1   1  -2   1   0   1   0   0   3   1   0   1   1  -4   2  -1</span>
+<span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0  -1   1  -2   0</span>
 <span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span>
-<span class="co">#&gt; [1,]   1  -1   2  -3   2  -1   1   1  -3   1   1   1  -1  -1   0   1   0</span>
-<span class="co">#&gt; [2,]   1   1   0   1  -1   0   0   0   0   0   0   0   0   0   0  -1   0</span>
+<span class="co">#&gt; [1,]  -2   1  -1   2   0  -1   1   2  -3   0   2   0  -1  -1   0   0   0</span>
+<span class="co">#&gt; [2,]   2   0   0   0   0   0  -2   1   1   0   0   0   0   0   0   0   0</span>
 <span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span>
-<span class="co">#&gt; [1,]  -1   0   1  -1   1   0   1   0  -1  -1   0   2   0</span>
-<span class="co">#&gt; [2,]   1   0   0   0   0   0   0   0   0   1   0   1   0</span></code></pre></div>
+<span class="co">#&gt; [1,]   0   1   1   0  -1   0   1   0  -1   1  -1   1   1</span>
+<span class="co">#&gt; [2,]   0  -1   1   0   0   0   0   0   0   0   0   0   0</span></code></pre></div>
 </div>
 <div id="generating-synonymous-sequences-with-maximalminimal-usage-of-specific-codon" class="section level3">
 <h3>Generating synonymous sequences with maximal/minimal usage of specific codon</h3>
@@ -258,8 +261,8 @@ rgd.seq
 <span class="co"># check the dinucelotide usage difference between the mutant and the original</span>
 <span class="kw">get_du</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">max.dinu =</span> <span class="st">&quot;cg&quot;</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_du</span>(rgd.seq)
 <span class="co">#&gt;      AA AC  AG  AT CA CC CG CT GA GC GG GT  TA TC  TG TT</span>
-<span class="co">#&gt; [1,] -2  5 -13 -11 -8  0 41  0  2 17 -7  0 -10  9 -14 -9</span>
-<span class="co">#&gt; [2,] -4  0  -1   0  1  2  1  0  1  4  1  2  -2  4  -3 -6</span>
+<span class="co">#&gt; [1,]  2  5 -16 -11 -8  0 41  0 -2 17 -4  0 -10  9 -14 -9</span>
+<span class="co">#&gt; [2,] -4  0   0   0  1  2  1  0  0  4  1  2  -2  4  -3 -6</span>
 
 <span class="co"># minimize the usage of &quot;CA&quot;,</span>
 <span class="kw">get_du</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">min.dinu =</span> <span class="st">&quot;CA&quot;</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_du</span>(rgd.seq)
@@ -270,7 +273,7 @@ rgd.seq
 <span class="co"># maximize the usage of &quot;CG&quot; while keeping the original codon usage</span>
 <span class="kw">get_du</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">max.dinu =</span> <span class="st">&quot;cg&quot;</span>, <span class="dt">keep =</span> <span class="ot">TRUE</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_du</span>(rgd.seq)
 <span class="co">#&gt;      AA AC AG AT CA CC CG CT GA GC GG GT TA TC TG TT</span>
-<span class="co">#&gt; [1,]  1  2 -2 -2 -8 -5 12  2  3 -2 -3  2  5  4 -7 -2</span>
+<span class="co">#&gt; [1,]  0  2 -2 -3 -6 -4 12 -2  0 -1 -2  1  9  3 -6 -1</span>
 <span class="co">#&gt; [2,] -1  1  1  0  0 -1  0  0 -1  1  0  0  1  0 -1  0</span>
 <span class="kw">get_cu</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">max.dinu =</span> <span class="st">&quot;cg&quot;</span>, <span class="dt">keep =</span> <span class="ot">TRUE</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)
 <span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span>
