@@ -28,6 +28,9 @@ regioned_dna
 Mutating the current DNA sequences in the regioned_dna object to mimic a
 target codon usage pattern.
 }
+\details{
+
+}
 \examples{
 filepath <- system.file("extdata", "example.fasta", package = "SynMut")
 rgd.seq <- input_seq(filepath)

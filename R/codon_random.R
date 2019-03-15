@@ -1,14 +1,23 @@
 #' Generate random synonymous mutations
 #'
-#' Generating radom synonymous mutations (in user-defined region), with
+#' Generating random synonymous mutations (in user-defined region), with
 #' optionally keeping/not keeping the original codon usage bias.
 #'
 #' @param object A regioned_dna object.
-#' @param n Optional n parameter specifying what proportion of the codons
-#'   to be mutate. Default value: \code{NA}.
-#' @param keep Logical parameter controling whether keeping the codon
-#'   usage bias of the original sequence. Default value: \code{FALSE}.
+#' @param n Optional n parameter specifying what proportion of the codons to be
+#'   mutate. Default value: \code{NA}.
+#' @param keep Logical parameter controling whether keeping the codon usage bias
+#'   of the original sequence. Default value: \code{FALSE}.
 #' @param ... ...
+#'
+#' @details This method randomly sample synonymous codons for \code{n} propotion
+#'   of every mutable codons in the sequences. This process will be likely to
+#'   alter the codon usage bias of the original sequences. However the
+#'   \code{keep = TRUE} argument help to preserve the codon usage bias. It is
+#'   done via the \code{synsequence} function in \code{seqinr} package. The
+#'   \code{synsequence} function essentially swaps the position of the
+#'   synonymous codons without introducing new codons into the original
+#'   sequences.
 #'
 #' @return A regioned_dna object containing the mutants
 #' @seealso \code{\link{input_seq}}, \code{\link{dinu_to}},

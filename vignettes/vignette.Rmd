@@ -1,5 +1,5 @@
 ---
-title: "SynMut: Tools for Designing Synonymous Mutants in Virus Research"
+title: "SynMut: Tools for Designing Synonymous Mutants for DNA Sequences"
 author: "Haogao Gu"
 date: "`r Sys.Date()`"
 output: 
@@ -7,7 +7,7 @@ output:
     theme: tactile
     highlight: github
 vignette: >
-  %\VignetteIndexEntry{SynMut: Designing Synonymous Mutants for Viral Research}
+  %\VignetteIndexEntry{SynMut: Designing Synonymous Mutants for DNA Sequences}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,39 +25,41 @@ __no__ modification in the translated amino acid sequence. Most of the
 synonymous mutations are also silent mutations as they do not have observable
 effects on the organism's phenotype. Designing mutant sequences with synonymous
 mutations is often applied in many biological studies as a method to control
-some unwanted changes in the amino acid sequences.
+some unwanted changes in the translated amino acid sequences.
 
-The codon usage bias and dinucleotide usage bias are two genomic signatures of
-different sequences, even for synonymous sequences. Characterizing the functions
+The codon usage bias and dinucleotide usage bias are two genomic signatures in 
+DNA/RNA sequences, even for synonymous sequences. Characterizing the functions
 of synonymous sequences with different codon usage bias or dinucleotide usage
 bias help to study their impacts on various biological functions. In fact, this 
-method has been applied in many virology researches.
+method has been applied in many researches in virology.
 
 `SynMut` provides tools for generating multiple synonymous DNA sequences of
-different features (in particular codon/dinucleotide usage pattern). Users can
-also specify mutable regions in the sequences (this is particular useful as
-there are some conserved regions in the genome which we do not want to modify).
-This tool was originally designed for generating recombinant virus sequences in
-influenza A virus to study the effects of different dinucleotide usage and codon
-usage, yet these functions provided in this package can be generic to a variety of
-other biological researches.
+different genomic features (in particular codon/dinucleotide usage pattern).
+Users can also specify mutable regions in the sequences (this is particular
+useful as there are some conserved regions in the genome which we do not want to
+modify). This tool was originally designed for generating recombinant virus
+sequences in influenza A virus to study the effects of different dinucleotide
+usage and codon usage, yet these functions provided in this package can be
+generic to a variety of other biological researches.
 
 ## Getting started
 ### Installation
 ```{r}
-devtools::install_github("Koohoko/SynMut", quiet = TRUE)
+if(!library(SynMut, logical.return = TRUE)){
+  devtools::install_github("Koohoko/SynMut", quiet = TRUE)
+}
 library(SynMut)
 ```
 
 ### Input data
 
-We use the example data in the package. 
+We use the below data in the package for example. 
 
 * `example.fasta`: The fasta file contains the segment 7 and segment 8 DNA
-sequences of Influenza A/Brisbane/59/2007 (H1N1) (BR59).
+sequences of *Influenza A/Brisbane/59/2007 (H1N1) (BR59)*.
 * `target_regions.csv`: The region file in csv format reads as a `data.frame`
-specifying the mutable positions (in amino acid position) correspond to the DNA
-sequences.
+specifying the user-defined mutable positions (in amino acid position)
+correspond to the DNA sequences.
 
 ```{r}
 filepath.fasta <- system.file("extdata", "example.fasta", package = "SynMut")
@@ -66,16 +68,18 @@ region <- read.csv(filepath.csv)
 head(region)
 ```
 
-The `input_seq` function takes either a system file in fasta format or a
+The `input_seq` function takes either a system fasta file or a
 DNAStringSet object as input, to construct a `regioned_dna` object that is used
 in the `SynMut` package.
+
+*Important Notes*: if 
 
 ```{r}
 rgd.seq <- input_seq(filepath.fasta, region)
 rgd.seq
 ```
 
-### Access data
+### Access the data
 Various `get_` functions were used to get some useful information:
 
 * `get_dna`: Access the DNA sequences. This will return a DNAStringSet object
@@ -192,15 +196,8 @@ get_rscu(new) - get_rscu(rgd.seq)
 
 ## Output the results
 
-Output the DNA mutant sequcens
+Output the DNA mutant sequences
 ```{r, eval = FALSE}
 Biostrings::writeXStringSet(get_dna(rgd.seq), "rgd.fasta")
 ```
-
-
-
-
-
-
-
 

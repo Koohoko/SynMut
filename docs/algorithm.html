@@ -40,8 +40,12 @@
 
 
 
-<div id="todo" class="section level2">
-<h2>TODO</h2>
+<p>The implementation of the mutation functions in the <code>SynMut</code> package were briefly described in their respective help documents. Simply access them for example by <code>?codon_random</code> or <code>help(&quot;codon_random&quot;)</code>.</p>
+<p>In this part we will go a little bit further into our logic behind the optimization problems in <code>codon_mimic</code> and <code>dinu_to</code>.</p>
+<div id="function-codon_mimic" class="section level3">
+<h3>Function <code>codon_mimic</code></h3>
+<p>The codon usage bias gernerally refers to the difference in the relative usage of synonymous codons. To mimic a target codon usage bias equals to minimizing the difference of the relative synonymous codon frequency between the current and target DNA sequences.</p>
+<p>The ideas for <code>codon_mimic</code> is similar to <code>codon_to</code>: first extracting the mutable regions and then doing the mutation. However the codons in the fixed (not mutable) regions will also alter the final codon usage, thus we have to adjust for the fixed codons when introducing sysnonymous codons. The ideal deisgn for codon_mimic is not unique as the swap between positions of the synonymous codons will not change the codon usage bias.</p>
 </div>
 </div>
 </div>

@@ -13,6 +13,13 @@ filepath <-
 rgd.seq.single <- input_seq(filepath)
 
 test_that("codon_random", {
+  expect_silent(seq_random(n = 1, m = 99))
+  expect_silent(seq_random(n = 10, m = 30))
+  expect_silent(seq_random(n = 10, m = 1:10))
+  expect_silent(seq_random(n = 10, m = 100, no.stop.codon = TRUE))
+})
+
+test_that("codon_random", {
   tmp <- codon_random(rgd.seq, n = 0.5)
   expect_true(class(tmp)[1] == "regioned_dna")
   expect_silent(codon_random(rgd.seq.single, n = 0.5))

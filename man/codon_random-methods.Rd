@@ -13,11 +13,11 @@ codon_random(object, n = NA, keep = FALSE, ...)
 \arguments{
 \item{object}{A regioned_dna object.}
 
-\item{n}{Optional n parameter specifying what proportion of the codons
-to be mutate. Default value: \code{NA}.}
+\item{n}{Optional n parameter specifying what proportion of the codons to be
+mutate. Default value: \code{NA}.}
 
-\item{keep}{Logical parameter controling whether keeping the codon
-usage bias of the original sequence. Default value: \code{FALSE}.}
+\item{keep}{Logical parameter controling whether keeping the codon usage bias
+of the original sequence. Default value: \code{FALSE}.}
 
 \item{...}{...}
 }
@@ -25,8 +25,18 @@ usage bias of the original sequence. Default value: \code{FALSE}.}
 A regioned_dna object containing the mutants
 }
 \description{
-Generating radom synonymous mutations (in user-defined region), with
+Generating random synonymous mutations (in user-defined region), with
 optionally keeping/not keeping the original codon usage bias.
+}
+\details{
+This method randomly sample synonymous codons for \code{n} propotion
+  of every mutable codons in the sequences. This process will be likely to
+  alter the codon usage bias of the original sequences. However the
+  \code{keep = TRUE} argument help to preserve the codon usage bias. It is
+  done via the \code{synsequence} function in \code{seqinr} package. The
+  \code{synsequence} function essentially swaps the position of the
+  synonymous codons without introducing new codons into the original
+  sequences.
 }
 \examples{
 filepath <- system.file("extdata", "example.fasta", package = "SynMut")

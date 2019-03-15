@@ -8,6 +8,16 @@
 #'   target codon usage
 #' @param ... ...
 #'
+#' @details The ideas for \code{codon_mimic} is similar to
+#'   \code{\link{codon_to}}: first extract the mutable regions and then do the
+#'   mutation. However the codons in the fixed (not mutable) regions will also
+#'   alter the final codon usage, thus we have to adjust for the fixed codons
+#'   when introducing sysnonymous codons. The ideal deisgn for
+#'   \code{codon_mimic} is not unique as the swap between positions of the
+#'   synonymous codons will not change the codon usage bias.
+#'
+#'   Deatails pleas refer to: https://koohoko.github.io/SynMut/algorithm.html
+#'
 #' @return regioned_dna
 #' @exportMethod codon_mimic
 #' @include regioned_dna_Class.R
