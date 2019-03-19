@@ -34,5 +34,6 @@ Collate:
     'codon_random.R'
     'codon_to.R'
     'dinu_to.R'
+    'distance_analysis.R'
     'seq_random.R'
     'zzz.R'

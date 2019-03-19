@@ -26,6 +26,14 @@ A regioned_dna object.
 Input string of a codon to either the "max.codon = " or "min.codon = "
 parameter to maximize or minimize the usage of certain codon in the sequence.
 }
+\details{
+The ideas for this function is simple. We first extract the mutable
+  regions for every sequences, then mutated the synonymous codons of the
+  input to the desired. There will be only one ideal design for the
+  maximization problem, however there may be numerous comparable designs
+  having the same minimal usage of certain codon, as we randomly sample
+  synonymous codon for substitution when solving the minimization problem.
+}
 \examples{
 filepath <- system.file("extdata", "example.fasta", package = "SynMut")
 rgd.seq <- input_seq(filepath)

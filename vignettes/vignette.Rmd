@@ -42,6 +42,12 @@ sequences in influenza A virus to study the effects of different dinucleotide
 usage and codon usage, yet these functions provided in this package can be
 generic to a variety of other biological researches.
 
+Below is a flowchart illustrating the components in this package.
+```{r, echo=FALSE}
+url <- "http://www.online-image-editor.com//styles/2014/images/example_image.png"
+```
+<center><img src="`r url`"></center>
+
 ## Getting started
 ### Installation
 ```{r}
