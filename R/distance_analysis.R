@@ -64,7 +64,7 @@ setMethod(f = "dinu_dist",
 #' @exportMethod codon_dist
 #'
 #' @examples
-#' #' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
 #' rgd.seq <- input_seq(filepath)
 #' get_cu(rgd.seq)
 #'

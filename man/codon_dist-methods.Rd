@@ -25,7 +25,7 @@ We use a least squares approach to estimate the codon usage
 difference between DNA sequences.
 }
 \examples{
-#' filepath <- system.file("extdata", "example.fasta", package = "SynMut")
+filepath <- system.file("extdata", "example.fasta", package = "SynMut")
 rgd.seq <- input_seq(filepath)
 get_cu(rgd.seq)
 
