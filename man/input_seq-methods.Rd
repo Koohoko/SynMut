@@ -17,15 +17,15 @@ input_seq(object, region = NA, ...)
 \S4method{input_seq}{DNAString}(object, region)
 }
 \arguments{
-\item{object}{Filepath or DNAstringSet. The input sequences is
-suggested to be in open reading frame(ORF).}
+\item{object}{Filepath or DNAstringSet. The input sequences is suggested to
+be in open reading frame(ORF).}
 
-\item{region}{A data.frame specifying paticular regions (positions in
-amino acid sequence) that is allowed to be mutated in the sequences. Both
-\code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to}
-
-\item{...}{...
+\item{region}{\code{NA}. A data.frame specifying paticular regions (positions
+in amino acid sequence) that is allowed to be mutated in the sequences.
+Both \code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to
 Examples below for reference.}
+
+\item{...}{...}
 }
 \value{
 A regioned_dna-class object
@@ -48,6 +48,7 @@ rgd.seq <- input_seq(filepath.fasta, region)
 # Creating from exsisting DNAStringSet object
 seq <- Biostrings::DNAStringSet("ATCGATCGA")
 rgd.seq <- input_seq(seq)
+
 }
 \seealso{
 \code{\link{get_cu}}, \code{\link{get_du}},

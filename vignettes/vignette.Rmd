@@ -44,7 +44,7 @@ generic to a variety of other biological researches.
 
 Below is a flowchart illustrating the components in this package.
 ```{r, echo=FALSE}
-url <- "http://www.online-image-editor.com//styles/2014/images/example_image.png"
+url <- "https://raw.githubusercontent.com/Koohoko/SynMut/master/docs/component.png"
 ```
 <center><img src="`r url`"></center>
 
@@ -78,7 +78,10 @@ The `input_seq` function takes either a system fasta file or a
 DNAStringSet object as input, to construct a `regioned_dna` object that is used
 in the `SynMut` package.
 
-*Important Notes*: if 
+*Important Notes*: if the `region` parameter is specified in the resulted 
+regioned_dna object, it will be automatically applied to all the downstream
+functions for mutations. Mutations will only performed in the specified mutable
+regions.
 
 ```{r}
 rgd.seq <- input_seq(filepath.fasta, region)
@@ -176,7 +179,7 @@ get_cu(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_cu(rgd.seq)
 
 ```
 
-### Generating synonymous sequences mimicing a specific codon usage pattern {#codon_mimic}
+### Generating synonymous sequences mimicking a specific codon usage pattern {#codon_mimic}
 
 The function `codon_mimic` mutates the sequences to mimic a target codon usage 
 patterns. Detail algorithm was provided at this [link](https://koohoko.github.io/SynMut/algorithm.html).

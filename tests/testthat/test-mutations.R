@@ -67,3 +67,8 @@ test_that("codon_mimic", {
   expect_silent(codon_mimic(rgd.seq.single, alt = target))
   expect_silent(codon_mimic(rgd.seq.no.region, alt = target))
 })
+
+test_that("dinu_dist", {
+  expect_silent(codon_dist(codon_random(rgd.seq), rgd.seq))
+  expect_silent(dinu_dist(codon_random(rgd.seq), rgd.seq))
+})

@@ -3,13 +3,13 @@
 #' Constructing \code{regioned_dna} from DNAStringSet. Optionally input a
 #' \code{region} data.frame to define restricted amino-acid region for mutation.
 #'
-#' @param object Filepath or DNAstringSet. The input sequences is
-#'   suggested to be in open reading frame(ORF).
-#' @param region A data.frame specifying paticular regions (positions in
-#'   amino acid sequence) that is allowed to be mutated in the sequences. Both
-#'   \code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to
-#' @param ... ...
+#' @param object Filepath or DNAstringSet. The input sequences is suggested to
+#'   be in open reading frame(ORF).
+#' @param region \code{NA}. A data.frame specifying paticular regions (positions
+#'   in amino acid sequence) that is allowed to be mutated in the sequences.
+#'   Both \code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to
 #'   Examples below for reference.
+#' @param ... ...
 #' @return A regioned_dna-class object
 #' @seealso \code{\link{get_cu}}, \code{\link{get_du}},
 #'   \code{\link{get_region}}, \code{\link{get_dna}}
@@ -27,6 +27,7 @@
 #' # Creating from exsisting DNAStringSet object
 #' seq <- Biostrings::DNAStringSet("ATCGATCGA")
 #' rgd.seq <- input_seq(seq)
+#'
 #' @exportMethod input_seq
 #' @name input_seq
 #' @rdname input_seq-methods
