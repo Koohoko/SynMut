@@ -130,13 +130,13 @@ setMethod(
 # internal_function -------------------------------------------------------
 ###########################################################################
 
-#1
+#1: not keep codon usage, mutate at all 12, 23 and 31 regions
 dinu_to.not.keep <-
   function(seq.region,
     codon.list.alt,
     max.dinu,
     min.dinu) {
-    ## get optimal dinucleotide
+    ## get optimal codon
     if (!is.na(max.dinu)) {
       #max.dinu
       codon.list.optm <- lapply(codon.list.alt, function(x) {
@@ -152,16 +152,21 @@ dinu_to.not.keep <-
           if (length(filter2) < 1) {
             return(sample(x, 1))
           } else{
-            return(names(sort(table(filter2), decreasing = T))[1])
+            table.sorted <- sort(table(filter2), decreasing = T)
+            names.ordered <- names(table.sorted)
+            choice.good <- names.ordered[table.sorted == table.sorted[1]]
+            return(sample(choice.good, 1))
           }
         } else {
           filter2.1 <- filter1[stringr::str_detect(filter1,
             pattern = paste0("^", substr(max.dinu, 2, 2)))]
           filter2.2 <- filter1[stringr::str_detect(filter1,
             pattern = paste0(substr(max.dinu, 1, 1), "$"))]
-          return(names(sort(table(
-            c(filter2.1, filter2.2)
-          ), decreasing = T))[1])
+          filter2 <- c(filter2.1, filter2.2)
+          table.sorted <- sort(table(filter2), decreasing = T)
+          names.ordered <- names(table.sorted)
+          choice.good <- names.ordered[table.sorted == table.sorted[1]]
+          return(sample(choice.good, 1))
         }
       })
     } else {
@@ -180,7 +185,10 @@ dinu_to.not.keep <-
           if (length(filter2) < 1) {
             return(sample(x, 1))
           } else{
-            return(names(sort(table(filter2), decreasing = T))[1])
+            table.sorted <- sort(table(filter2), decreasing = T)
+            names.ordered <- names(table.sorted)
+            choice.good <- names.ordered[table.sorted == table.sorted[1]]
+            return(sample(choice.good, 1))
           }
         } else {
           filter2.1 <- filter1[!stringr::str_detect(filter1, #differnece
@@ -188,9 +196,11 @@ dinu_to.not.keep <-
           filter2.2 <-
             filter1[!stringr::str_detect(filter1, #differnece
               pattern = paste0(substr(min.dinu, 1, 1), "$"))]
-          return(names(sort(table(
-            c(filter2.1, filter2.2)
-          ), decreasing = T))[1])
+          filter2 <- c(filter2.1, filter2.2)
+          table.sorted <- sort(table(filter2), decreasing = T)
+          names.ordered <- names(table.sorted)
+          choice.good <- names.ordered[table.sorted == table.sorted[1]]
+          return(sample(choice.good, 1))
         }
       })
     }
@@ -209,7 +219,7 @@ dinu_to.not.keep <-
     return(seq.mut)
   }
 
-#2
+#2: keep codon usage, mutate at only 31 regions
 dinu_to.keep <-
   function(check.region,
     seq,

@@ -51,7 +51,11 @@ url <- "https://raw.githubusercontent.com/Koohoko/SynMut/master/docs/component.p
 ## Getting started
 ### Installation
 ```{r}
-if(!library(SynMut, logical.return = TRUE)){
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("Biostrings")
+
+if (!requireNamespace("SynMut", quietly = TRUE)){
   devtools::install_github("Koohoko/SynMut", quiet = TRUE)
 }
 library(SynMut)

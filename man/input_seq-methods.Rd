@@ -39,7 +39,7 @@ Constructing \code{regioned_dna} from DNAStringSet. Optionally input a
 filepath <- system.file("extdata", "example.fasta", package = "SynMut")
 rgd.seq <- input_seq(filepath)
 
-#Optionally input with region dataframe
+# Optionally input with region dataframe
 filepath.fasta <- system.file("extdata", "example.fasta", package = "SynMut")
 filepath.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
 region <- read.csv(filepath.csv)
