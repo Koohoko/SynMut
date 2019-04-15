@@ -4,6 +4,7 @@ author: "Haogao Gu"
 date: "`r Sys.Date()`"
 output: 
   prettydoc::html_pretty:
+    toc: true
     theme: tactile
     highlight: github
 vignette: >
@@ -213,3 +214,7 @@ Output the DNA mutant sequences
 Biostrings::writeXStringSet(get_dna(rgd.seq), "rgd.fasta")
 ```
 
+## Session information
+```{R}
+sessionInfo()
+```

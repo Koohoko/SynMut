@@ -1,0 +1,7 @@
+There are two FASTA files and one csv file serving as example data in this package.
+
+The example.fasta contains the open-reading-frame regions of the segments 7 and 8 in influenza A A/Brisbane/59/2007 virus (NCBI Taxonomy ID: 504904).
+The example2.fasta is a subset of the example.fasta, which contains only the DNA sequences in segment 6.
+
+The target_regions.csv is a manually edited annotatation table corresponding to the example.fasta. 
+There are two rows specifying the user-defined mutable positions (in amino acid position) correspond to the two DNA sequences for segment 7 and segment 8 in this case.

@@ -1,14 +1,15 @@
 Package: SynMut
 Type: Package
-Title: SynMut: Tools for designing Synonymous Mutants in Virus Research for DNA sequences
-Version: 0.1.0
+Title: SynMut: Tools for designing Synonymous Mutants from DNA sequences
+Version: 0.99.0
 Authors@R: person("Haogao ", "Gu", email = "hggu@connect.hku.hk",
     role = c("aut", "cre"))
-Description: SynMut designs synonymous mutants for DNA sequences.  
-    There are increasing demands on designing virus mutants with specific dinucleotide or codon composition. This tool can take both dinucleotide preference and/or codon usage bias into account while designing mutants. It also works well for desinging mutants with extremely over-/under- represented dinucleotides. It is a powerful tool for in silico designs of DNA sequence mutants.
+Description:  
+    There are increasing demands on designing virus mutants with specific dinucleotide or codon composition. 
+    This tool can take both dinucleotide preference and/or codon usage bias into account while designing mutants.
+    It is a powerful tool for in silico designs of DNA sequence mutants.
 License: GPL-2
 Encoding: UTF-8
-LazyData: true
 Suggests: 
     BiocManager,
     knitr,
@@ -34,3 +35,6 @@ Collate:
     'distance_analysis.R'
     'seq_random.R'
     'zzz.R'
+biocViews: SequenceMatching, ExperimentalDesign, Preprocessing
+BugReports: https://github.com/Koohoko/SynMut/issues
+URL: https://github.com/Koohoko/SynMut

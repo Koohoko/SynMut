@@ -38,9 +38,9 @@
 setGeneric(
   name = "codon_random",
   def = function(object,
-    n = 1,
-    keep = FALSE,
-    ...) {
+                 n = 1,
+                 keep = FALSE,
+                 ...) {
     standardGeneric(f = "codon_random")
   }
 )
@@ -73,9 +73,9 @@ setMethod(
       }, seq, object@region, SIMPLIFY = FALSE)
     } else {
       seq.region <- sapply(as.character(object@dnaseq),
-        function(x) {
-          splitseq(s2c(x))
-        })
+                           function(x) {
+                             splitseq(s2c(x))
+                           })
     }
 
     if (n != 1) {
@@ -129,7 +129,7 @@ setMethod(
   f = "codon_random",
   signature = "DNAStringSet",
   definition = function(object, n, keep) {
-    object <- c(object,DNAStringSet("ATG"))
+    object <- c(object, DNAStringSet("ATG"))
     seq <- sapply(as.character(object), function(x) {
       splitseq(s2c(x))
     })
@@ -164,11 +164,9 @@ setMethod(
       }, seq, id, seq.mut, SIMPLIFY = FALSE)
     }
 
-    seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut[1:(length(seq.mut)-1)], c2s))
+    seq.mut <-
+      Biostrings::DNAStringSet(sapply(seq.mut[1:(length(seq.mut) - 1)], c2s))
 
     return(seq.mut)
   }
 )
-
-
-

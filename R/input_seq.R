@@ -51,8 +51,8 @@ setMethod(
       BiocGenerics::append(dnaseq, DNAStringSet('atg')) #helper sequence
     if (all(is.na(region))) {
       return(methods::new("regioned_dna",
-        dnaseq = dnaseq,
-        region = list(NA)))
+                          dnaseq = dnaseq,
+                          region = list(NA)))
     } else {
       if (class(region) != "data.frame") {
         stop("the region input must be in data.frame format")
@@ -80,8 +80,8 @@ setMethod(
       BiocGenerics::append(object, DNAStringSet('atg')) #helper sequence
     if (all(is.na(region))) {
       return(methods::new("regioned_dna",
-        dnaseq = dnaseq,
-        region = list(NA)))
+                          dnaseq = dnaseq,
+                          region = list(NA)))
     } else {
       if (class(region) != "data.frame") {
         stop("the region input must be in data.frame format")
@@ -109,8 +109,8 @@ setMethod(
       BiocGenerics::append(DNAStringSet(object), DNAStringSet('atg')) #helper sequence
     if (all(is.na(region))) {
       return(methods::new("regioned_dna",
-        dnaseq = dnaseq,
-        region = list(NA)))
+                          dnaseq = dnaseq,
+                          region = list(NA)))
     } else {
       if (class(region) != "data.frame") {
         stop("the region input must be in data.frame format")

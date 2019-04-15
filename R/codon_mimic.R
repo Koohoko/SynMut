@@ -48,15 +48,14 @@ setGeneric(
 setMethod(
   f = "codon_mimic",
   signature = signature(object = "regioned_dna",
-    alt = "vector"),
+                        alt = "vector"),
   definition = function(object, alt) {
     if (length(alt) != 64) {
       stop("The length of the target codon usage must be 64")
     }
     alt <- as.numeric(alt)
     names(alt) <- sort(names(Biostrings::GENETIC_CODE))
-    result <- codon.mimic(alt,
-      dna.seq = object@dnaseq, region = object@region)
+    result <- codon.mimic(alt, dna.seq = object@dnaseq, region = object@region)
     return(result)
   }
 )
@@ -65,16 +64,16 @@ setMethod(
 setMethod(
   f = "codon_mimic",
   signature = signature(object = "regioned_dna",
-    alt = "DNAStringSet"),
+                        alt = "DNAStringSet"),
   definition = function(object, alt) {
     if (length(alt) > 1) {
       warning("only the first one sequence in the the target was used")
     }
     cu.target <- Biostrings::oligonucleotideFrequency(alt,
-      width = 3, step = 3)[1, ]
+                                                      width = 3, step = 3)[1,]
     result <- codon.mimic(cu.target,
-      dna.seq = object@dnaseq,
-      region = object@region)
+                          dna.seq = object@dnaseq,
+                          region = object@region)
     return(result)
   }
 )
@@ -83,17 +82,17 @@ setMethod(
 setMethod(
   f = "codon_mimic",
   signature = signature(object = "DNAStringSet",
-    alt = "DNAStringSet"),
+                        alt = "DNAStringSet"),
   definition = function(object, alt) {
     if (length(alt) > 1) {
       warning("only the first one sequence in the the target was used")
     }
     cu.target <- Biostrings::oligonucleotideFrequency(alt,
-      width = 3, step = 3)[1, ]
+                                                      width = 3, step = 3)[1,]
     object <- input_seq(object)
     result <- codon.mimic(cu.target,
-      dna.seq = object@dnaseq,
-      region = object@region)
+                          dna.seq = object@dnaseq,
+                          region = object@region)
     return(result)
   }
 )
@@ -117,15 +116,15 @@ codon.mimic <- function(cu.target, dna.seq, region) {
     freq.target <- freq(cu.target)
 
     mut.need <- lapply(seq_along(seq), function(i) {
-      count.ori <- codon.count(cu.ori[i, ])
-      count.fixed <- codon.count(cu.fixed[i, ])
+      count.ori <- codon.count(cu.ori[i,])
+      count.fixed <- codon.count(cu.fixed[i,])
       mut.usage <- mapply(function(x, y) {
         sum(x) * y
       }, count.ori, freq.target, SIMPLIFY = FALSE)
       mut.need <- mapply(function(x, y) {
         x - y
       },
-        mut.usage, count.fixed, SIMPLIFY = FALSE)
+      mut.usage, count.fixed, SIMPLIFY = FALSE)
       mut.need <-
         sapply(mut.need, function(x) {
           #fix the negative needs
@@ -152,7 +151,7 @@ codon.mimic <- function(cu.target, dna.seq, region) {
         mut.cd.tmp <-  round(mut.need.tmp[[aa.names[j]]])
         if (!any(is.na(mut.cd.tmp))) {
           suppressWarnings(seq.tmp[pos.tmp] <-
-              rep(names(mut.cd.tmp), mut.cd.tmp))
+                             rep(names(mut.cd.tmp), mut.cd.tmp))
         }
       }
       return(seq.tmp)
@@ -162,9 +161,9 @@ codon.mimic <- function(cu.target, dna.seq, region) {
   } else {
     #no restriction of region
     seq.region <- sapply(as.character(dna.seq),
-      function(x) {
-        splitseq(s2c(x))
-      })
+                         function(x) {
+                           splitseq(s2c(x))
+                         })
     freq.target <- freq(cu.target)
 
     seq.mut <- sapply(seq_along(seq.region), function(i) {
@@ -178,7 +177,7 @@ codon.mimic <- function(cu.target, dna.seq, region) {
           round(length(pos.tmp) * freq.target[[aa.names[j]]])
         if (!any(is.na(mut.cd.tmp))) {
           suppressWarnings(seq.tmp[pos.tmp] <-
-              rep(names(mut.cd.tmp), mut.cd.tmp))
+                             rep(names(mut.cd.tmp), mut.cd.tmp))
         }
       }
       return(seq.tmp)
@@ -195,8 +194,8 @@ codon.mimic <- function(cu.target, dna.seq, region) {
   }
   seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
   return(methods::new("regioned_dna",
-    dnaseq = seq.mut,
-    region = region))
+                      dnaseq = seq.mut,
+                      region = region))
 }
 
 
