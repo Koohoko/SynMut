@@ -79,6 +79,25 @@ setMethod(
   }
 )
 
+#' @rdname codon_mimic-methods
+setMethod(
+  f = "codon_mimic",
+  signature = signature(object = "DNAStringSet",
+    alt = "DNAStringSet"),
+  definition = function(object, alt) {
+    if (length(alt) > 1) {
+      warning("only the first one sequence in the the target was used")
+    }
+    cu.target <- Biostrings::oligonucleotideFrequency(alt,
+      width = 3, step = 3)[1, ]
+    object <- input_seq(object)
+    result <- codon.mimic(cu.target,
+      dna.seq = object@dnaseq,
+      region = object@region)
+    return(result)
+  }
+)
+
 codon.mimic <- function(cu.target, dna.seq, region) {
   check.region <- all(is.na(region))
   if (!check.region) {

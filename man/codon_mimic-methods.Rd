@@ -5,6 +5,7 @@
 \alias{codon_mimic}
 \alias{codon_mimic,regioned_dna,vector-method}
 \alias{codon_mimic,regioned_dna,DNAStringSet-method}
+\alias{codon_mimic,DNAStringSet,DNAStringSet-method}
 \title{Mimic a target codon usage bias}
 \usage{
 codon_mimic(object, alt, ...)
@@ -12,6 +13,8 @@ codon_mimic(object, alt, ...)
 \S4method{codon_mimic}{regioned_dna,vector}(object, alt)
 
 \S4method{codon_mimic}{regioned_dna,DNAStringSet}(object, alt)
+
+\S4method{codon_mimic}{DNAStringSet,DNAStringSet}(object, alt)
 }
 \arguments{
 \item{object}{regioned_dna object}

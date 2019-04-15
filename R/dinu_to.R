@@ -65,14 +65,14 @@ setMethod(
 
     region <- object@region
     check.region <- all(is.na(region))
-    if (!check.region) {
+    if (!check.region) { # have region
       seq <- lapply(as.character(object@dnaseq), function(x) {
         splitseq(s2c(x))
       })
       seq.region <- mapply(function(x, y) {
         return(x[y])
       }, seq, region, SIMPLIFY = FALSE)
-    } else {
+    } else { #no region
       seq.region <- lapply(as.character(object@dnaseq),
         function(x) {
           splitseq(s2c(x))
@@ -163,10 +163,14 @@ dinu_to.not.keep <-
           filter2.2 <- filter1[stringr::str_detect(filter1,
             pattern = paste0(substr(max.dinu, 1, 1), "$"))]
           filter2 <- c(filter2.1, filter2.2)
-          table.sorted <- sort(table(filter2), decreasing = T)
-          names.ordered <- names(table.sorted)
-          choice.good <- names.ordered[table.sorted == table.sorted[1]]
-          return(sample(choice.good, 1))
+          if (length(filter2) < 1) {
+            return(sample(x, 1))
+          } else{
+            table.sorted <- sort(table(filter2), decreasing = T)
+            names.ordered <- names(table.sorted)
+            choice.good <- names.ordered[table.sorted == table.sorted[1]]
+            return(sample(choice.good, 1))
+          }
         }
       })
     } else {
@@ -197,10 +201,14 @@ dinu_to.not.keep <-
             filter1[!stringr::str_detect(filter1, #differnece
               pattern = paste0(substr(min.dinu, 1, 1), "$"))]
           filter2 <- c(filter2.1, filter2.2)
-          table.sorted <- sort(table(filter2), decreasing = T)
-          names.ordered <- names(table.sorted)
-          choice.good <- names.ordered[table.sorted == table.sorted[1]]
-          return(sample(choice.good, 1))
+          if (length(filter2) < 1) {
+            return(sample(x, 1))
+          } else{
+            table.sorted <- sort(table(filter2), decreasing = T)
+            names.ordered <- names(table.sorted)
+            choice.good <- names.ordered[table.sorted == table.sorted[1]]
+            return(sample(choice.good, 1))
+          }
         }
       })
     }
@@ -227,7 +235,7 @@ dinu_to.keep <-
     min.dinu,
     codon.list.alt,
     region) {
-    if (check.region) {
+    if (!check.region) {
       #not regioned data
       seq.mut <- dinu_to.keep.no.region(codon.list.alt, seq,
         max.dinu, min.dinu)
@@ -300,8 +308,8 @@ dinu_to.keep.no.region <- function(codon.list.alt,
             codon.select <- z[x]
             codon.remainder <- z[-x]
             codon.all.new <- z
-            codon.all.new[id.new] <- sample(codon.select)
-            codon.all.new[id.new.other] <- sample(codon.remainder)
+            codon.all.new[id.new] <- sample(codon.select, 1)
+            codon.all.new[id.new.other] <- sample(codon.remainder, 1)
             return(codon.all.new)
           } else {
             id.new <- y
@@ -311,8 +319,8 @@ dinu_to.keep.no.region <- function(codon.list.alt,
             codon.select <- z[id.choose]
             codon.remainder <- z[-id.choose]
             codon.all.new <- z
-            codon.all.new[id.new] <- sample(codon.select)
-            codon.all.new[id.new.other] <- sample(codon.remainder)
+            codon.all.new[id.new] <- sample(codon.select, 1)
+            codon.all.new[id.new.other] <- sample(codon.remainder, 1)
             return(codon.all.new)
           }
       }, id.target, id.good, codon.all, SIMPLIFY = FALSE)
@@ -389,8 +397,8 @@ dinu_to.keep.region <-
               codon.select <- z[x]
               codon.remainder <- z[-x]
               codon.all.new <- z
-              codon.all.new[id.new] <- sample(codon.select)
-              codon.all.new[id.new.other] <- sample(codon.remainder)
+              codon.all.new[id.new] <- sample(codon.select, 1)
+              codon.all.new[id.new.other] <- sample(codon.remainder, 1)
               return(codon.all.new)
             } else {
               id.new <- y
@@ -400,8 +408,8 @@ dinu_to.keep.region <-
               codon.select <- z[id.choose]
               codon.remainder <- z[-id.choose]
               codon.all.new <- z
-              codon.all.new[id.new] <- sample(codon.select)
-              codon.all.new[id.new.other] <- sample(codon.remainder)
+              codon.all.new[id.new] <- sample(codon.select, 1)
+              codon.all.new[id.new.other] <- sample(codon.remainder, 1)
               return(codon.all.new)
             }
         }, id.target, id.good, codon.all, SIMPLIFY = FALSE)

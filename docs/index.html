@@ -12,9 +12,9 @@
 
 <meta name="author" content="Haogao Gu" />
 
-<meta name="date" content="2019-03-21" />
+<meta name="date" content="2019-04-15" />
 
-<title>SynMut: Tools for Designing Synonymous Mutants for DNA Sequences</title>
+<title>SynMut: Tools for Designing Synonymous Mutants from DNA Sequences</title>
 
 
 
@@ -107,9 +107,9 @@ code > span.ot { color: #007020; }
 <div id="container">
 <div class="inner">
 <header>
-<h1 class="title toc-ignore">SynMut: Tools for Designing Synonymous Mutants for DNA Sequences</h1>
+<h1 class="title toc-ignore">SynMut: Tools for Designing Synonymous Mutants from DNA Sequences</h1>
 <h3 class="author">Haogao Gu</h3>
-<h3 class="date">2019-03-21</h3>
+<h3 class="date">2019-04-15</h3>
 </header>
 
 <hr>
@@ -130,10 +130,14 @@ code > span.ot { color: #007020; }
 <h2>Getting started</h2>
 <div id="installation" class="section level3">
 <h3>Installation</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span>(<span class="op">!</span><span class="kw">library</span>(SynMut, <span class="dt">logical.return =</span> <span class="ot">TRUE</span>)){</a>
-<a class="sourceLine" id="cb1-2" title="2">  devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;Koohoko/SynMut&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3">}</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(SynMut)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="kw">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;Biostrings&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb1-4" title="4">    BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;Biostrings&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;SynMut&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb1-6" title="6">    devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;Koohoko/SynMut&quot;</span>)</a>
+<a class="sourceLine" id="cb1-7" title="7"></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="kw">library</span>(SynMut)</a></code></pre></div>
 </div>
 <div id="input-data" class="section level3">
 <h3>Input data</h3>
@@ -144,15 +148,7 @@ code > span.ot { color: #007020; }
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">filepath.fasta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example.fasta&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SynMut&quot;</span>)</a>
 <a class="sourceLine" id="cb2-2" title="2">filepath.csv &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;target_regions.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SynMut&quot;</span>)</a>
-<a class="sourceLine" id="cb2-3" title="3">region &lt;-<span class="st"> </span><span class="kw">read.csv</span>(filepath.csv)</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="kw">head</span>(region)</a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;   M NS</span></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; 1 0  0</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; 2 0  0</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; 3 0  0</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; 4 0  0</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; 5 0  0</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; 6 0  0</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" title="3">region &lt;-<span class="st"> </span><span class="kw">read.csv</span>(filepath.csv)</a></code></pre></div>
 <p>The <code>input_seq</code> function takes either a system fasta file or a DNAStringSet object as input, to construct a <code>regioned_dna</code> object that is used in the <code>SynMut</code> package.</p>
 <p><em>Important Notes</em>: if the <code>region</code> parameter is specified in the resulted regioned_dna object, it will be automatically applied to all the downstream functions for mutations. Mutations will only performed in the specified mutable regions.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">rgd.seq &lt;-<span class="st"> </span><span class="kw">input_seq</span>(filepath.fasta, region)</a>
@@ -222,17 +218,17 @@ code > span.ot { color: #007020; }
 <p>Generating random synonymous mutations (in specific region if provided in the <code>input_seq</code>), with optional keeping or not keeping the original codon usage bias.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)</a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; [1,]   0   1   0  -1  -4  -2   4   2  -1  -1  -4   0  -2   0   0   2   1</span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; [2,]  -2   0   2   0   0   0   0   0   1   0  -2  -1   0   2   0  -2  -1</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; [1,]   1   4  -1  -4   0  -2   2   0  -2  -2  -3  -1   0   0   0   0   3</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; [2,]   0   0   0   0   1   0   0  -1   1   1  -1  -1   0   2   0  -2   0</span></a>
 <a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; [1,]   2  -1  -2  -2   0   2   0   1   1   2   1   2  -2  -1  -2   2   0</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; [2,]   0   1   0   0  -1   1   0   0   0   0   1   4  -1  -3  -1  -1   0</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; [1,]   1  -3  -1  -2   0   2   0  -1   2   2   2   4   0  -2   0  -1   1</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; [2,]   0   0   0   0   0   1  -1   0   0   0   0   1   0  -1  -2  -2  -1</span></a>
 <a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; [1,]  -2   0   1  -3   5  -3   0   1  -3   2   0  -1   0   1   0   2   0</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; [2,]   1   0   0   1   1  -2  -1  -1   2   0   0   0   0   0   0  -1   0</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; [1,]   1  -1   1  -2   5  -4  -2   2  -2   2   3  -1  -1  -1   0   1   0</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; [2,]   2   1   1   1  -1  -1  -2   1   0   1   0   0   0   0   0   0   0</span></a>
 <a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; [1,]  -2   0   1   1  -1   0   2   0  -2   1   0   2   0</span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; [2,]   1   0   0   1   0   0   0   0   0   0   0   1   0</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; [1,]  -1   2   0   3  -2   0   2   0  -2  -2   0   0   0</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   2  -1   0   1</span></a>
 <a class="sourceLine" id="cb7-14" title="14"></a>
 <a class="sourceLine" id="cb7-15" title="15"><span class="co"># keeping the original codon usage pattern</span></a>
 <a class="sourceLine" id="cb7-16" title="16"><span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq, <span class="dt">keep =</span> <span class="ot">TRUE</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)</a>
@@ -251,17 +247,17 @@ code > span.ot { color: #007020; }
 <p>We can also specify the <code>n</code> parameter to control the proportion of the codons to be mutated.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">get_cu</span>(<span class="kw">codon_random</span>(rgd.seq, <span class="dt">n =</span> <span class="fl">0.5</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; [1,]  -1   2   1  -2  -1   3   0  -2   0  -2  -2   1   0   0   0   0   0</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; [2,]  -1   1   1  -1   0   0   0   0   1   1  -1   0   0   0   0   0   0</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; [1,]   0   1   0  -1  -1  -1   1   1  -1  -1   1  -1  -2   1   0   1   1</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; [2,]   0   0   0   0   0  -1   1   0   0   0  -1   1   0   0   0   0  -1</span></a>
 <a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   1   0   1   1  -1   1  -2   2   0</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; [2,]   0   0   0   0  -1   0   1   0   0   0   0   0   1   0  -1   0  -1</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; [1,]   2  -1  -2  -1   0   0   1   0  -1   0   1   4  -1  -1  -2   1   0</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; [2,]   0   1   0   0   0   0   0   0   0   1   0  -1  -1   0   0   0   0</span></a>
 <a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt; [1,]  -2   0   0   0   2  -2   1   0   0  -1   0   1   0  -1   0   1   0</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; [2,]   0   1   1   0   0  -1  -1   1   0   0   0   0   0   0   0   0   0</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt; [1,]  -1   0   5  -2   2  -5   0  -1   0   1   1   0  -1   0   0   0   0</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; [2,]   0   0   0   0   0   0   0   1   0  -1   0   0   0   0   0   0   0</span></a>
 <a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt; [1,]  -1   2  -1   0   0   0   1   0  -1  -1   0   2   0</span></a>
-<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt; [2,]   0  -1   0   1  -1   0   0   0   0   0   0   0   0</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt; [1,]   0   2   0   2  -2   0   1   0  -1  -1  -1   1   1</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt; [2,]   0  -1   0   0   0   0   0   0   0   1   0   1   0</span></a></code></pre></div>
 </div>
 <div id="generating-synonymous-sequences-with-maximalminimal-usage-of-specific-codon" class="section level3">
 <h3>Generating synonymous sequences with maximal/minimal usage of specific codon</h3>
@@ -300,34 +296,34 @@ code > span.ot { color: #007020; }
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># maximaize the usage of &quot;CG&quot; dinucleotide in the pre-defined region</span></a>
 <a class="sourceLine" id="cb10-2" title="2"><span class="co"># check the dinucelotide usage difference between the mutant and the original</span></a>
 <a class="sourceLine" id="cb10-3" title="3"><span class="kw">get_du</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">max.dinu =</span> <span class="st">&quot;cg&quot;</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_du</span>(rgd.seq)</a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt;      AA AC  AG  AT CA CC CG CT GA GC GG GT  TA TC  TG TT</span></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; [1,] -2  5 -13 -11 -8  0 41  0  2 17 -7  0 -10  9 -14 -9</span></a>
-<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt; [2,] -4  0  -1   0  1  2  1  0  1  4  1  2  -2  4  -3 -6</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt;      AA AC  AG AT  CA CC CG CT GA GC GG GT TA TC  TG TT</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; [1,] -4  5 -15 -8 -13 -8 49 -6 -1 17 -4  4  4  4 -19 -5</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt; [2,] -6  1   7  2  -1 -1 14 -2 -3  4 -2  1  3  3 -11 -9</span></a>
 <a class="sourceLine" id="cb10-7" title="7"></a>
 <a class="sourceLine" id="cb10-8" title="8"><span class="co"># minimize the usage of &quot;CA&quot;,</span></a>
 <a class="sourceLine" id="cb10-9" title="9"><span class="kw">get_du</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">min.dinu =</span> <span class="st">&quot;CA&quot;</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_du</span>(rgd.seq)</a>
-<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt;      AA AC AG AT  CA  CC CG CT GA GC GG GT TA TC TG TT</span></a>
-<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt; [1,] 12  2 -9  4 -16 -11 27 -6 11  3 -7  1  6 -3 -9 -5</span></a>
-<a class="sourceLine" id="cb10-12" title="12"><span class="co">#&gt; [2,]  1  2  0  2  -3  -2  1 -2  3  1  0  2  2  0 -3 -4</span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt;      AA AC AG AT  CA CC CG CT GA GC GG GT TA TC TG TT</span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt; [1,] -5 -8 -9 -2 -19 -8 20  3  7  2  2  5 -1  4 -1 10</span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="co">#&gt; [2,] -8  3  2  3  -6 -3  6  1 -5  5 -2 -3  9  0 -6  4</span></a>
 <a class="sourceLine" id="cb10-13" title="13"></a>
 <a class="sourceLine" id="cb10-14" title="14"><span class="co"># maximize the usage of &quot;CG&quot; while keeping the original codon usage</span></a>
 <a class="sourceLine" id="cb10-15" title="15"><span class="kw">get_du</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">max.dinu =</span> <span class="st">&quot;cg&quot;</span>, <span class="dt">keep =</span> <span class="ot">TRUE</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_du</span>(rgd.seq)</a>
-<a class="sourceLine" id="cb10-16" title="16"><span class="co">#&gt;      AA AC AG AT CA CC CG CT GA GC GG GT TA TC TG TT</span></a>
-<a class="sourceLine" id="cb10-17" title="17"><span class="co">#&gt; [1,]  2  1 -3  0 -8 -5 13  0  0  1 -2  0  6  3 -7 -1</span></a>
-<a class="sourceLine" id="cb10-18" title="18"><span class="co">#&gt; [2,] -1  2  0  0  0 -1  0  0 -1  1  0  0  1 -1  0  0</span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="co">#&gt;      AA AC AG AT CA CC CG CT GA GC  GG GT TA TC TG TT</span></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="co">#&gt; [1,]  2  2 -7 -1  2 -6 17 -5 -1 -1  -1  5 -4  2  3 -7</span></a>
+<a class="sourceLine" id="cb10-18" title="18"><span class="co">#&gt; [2,] -6  3 -9  8 -8 -4 19  3 -1  1 -10 -2  6  5 -6  1</span></a>
 <a class="sourceLine" id="cb10-19" title="19"><span class="kw">get_cu</span>(<span class="kw">dinu_to</span>(rgd.seq, <span class="dt">max.dinu =</span> <span class="st">&quot;cg&quot;</span>, <span class="dt">keep =</span> <span class="ot">TRUE</span>)) <span class="op">-</span><span class="st"> </span><span class="kw">get_cu</span>(rgd.seq)</a>
 <a class="sourceLine" id="cb10-20" title="20"><span class="co">#&gt;      AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA</span></a>
-<a class="sourceLine" id="cb10-21" title="21"><span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a>
-<a class="sourceLine" id="cb10-22" title="22"><span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a>
+<a class="sourceLine" id="cb10-21" title="21"><span class="co">#&gt; [1,]   0   0   0   0   7  -1  -2  -4  -7   1  -4  -5   3   0   0  -3   0</span></a>
+<a class="sourceLine" id="cb10-22" title="22"><span class="co">#&gt; [2,]   0   0   0   0  10   0   0 -10  10  -3  -4  -2  -3   0   0   3   0</span></a>
 <a class="sourceLine" id="cb10-23" title="23"><span class="co">#&gt;      CAC CAG CAT CCA CCC CCG CCT CGA CGC CGG CGT CTA CTC CTG CTT GAA GAC</span></a>
-<a class="sourceLine" id="cb10-24" title="24"><span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a>
-<a class="sourceLine" id="cb10-25" title="25"><span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a>
+<a class="sourceLine" id="cb10-24" title="24"><span class="co">#&gt; [1,]   0   0   0   0   0   0   0  12   0   0  -1  -2  -1  -5  11   0  -1</span></a>
+<a class="sourceLine" id="cb10-25" title="25"><span class="co">#&gt; [2,]   0   0   0  -3  -1   0   4  -2   0  -4   0  -5   0  -4  12   0  -2</span></a>
 <a class="sourceLine" id="cb10-26" title="26"><span class="co">#&gt;      GAG GAT GCA GCC GCG GCT GGA GGC GGG GGT GTA GTC GTG GTT TAA TAC TAG</span></a>
-<a class="sourceLine" id="cb10-27" title="27"><span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a>
-<a class="sourceLine" id="cb10-28" title="28"><span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a>
+<a class="sourceLine" id="cb10-27" title="27"><span class="co">#&gt; [1,]   0   1  -8  -1   0   9  -5   0   7  -2  -2  10  -5  -3   0  -1   0</span></a>
+<a class="sourceLine" id="cb10-28" title="28"><span class="co">#&gt; [2,]   0   2  -6   0  -2   8   4   0  -3  -1  -2   0   7  -5   0   0   0</span></a>
 <a class="sourceLine" id="cb10-29" title="29"><span class="co">#&gt;      TAT TCA TCC TCG TCT TGA TGC TGG TGT TTA TTC TTG TTT</span></a>
-<a class="sourceLine" id="cb10-30" title="30"><span class="co">#&gt; [1,]   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a>
-<a class="sourceLine" id="cb10-31" title="31"><span class="co">#&gt; [2,]   0   0   0   0   0   0   0   0   0   0   0   0   0</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-30" title="30"><span class="co">#&gt; [1,]   1  -3  -1  -1   9   0   0   0   0  -3   0   0   0</span></a>
+<a class="sourceLine" id="cb10-31" title="31"><span class="co">#&gt; [2,]   0   7   2  -1  -3   0   0   0   0  -1   3  -2  -3</span></a></code></pre></div>
 </div>
 <div id="codon_mimic" class="section level3">
 <h3>Generating synonymous sequences mimicking a specific codon usage pattern</h3>

@@ -1,5 +1,5 @@
 ---
-title: "SynMut: Tools for Designing Synonymous Mutants for DNA Sequences"
+title: "SynMut: Tools for Designing Synonymous Mutants from DNA Sequences"
 author: "Haogao Gu"
 date: "`r Sys.Date()`"
 output: 
@@ -50,14 +50,14 @@ url <- "https://raw.githubusercontent.com/Koohoko/SynMut/master/docs/component.p
 
 ## Getting started
 ### Installation
-```{r}
+```{r message=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("Biostrings")
+if (!requireNamespace("Biostrings", quietly = TRUE))
+    BiocManager::install("Biostrings")
+if (!requireNamespace("SynMut", quietly = TRUE))
+    devtools::install_github("Koohoko/SynMut")
 
-if (!requireNamespace("SynMut", quietly = TRUE)){
-  devtools::install_github("Koohoko/SynMut", quiet = TRUE)
-}
 library(SynMut)
 ```
 
@@ -75,7 +75,6 @@ correspond to the DNA sequences.
 filepath.fasta <- system.file("extdata", "example.fasta", package = "SynMut")
 filepath.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
 region <- read.csv(filepath.csv)
-head(region)
 ```
 
 The `input_seq` function takes either a system fasta file or a
