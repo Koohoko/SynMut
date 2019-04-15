@@ -29,106 +29,109 @@
 #' @rdname codon_to-methods
 #' @include regioned_dna_Class.R
 setGeneric(
-  name = "codon_to",
-  def = function(object,
-                 max.codon = NA,
-                 min.codon = NA,
-                 ...) {
-    standardGeneric(f = "codon_to")
-  }
+    name = "codon_to",
+    def = function(object,
+                   max.codon = NA,
+                   min.codon = NA,
+                   ...) {
+        standardGeneric(f = "codon_to")
+    }
 )
 
 
 #' @rdname codon_to-methods
 setMethod(
-  f = "codon_to",
-  signature = "regioned_dna",
-  definition = function(object, max.codon, min.codon) {
-    max.codon <- toupper(max.codon)
-    min.codon <- toupper(min.codon)
-    codon.input <- c(max.codon, min.codon)
-    codon.input <- codon.input[!sapply(codon.input, is.na)]
-    if (length(codon.input) == 0) {
-      stop("please specify at least one parameter of 'max.codon' or 'min.codon'")
-    }
-    if (all(!is.na(c(max.codon, min.codon)))) {
-      stop("Only one parameter is supported between 'max.codon' and 'min.codon'")
-    }
-    if (length(codon.input) > 2) {
-      stop("Only one codon is allowed for input in 'max.codon' or 'min.codon'")
-    }
-    check.valid.codon <-
-      toupper(codon.input) %in% names(Biostrings::GENETIC_CODE)
-    if (!check.valid.codon) {
-      stop("Please input valid DNA codon")
-    }
-
-    # extract region ----------------------------------------------------------
-
-    check.region <- all(is.na(object@region))
-    if (!check.region) {
-      seq <-
-        sapply(as.character(object@dnaseq), function(x) {
-          splitseq(s2c(x))
-        })
-      seq.region <- mapply(function(x, y) {
-        return(x[y])
-      }, seq, object@region, SIMPLIFY = FALSE)
-    } else {
-      seq.region <- sapply(as.character(object@dnaseq),
-                           function(x) {
-                             splitseq(s2c(x))
-                           })
-    }
-
-    # do mutation -------------------------------------------------------------
-
-    if (!is.na(max.codon)) {
-      max.aa <- seqinr::translate(s2c(max.codon))
-      seq.region.aa <- sapply(seq.region, function(x) {
-        seqinr::translate(s2c(c2s(x)))
-      })
-      id <- sapply(seq.region.aa, function(x) {
-        which(x == max.aa)
-      })
-      seq.mut <- mapply(function(x, y) {
-        if (length(y) > 0) {
-          x[y] <- toupper(max.codon)
+    f = "codon_to",
+    signature = "regioned_dna",
+    definition = function(object, max.codon, min.codon) {
+        max.codon <- toupper(max.codon)
+        min.codon <- toupper(min.codon)
+        codon.input <- c(max.codon, min.codon)
+        codon.input <- codon.input[!sapply(codon.input, is.na)]
+        if (length(codon.input) == 0) {
+            stop("please specify at least one parameter of
+                 'max.codon' or 'min.codon'")
         }
-        return(x)
-      }, seq.region, id, SIMPLIFY = FALSE)
-    } else {
-      min.aa <-  seqinr::translate(s2c(min.codon))
-      seq.region.aa <- sapply(seq.region, function(x) {
-        seqinr::translate(s2c(c2s(x)))
-      })
-      id <- sapply(seq.region.aa, function(x) {
-        which(x == min.aa)
-      })
-      alt.codon <- toupper(seqinr::syncodons(min.codon)[[1]])
-      alt.codon <- alt.codon[!(alt.codon == min.codon)]
-      seq.mut <- mapply(function(x, y) {
-        if (length(y) > 0) {
-          x[y] <- toupper(sample(alt.codon, length(y), replace = T))
+        if (all(!is.na(c(max.codon, min.codon)))) {
+            stop("Only one parameter is supported between
+                 'max.codon' and 'min.codon'")
         }
-        return(x)
-      }, seq.region, id, SIMPLIFY = FALSE)
+        if (length(codon.input) > 2) {
+            stop("Only one codon is allowed for input in
+                 'max.codon' or 'min.codon'")
+        }
+        check.valid.codon <-
+            toupper(codon.input) %in% names(Biostrings::GENETIC_CODE)
+        if (!check.valid.codon) {
+            stop("Please input valid DNA codon")
+        }
+
+        # extract region ------------------------------------------------------
+
+        check.region <- all(is.na(object@region))
+        if (!check.region) {
+            seq <-
+                sapply(as.character(object@dnaseq), function(x) {
+                    splitseq(s2c(x))
+                })
+            seq.region <- mapply(function(x, y) {
+                return(x[y])
+            }, seq, object@region, SIMPLIFY = FALSE)
+        } else {
+            seq.region <- sapply(as.character(object@dnaseq),
+                                 function(x) {
+                                     splitseq(s2c(x))
+                                 })
+        }
+
+        # do mutation ---------------------------------------------------------
+
+        if (!is.na(max.codon)) {
+            max.aa <- seqinr::translate(s2c(max.codon))
+            seq.region.aa <- sapply(seq.region, function(x) {
+                seqinr::translate(s2c(c2s(x)))
+            })
+            id <- sapply(seq.region.aa, function(x) {
+                which(x == max.aa)
+            })
+            seq.mut <- mapply(function(x, y) {
+                if (length(y) > 0) {
+                    x[y] <- toupper(max.codon)
+                }
+                return(x)
+            }, seq.region, id, SIMPLIFY = FALSE)
+        } else {
+            min.aa <-  seqinr::translate(s2c(min.codon))
+            seq.region.aa <- sapply(seq.region, function(x) {
+                seqinr::translate(s2c(c2s(x)))
+            })
+            id <- sapply(seq.region.aa, function(x) {
+                which(x == min.aa)
+            })
+            alt.codon <- toupper(seqinr::syncodons(min.codon)[[1]])
+            alt.codon <- alt.codon[!(alt.codon == min.codon)]
+            seq.mut <- mapply(function(x, y) {
+                if (length(y) > 0) {
+                    x[y] <- toupper(sample(alt.codon, length(y), replace = T))
+                }
+                return(x)
+            }, seq.region, id, SIMPLIFY = FALSE)
+        }
+
+        # merge region --------------------------------------------------------
+
+        if (!check.region) {
+            seq.mut <- mapply(function(x, y, z) {
+                x[y] <- z
+                return(x)
+            }, seq, object@region, seq.mut, SIMPLIFY = FALSE)
+        }
+        seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
+
+        return(methods::new(
+            "regioned_dna",
+            dnaseq = seq.mut,
+            region = object@region
+        ))
     }
-
-    # merge region ------------------------------------------------------------
-
-    if (!check.region) {
-      seq.mut <- mapply(function(x, y, z) {
-        x[y] <- z
-        return(x)
-      }, seq, object@region, seq.mut, SIMPLIFY = FALSE)
-    }
-    seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
-
-    return(methods::new(
-      "regioned_dna",
-      dnaseq = seq.mut,
-      region = object@region
-    ))
-  }
 )

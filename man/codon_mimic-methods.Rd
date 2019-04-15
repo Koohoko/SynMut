@@ -40,7 +40,7 @@ The ideas for \code{codon_mimic} is similar to
   \code{codon_mimic} is not unique as the swap between positions of the
   synonymous codons will not change the codon usage bias.
 
-  Deatails pleas refer to: https://koohoko.github.io/SynMut/algorithm.html
+  Details pleas refer to: https://koohoko.github.io/SynMut/algorithm.html
 }
 \examples{
 filepath <- system.file("extdata", "example.fasta", package = "SynMut")

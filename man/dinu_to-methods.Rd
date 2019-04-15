@@ -31,6 +31,10 @@ parameter to maximize or minimize the usage of certain codon in the sequence.
 Using a greedy algorithm with priority given to dinucleotide12 or
 dinucleotide23.
 }
+\details{
+The detail strategy for this function please refer to:
+https://koohoko.github.io/SynMut/algorithm.html
+}
 \examples{
 filepath <- system.file("extdata", "example.fasta", package = "SynMut")
 rgd.seq <- input_seq(filepath)
