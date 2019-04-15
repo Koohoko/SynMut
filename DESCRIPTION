@@ -1,15 +1,11 @@
 Package: SynMut
 Type: Package
-Title: SynMut: Tools for designing Synonymous codon/dinucleotide Mutants in Virus Research
-Version: 0.0.0.9000
+Title: SynMut: Tools for designing Synonymous Mutants in Virus Research for DNA sequences
+Version: 0.1.0
 Authors@R: person("Haogao ", "Gu", email = "hggu@connect.hku.hk",
     role = c("aut", "cre"))
-Description: SynMut designs synonymous mutants for viral research. 
-    The dinucleotide bias is significant in most RNA virus. There are increasing demands on
-    designing the virus mutants with extreme dinucleotide or codon composition. This tool can take 
-    both dinucleotide preference and/or codon usage bias into account while designing mutants.
-    It also works well for desinging mutants with extremely over-/under- represented dinucleotides. 
-    It is a powerful tool for in silico designs of viral mutants.
+Description: SynMut designs synonymous mutants for DNA sequences.  
+    There are increasing demands on designing virus mutants with specific dinucleotide or codon composition. This tool can take both dinucleotide preference and/or codon usage bias into account while designing mutants. It also works well for desinging mutants with extremely over-/under- represented dinucleotides. It is a powerful tool for in silico designs of DNA sequence mutants.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true

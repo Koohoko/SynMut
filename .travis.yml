@@ -9,3 +9,5 @@ cache: packages
 notifications:
   email:
     - hggu@connect.hku.hk
+
+bioc_check: true
