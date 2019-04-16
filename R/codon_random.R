@@ -34,6 +34,7 @@
 #'
 #' @exportMethod codon_random
 #' @importFrom seqinr c2s s2c synsequence splitseq syncodons
+#' @importFrom Biostrings DNAStringSet
 #' @include regioned_dna_Class.R input_seq.R
 setGeneric(
     name = "codon_random",
@@ -64,22 +65,21 @@ setMethod(
 
         check.region <- all(is.na(object@region))
         if (!check.region) {
-            seq <-
-                sapply(as.character(object@dnaseq), function(x) {
+            seq <- lapply(as.character(object@dnaseq), function(x) {
                     splitseq(s2c(x))
                 })
             seq.region <- mapply(function(x, y) {
                 return(x[y])
             }, seq, object@region, SIMPLIFY = FALSE)
         } else {
-            seq.region <- sapply(as.character(object@dnaseq),
+            seq.region <- lapply(as.character(object@dnaseq),
                 function(x) {
                     splitseq(s2c(x))
                 })
         }
 
         if (n != 1) {
-            id <- sapply(seq.region, function(x) {
+            id <- lapply(seq.region, function(x) {
                 id <- sample(seq_len(length(x)), round(length(x) * n))
             })
             seq.mut <- mapply(function(x, y) {
@@ -90,13 +90,13 @@ setMethod(
         }
 
         if (keep == FALSE) {
-            seq.mut <- sapply(seq.mut, function(x) {
-                toupper(sapply(syncodons(x), function(x) {
+            seq.mut <- lapply(seq.mut, function(x) {
+                toupper(vapply(syncodons(x), function(x) {
                     sample(x, 1)
-                }))
+                }, character(1)))
             })
         } else {
-            seq.mut <- sapply(seq.mut, function(x) {
+            seq.mut <- lapply(seq.mut, function(x) {
                 splitseq(synsequence(s2c(c2s(x))))
             })
         }
@@ -114,7 +114,7 @@ setMethod(
                 return(x)
             }, seq, object@region, seq.mut, SIMPLIFY = FALSE)
         }
-        seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
+        seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
 
         return(methods::new(
             "regioned_dna",
@@ -130,12 +130,12 @@ setMethod(
     signature = "DNAStringSet",
     definition = function(object, n, keep) {
         object <- c(object, DNAStringSet("ATG"))
-        seq <- sapply(as.character(object), function(x) {
+        seq <- lapply(as.character(object), function(x) {
             splitseq(s2c(x))
         })
 
         if (n != 1) {
-            id <- sapply(seq, function(x) {
+            id <- lapply(seq, function(x) {
                 id <- sample(seq_len(length(x)), round(length(x) * n))
             })
             seq.mut <- mapply(function(x, y) {
@@ -146,13 +146,13 @@ setMethod(
         }
 
         if (keep == FALSE) {
-            seq.mut <- sapply(seq.mut, function(x) {
-                toupper(sapply(syncodons(x), function(x) {
+            seq.mut <- lapply(seq.mut, function(x) {
+                toupper(vapply(syncodons(x), function(x) {
                     sample(x, 1)
-                }))
+                }, character(1)))
             })
         } else {
-            seq.mut <- sapply(seq.mut, function(x) {
+            seq.mut <- lapply(seq.mut, function(x) {
                 splitseq(synsequence(s2c(c2s(x))))
             })
         }
@@ -164,9 +164,8 @@ setMethod(
             }, seq, id, seq.mut, SIMPLIFY = FALSE)
         }
 
-        seq.mut <-
-            Biostrings::DNAStringSet(sapply(seq.mut[1:(length(seq.mut) - 1)],
-                c2s))
+        seq.mut <- seq.mut[seq_len(length(seq.mut) - 1)]
+        seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
 
         return(seq.mut)
     }

@@ -11,6 +11,12 @@
 #'   \code{regioned_dna} class.
 #'
 #' @return vector
+#'
+#' @details similar method that applied in "Daniel Macedo de Melo Jorge, Ryan E.
+#'   Mills, Adam S. Lauring, CodonShuffle: a tool for generating and analyzing
+#'   synonymously mutated sequences, Virus Evolution, Volume 1, Issue 1, March
+#'   2015, vev012, https://doi.org/10.1093/ve/vev012"
+#'
 #' @exportMethod dinu_dist
 #'
 #' @examples
@@ -75,6 +81,12 @@ setMethod(
 #'   \code{regioned_dna} class.
 #'
 #' @return vector
+#'
+#' @details idea inspired by "Daniel Macedo de Melo Jorge, Ryan E.
+#'   Mills, Adam S. Lauring, CodonShuffle: a tool for generating and analyzing
+#'   synonymously mutated sequences, Virus Evolution, Volume 1, Issue 1, March
+#'   2015, vev012, https://doi.org/10.1093/ve/vev012"
+#'
 #' @exportMethod codon_dist
 #'
 #' @examples
@@ -120,7 +132,7 @@ setMethod(
         aa.list <- seqinr::ucoweight("")
         aa.list <- aa.list[names(aa.list) != "*"]
 
-        cu.dist <- sapply(aa.list, function(x) {
+        cu.dist <- vapply(aa.list, function(x) {
             cd.name.tmp <- toupper(names(x))
             if (length(cd.name.tmp) == 1) {
                 cu.diff.sub <-
@@ -138,7 +150,7 @@ setMethod(
                 }
                 return(rslt)
             }
-        })
+        }, numeric(nrow(cu.diff)))
 
         if (is.null(nrow(cu.dist))) {
             return(mean(cu.dist))

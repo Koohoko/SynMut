@@ -28,12 +28,12 @@ setValidity("regioned_dna",
         dnaseq.n <- length(object.seq)
         region.n <- length(object.region)
         check.3 <-
-            all(sapply(object.seq, length) %% 3 == 0)
+            all(vapply(object.seq, length, numeric(1)) %% 3 == 0)
         if (!check.na) {
             check.length <- dnaseq.n == region.n
             check.num <-
-                sapply(object.seq, length) / 3 == sapply(object.region,
-                    length)
+                vapply(object.seq, length, numeric(1)) / 3 ==
+                vapply(object.region, length, numeric(1))
         } else {
             check.num <- TRUE
             check.length <- TRUE
@@ -380,7 +380,7 @@ setMethod(
             width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
-            r <- sapply(r, function(x) {
+            r <- lapply(r, function(x) {
                 return(x / ((1 / length(x)) * sum(x)))
             })
             names(r) <- NULL
@@ -400,7 +400,7 @@ setMethod(
             Biostrings::oligonucleotideFrequency(object, width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
-            r <- sapply(r, function(x) {
+            r <- lapply(r, function(x) {
                 return(x / ((1 / length(x)) * sum(x)))
             })
             names(r) <- NULL

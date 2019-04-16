@@ -38,13 +38,13 @@ setMethod(
     definition = function(n, m, no.stop.codon) {
         check.m.length <- length(m) == 1
         if (check.m.length) {
-            tmp <- sapply(seq_len(n), function(x) {
+            tmp <- vapply(seq_len(n), function(x) {
                 paste0(sample(
                     x = c("a", "t", "g", "c"),
                     size = m,
                     replace = TRUE
                 ), collapse = "")
-            })
+            }, character(1))
         } else {
             tmp <- mapply(function(x, y) {
                 paste0(sample(
@@ -57,7 +57,7 @@ setMethod(
         if (no.stop.codon) {
             stop.codons <- c("taa", "tga", "tag")
             ok.codons <- setdiff(seqinr::words(), stop.codons)
-            tmp <- sapply(tmp, function(x) {
+            tmp <- vapply(tmp, function(x) {
                 sst <- strsplit(x, "")[[1]]
                 if (length(sst) %% 3 != 0) {
                     mut.length <- floor(length(sst) / 3) * 3
@@ -72,9 +72,9 @@ setMethod(
                     sst.mut[c(FALSE, FALSE, TRUE)])
                 stop.id <- which(codons %in% stop.codons)
                 if (length(stop.id) > 0) {
-                    codons[stop.id] <- sapply(seq_along(stop.id), function(x) {
+                    codons[stop.id] <- vapply(seq_along(stop.id), function(x) {
                         sample(ok.codons, size = 1)
-                    })
+                    }, character(1))
                     return(paste0(
                         paste0(codons, collapse = ""),
                         sst.tail,
@@ -83,7 +83,7 @@ setMethod(
                 } else {
                     return(x)
                 }
-            }, USE.NAMES = FALSE)
+            }, character(1), USE.NAMES = FALSE)
         }
         Biostrings::DNAStringSet(tmp)
     }

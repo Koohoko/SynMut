@@ -47,7 +47,7 @@ setMethod(
         max.dinu <- toupper(max.dinu)
         min.dinu <- toupper(min.dinu)
         dinu.input <- c(max.dinu, min.dinu)
-        dinu.input <- dinu.input[!sapply(dinu.input, is.na)]
+        dinu.input <- dinu.input[!is.na(dinu.input)]
         if (length(dinu.input) == 0) {
             stop("please specify at least one parameter of
                  'max.dinu' or 'min.dinu'")
@@ -93,9 +93,9 @@ setMethod(
                 toupper(names(x))
             })
         codon.list.alt <-
-            codon.list[sapply(codon.list, function(x) {
+            codon.list[vapply(codon.list, function(x) {
                 length(x) > 1
-            })]
+            }, logical(1))]
 
         if (keep == FALSE) {
             seq.mut <-
@@ -123,7 +123,7 @@ setMethod(
 
         # merge region --------------------------------------------------------
 
-        seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
+        seq.mut <- Biostrings::DNAStringSet(unlist(lapply(seq.mut, c2s)))
         return(methods::new(
             "regioned_dna",
             dnaseq = seq.mut,

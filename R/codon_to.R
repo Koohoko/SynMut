@@ -47,7 +47,7 @@ setMethod(
         max.codon <- toupper(max.codon)
         min.codon <- toupper(min.codon)
         codon.input <- c(max.codon, min.codon)
-        codon.input <- codon.input[!sapply(codon.input, is.na)]
+        codon.input <- codon.input[!is.na(codon.input)]
         if (length(codon.input) == 0) {
             stop("please specify at least one parameter of
                  'max.codon' or 'min.codon'")
@@ -70,28 +70,26 @@ setMethod(
 
         check.region <- all(is.na(object@region))
         if (!check.region) {
-            seq <-
-                sapply(as.character(object@dnaseq), function(x) {
-                    splitseq(s2c(x))
-                })
+            seq <- lapply(as.character(object@dnaseq), function(x) {
+                splitseq(s2c(x))
+            })
             seq.region <- mapply(function(x, y) {
                 return(x[y])
             }, seq, object@region, SIMPLIFY = FALSE)
         } else {
-            seq.region <- sapply(as.character(object@dnaseq),
-                function(x) {
-                    splitseq(s2c(x))
-                })
+            seq.region <- lapply(as.character(object@dnaseq), function(x) {
+                splitseq(s2c(x))
+            })
         }
 
         # do mutation ---------------------------------------------------------
 
         if (!is.na(max.codon)) {
             max.aa <- seqinr::translate(s2c(max.codon))
-            seq.region.aa <- sapply(seq.region, function(x) {
+            seq.region.aa <- lapply(seq.region, function(x) {
                 seqinr::translate(s2c(c2s(x)))
             })
-            id <- sapply(seq.region.aa, function(x) {
+            id <- lapply(seq.region.aa, function(x) {
                 which(x == max.aa)
             })
             seq.mut <- mapply(function(x, y) {
@@ -102,10 +100,10 @@ setMethod(
             }, seq.region, id, SIMPLIFY = FALSE)
         } else {
             min.aa <-  seqinr::translate(s2c(min.codon))
-            seq.region.aa <- sapply(seq.region, function(x) {
+            seq.region.aa <- lapply(seq.region, function(x) {
                 seqinr::translate(s2c(c2s(x)))
             })
-            id <- sapply(seq.region.aa, function(x) {
+            id <- lapply(seq.region.aa, function(x) {
                 which(x == min.aa)
             })
             alt.codon <- toupper(seqinr::syncodons(min.codon)[[1]])
@@ -126,7 +124,7 @@ setMethod(
                 return(x)
             }, seq, object@region, seq.mut, SIMPLIFY = FALSE)
         }
-        seq.mut <- Biostrings::DNAStringSet(sapply(seq.mut, c2s))
+        seq.mut <- Biostrings::DNAStringSet(unlist(lapply(seq.mut, c2s)))
 
         return(methods::new(
             "regioned_dna",
