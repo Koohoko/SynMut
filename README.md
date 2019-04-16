@@ -1,4 +1,4 @@
-## SynMut: Tools for designing Synonymous Mutants in Virus Research for DNA sequences
+## SynMut: Tools for Designing Synonymously Mutated Sequences with Different Genomic Signatures
 
 ### Intro
 
@@ -24,5 +24,5 @@ library(SynMut)
 
 Details tutorial please refer to the [vignette](https://koohoko.github.io/SynMut/index.html).
 
-The strategies for implementation of the `codom_mimic` and `dinu_to` function can be found at [here](https://koohoko.github.io/SynMut/algorithm.html).
+The strategies for implementation of the `codom_mimic` and `dinu_to` functions can be found at [here](https://koohoko.github.io/SynMut/algorithm.html).
 

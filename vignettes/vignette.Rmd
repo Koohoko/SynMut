@@ -43,7 +43,8 @@ sequences in influenza A virus to study the effects of different dinucleotide
 usage and codon usage, yet these functions provided in this package can be
 generic to a variety of other biological researches.
 
-Below is a flowchart illustrating the components in this package.
+Below is a flowchart illustrating how the components work togaether in this
+package.
 ```{r, echo=FALSE, message = FALSE}
 url <- paste0("https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/",
   "master/SynMut/images/component.png")
@@ -53,10 +54,6 @@ url <- paste0("https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/",
 ## Getting started
 ### Installation
 ```{r, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-if (!requireNamespace("Biostrings", quietly = TRUE))
-    BiocManager::install("Biostrings")
 if (!requireNamespace("SynMut", quietly = TRUE))
     devtools::install_github("Koohoko/SynMut")
 ```
@@ -167,8 +164,9 @@ can be found at this [link](https://koohoko.github.io/SynMut/algorithm.html).
 
 An alternative `keep = TRUE` argument allow retaining the original codon usage
 bias. This can be useful when in combination with `codon_mimic` in the [next
-section](#codon_mimic) to design mutant sequences with similar codon usage bias
-but distinct specific dinucleotide usage.
+section](#synonymous-mutants-mimicking-a-specific-codon-usage-pattern) to design
+mutant sequences with similar codon usage bias but distinct specific
+dinucleotide usage.
 
 ```{r}
 # maximaize the usage of "CG" dinucleotide in the pre-defined region
