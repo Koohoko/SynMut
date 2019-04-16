@@ -8,6 +8,6 @@ cache: packages
 
 notifications:
   email:
-    - hggu@connect.hku.hk
+    - koohoko@gmail.com
 
 bioc_check: true
