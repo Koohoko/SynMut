@@ -31,9 +31,9 @@
 setGeneric(
     name = "codon_to",
     def = function(object,
-                   max.codon = NA,
-                   min.codon = NA,
-                   ...) {
+        max.codon = NA,
+        min.codon = NA,
+        ...) {
         standardGeneric(f = "codon_to")
     }
 )
@@ -79,9 +79,9 @@ setMethod(
             }, seq, object@region, SIMPLIFY = FALSE)
         } else {
             seq.region <- sapply(as.character(object@dnaseq),
-                                 function(x) {
-                                     splitseq(s2c(x))
-                                 })
+                function(x) {
+                    splitseq(s2c(x))
+                })
         }
 
         # do mutation ---------------------------------------------------------

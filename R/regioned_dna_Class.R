@@ -17,37 +17,37 @@
 #' @exportClass regioned_dna
 
 setClass(Class = "regioned_dna",
-         slots = c(dnaseq = "DNAStringSet",
-                   region = "list"))
+    slots = c(dnaseq = "DNAStringSet",
+        region = "list"))
 
 setValidity("regioned_dna",
-            function(object) {
-                object.region <- object@region
-                object.seq <- object@dnaseq
-                check.na <- all(is.na(object.region))
-                dnaseq.n <- length(object.seq)
-                region.n <- length(object.region)
-                check.3 <-
-                    all(sapply(object.seq, length) %% 3 == 0)
-                if (!check.na) {
-                    check.length <- dnaseq.n == region.n
-                    check.num <-
-                        sapply(object.seq, length)/3 == sapply(object.region,
-                                                               length)
-                } else {
-                    check.num <- TRUE
-                    check.length <- TRUE
-                }
-                if (!check.3) {
-                    stop("the length of the dna sequences must be divisible by
+    function(object) {
+        object.region <- object@region
+        object.seq <- object@dnaseq
+        check.na <- all(is.na(object.region))
+        dnaseq.n <- length(object.seq)
+        region.n <- length(object.region)
+        check.3 <-
+            all(sapply(object.seq, length) %% 3 == 0)
+        if (!check.na) {
+            check.length <- dnaseq.n == region.n
+            check.num <-
+                sapply(object.seq, length) / 3 == sapply(object.region,
+                    length)
+        } else {
+            check.num <- TRUE
+            check.length <- TRUE
+        }
+        if (!check.3) {
+            stop("the length of the dna sequences must be divisible by
                          3")
-                }
-                if (all(check.num, check.length)) {
-                    TRUE
-                } else{
-                    "dnaseq and region must have the same length."
-                }
-            })
+        }
+        if (all(check.num, check.length)) {
+            TRUE
+        } else{
+            "dnaseq and region must have the same length."
+        }
+    })
 
 ##viewer
 setMethod(
@@ -291,7 +291,7 @@ setMethod(
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
         tmp <- Biostrings::oligonucleotideFrequency(dnaseq,
-                                                    width = 3, step = 3)
+            width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
             names(r) <- NULL
@@ -377,7 +377,7 @@ setMethod(
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
         tmp <- Biostrings::oligonucleotideFrequency(dnaseq,
-                                                    width = 3, step = 3)
+            width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
             r <- sapply(r, function(x) {

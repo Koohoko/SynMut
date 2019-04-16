@@ -31,10 +31,10 @@
 setGeneric(
     name = "dinu_to",
     def = function(object,
-                   max.dinu = NA,
-                   min.dinu = NA,
-                   keep = FALSE,
-                   ...) {
+        max.dinu = NA,
+        min.dinu = NA,
+        keep = FALSE,
+        ...) {
         standardGeneric("dinu_to")
     }
 )
@@ -81,9 +81,9 @@ setMethod(
         } else {
             #no region
             seq.region <- lapply(as.character(object@dnaseq),
-                                 function(x) {
-                                     splitseq(s2c(x))
-                                 })
+                function(x) {
+                    splitseq(s2c(x))
+                })
         }
 
         # mutation ------------------------------------------------------------
@@ -115,11 +115,11 @@ setMethod(
 
         seq.mut <-
             dinu_to.keep(check.region,
-                         seq.mut,
-                         max.dinu,
-                         min.dinu,
-                         codon.list.alt,
-                         region)
+                seq.mut,
+                max.dinu,
+                min.dinu,
+                codon.list.alt,
+                region)
 
         # merge region --------------------------------------------------------
 
@@ -140,9 +140,9 @@ setMethod(
 #1: not keep codon usage, mutate at all 12, 23 and 31 regions
 dinu_to.not.keep <-
     function(seq.region,
-             codon.list.alt,
-             max.dinu,
-             min.dinu) {
+        codon.list.alt,
+        max.dinu,
+        min.dinu) {
         ## get optimal codon
         if (!is.na(max.dinu)) {
             #max.dinu
@@ -152,14 +152,17 @@ dinu_to.not.keep <-
                     return(filter1)
                 } else if (length(filter1) < 1) {
                     pattern2.1 <- paste0("^", substr(max.dinu, 2, 2))
-                    pattern2.2 <- paste0(substr(max.dinu, 1, 1), "$")
-                    filter2.1 <- x[str_detect(x, pattern = pattern2.1)]
-                    filter2.2 <- x[str_detect(x, pattern = pattern2.2)]
+                    pattern2.2 <-
+                        paste0(substr(max.dinu, 1, 1), "$")
+                    filter2.1 <-
+                        x[str_detect(x, pattern = pattern2.1)]
+                    filter2.2 <-
+                        x[str_detect(x, pattern = pattern2.2)]
                     filter2 <- c(filter2.1, filter2.2)
                     if (length(filter2) < 1) {
                         return(sample(x, 1))
                     } else{
-                        table.sorted <- sort(table(filter2), decreasing = T)
+                        table.sorted <- sort(table(filter2), decreasing = TRUE)
                         names.ordered <- names(table.sorted)
                         choice.good <-
                             names.ordered[table.sorted == table.sorted[1]]
@@ -167,14 +170,17 @@ dinu_to.not.keep <-
                     }
                 } else {
                     pattern2.1 <- paste0("^", substr(max.dinu, 2, 2))
-                    pattern2.2 <- paste0(substr(max.dinu, 1, 1), "$")
-                    filter2.1 <- x[str_detect(x, pattern = pattern2.1)]
-                    filter2.2 <- x[str_detect(x, pattern = pattern2.2)]
+                    pattern2.2 <-
+                        paste0(substr(max.dinu, 1, 1), "$")
+                    filter2.1 <-
+                        x[str_detect(x, pattern = pattern2.1)]
+                    filter2.2 <-
+                        x[str_detect(x, pattern = pattern2.2)]
                     filter2 <- c(filter2.1, filter2.2)
                     if (length(filter2) < 1) {
                         return(sample(x, 1))
                     } else{
-                        table.sorted <- sort(table(filter2), decreasing = T)
+                        table.sorted <- sort(table(filter2), decreasing = TRUE)
                         names.ordered <- names(table.sorted)
                         choice.good <-
                             names.ordered[table.sorted == table.sorted[1]]
@@ -191,14 +197,17 @@ dinu_to.not.keep <-
                     return(filter1)
                 } else if (length(filter1) < 1) {
                     pattern2.1 <- paste0("^", substr(min.dinu, 2, 2))
-                    pattern2.2 <- paste0(substr(min.dinu, 1, 1), "$")
-                    filter2.1 <- x[!str_detect(x, pattern = pattern2.1)]
-                    filter2.2 <- x[!str_detect(x, pattern = pattern2.2)]
+                    pattern2.2 <-
+                        paste0(substr(min.dinu, 1, 1), "$")
+                    filter2.1 <-
+                        x[!str_detect(x, pattern = pattern2.1)]
+                    filter2.2 <-
+                        x[!str_detect(x, pattern = pattern2.2)]
                     filter2 <- c(filter2.1, filter2.2)
                     if (length(filter2) < 1) {
                         return(sample(x, 1))
                     } else{
-                        table.sorted <- sort(table(filter2), decreasing = T)
+                        table.sorted <- sort(table(filter2), decreasing = TRUE)
                         names.ordered <- names(table.sorted)
                         choice.good <-
                             names.ordered[table.sorted == table.sorted[1]]
@@ -206,14 +215,17 @@ dinu_to.not.keep <-
                     }
                 } else {
                     pattern2.1 <- paste0("^", substr(min.dinu, 2, 2))
-                    pattern2.2 <- paste0(substr(min.dinu, 1, 1), "$")
-                    filter2.1 <- x[!str_detect(x, pattern = pattern2.1)]
-                    filter2.2 <- x[!str_detect(x, pattern = pattern2.2)]
+                    pattern2.2 <-
+                        paste0(substr(min.dinu, 1, 1), "$")
+                    filter2.1 <-
+                        x[!str_detect(x, pattern = pattern2.1)]
+                    filter2.2 <-
+                        x[!str_detect(x, pattern = pattern2.2)]
                     filter2 <- c(filter2.1, filter2.2)
                     if (length(filter2) < 1) {
                         return(sample(x, 1))
                     } else{
-                        table.sorted <- sort(table(filter2), decreasing = T)
+                        table.sorted <- sort(table(filter2), decreasing = TRUE)
                         names.ordered <- names(table.sorted)
                         choice.good <-
                             names.ordered[table.sorted == table.sorted[1]]
@@ -227,7 +239,8 @@ dinu_to.not.keep <-
         seq.mut <- seq.region
         for (i in seq_along(codon.list.optm)) {
             codons.alt <- codon.list.alt[[i]]
-            codons.alt <- codons.alt[codons.alt != codon.list.optm[[i]]]
+            codons.alt <-
+                codons.alt[codons.alt != codon.list.optm[[i]]]
             seq.mut <- lapply(seq.mut, function(x) {
                 x[x %in% codons.alt] <- codon.list.optm[[i]]
                 return(x)
@@ -240,28 +253,29 @@ dinu_to.not.keep <-
 #2: keep codon usage, mutate at only 31 regions
 dinu_to.keep <-
     function(check.region,
-             seq,
-             max.dinu,
-             min.dinu,
-             codon.list.alt,
-             region) {
+        seq,
+        max.dinu,
+        min.dinu,
+        codon.list.alt,
+        region) {
         if (!check.region) {
             #not regioned data
             seq.mut <- dinu_to.keep.no.region(codon.list.alt, seq,
-                                              max.dinu, min.dinu)
+                max.dinu, min.dinu)
         } else {
             #regioned data
-            seq.mut <- dinu_to.keep.region(codon.list.alt, seq, region,
-                                           max.dinu, min.dinu)
+            seq.mut <-
+                dinu_to.keep.region(codon.list.alt, seq, region,
+                    max.dinu, min.dinu)
         }
         return(seq.mut)
     }
 
 #2.1
 dinu_to.keep.no.region <- function(codon.list.alt,
-                                   seq,
-                                   max.dinu,
-                                   min.dinu) {
+    seq,
+    max.dinu,
+    min.dinu) {
     check.max <- !is.na(max.dinu)
     if (check.max) {
         dinu.target <- max.dinu
@@ -313,41 +327,45 @@ dinu_to.keep.no.region <- function(codon.list.alt,
                 } else
                     if (length(x) <= length(y)) {
                         id.new <- as.numeric(sample(as.character(y), length(x)))
-                        id.new.other <- which(!(seq_along(z) %in% id.new))
+                        id.new.other <-
+                            which(!(seq_along(z) %in% id.new))
                         codon.select <- z[x]
                         codon.remainder <- z[-x]
                         codon.all.new <- z
-                        codon.all.new[id.new] <- sample(codon.select, 1)
+                        codon.all.new[id.new] <-
+                            sample(codon.select, 1)
                         codon.all.new[id.new.other] <-
                             sample(codon.remainder, 1)
                         return(codon.all.new)
                     } else {
                         id.new <- y
-                        id.new.other <- which(!(seq_along(z) %in% id.new))
+                        id.new.other <-
+                            which(!(seq_along(z) %in% id.new))
                         id.choose <-
                             as.numeric(sample(as.character(x), length(y)))
                         codon.select <- z[id.choose]
                         codon.remainder <- z[-id.choose]
                         codon.all.new <- z
-                        codon.all.new[id.new] <- sample(codon.select, 1)
+                        codon.all.new[id.new] <-
+                            sample(codon.select, 1)
                         codon.all.new[id.new.other] <-
                             sample(codon.remainder, 1)
                         return(codon.all.new)
                     }
             },
-            id.target,
-            id.good,
-            codon.all,
-            SIMPLIFY = FALSE)
+                id.target,
+                id.good,
+                codon.all,
+                SIMPLIFY = FALSE)
 
             seq.mut <- mapply(function(x, y, z) {
                 z[y] <- x
                 return(z)
             },
-            codon.all.new,
-            pos.all,
-            seq.mut,
-            SIMPLIFY = FALSE)
+                codon.all.new,
+                pos.all,
+                seq.mut,
+                SIMPLIFY = FALSE)
         }
     }
     return(seq.mut)
@@ -356,10 +374,10 @@ dinu_to.keep.no.region <- function(codon.list.alt,
 #2.2
 dinu_to.keep.region <-
     function(codon.list.alt,
-             seq,
-             region,
-             max.dinu,
-             min.dinu) {
+        seq,
+        region,
+        max.dinu,
+        min.dinu) {
         check.max <- !is.na(max.dinu)
         if (check.max) {
             dinu.target <- max.dinu
@@ -396,7 +414,7 @@ dinu_to.keep.region <-
                         #max
                         codon2nd <- x[y + 1]
                         which(substr(codon2nd, 1, 1) == substr(dinu.target,
-                                                               2, 2))
+                            2, 2))
                     }, seq, pos.all, SIMPLIFY = FALSE)
                 } else {
                     id.good <- mapply(function(x, y) {
@@ -404,7 +422,7 @@ dinu_to.keep.region <-
                         codon2nd <- x[y + 1]
                         #note this difference between min and max
                         which(substr(codon2nd, 1, 1) != substr(dinu.target,
-                                                               2, 2))
+                            2, 2))
                     }, seq, pos.all, SIMPLIFY = FALSE)
                 }
 
@@ -414,42 +432,46 @@ dinu_to.keep.region <-
                     } else
                         if (length(x) <= length(y)) {
                             id.new <- as.numeric(sample(as.character(y),
-                                                        length(x)))
-                            id.new.other <- which(!(seq_along(z) %in% id.new))
+                                length(x)))
+                            id.new.other <-
+                                which(!(seq_along(z) %in% id.new))
                             codon.select <- z[x]
                             codon.remainder <- z[-x]
                             codon.all.new <- z
-                            codon.all.new[id.new] <- sample(codon.select, 1)
+                            codon.all.new[id.new] <-
+                                sample(codon.select, 1)
                             codon.all.new[id.new.other] <-
                                 sample(codon.remainder, 1)
                             return(codon.all.new)
                         } else {
                             id.new <- y
-                            id.new.other <- which(!(seq_along(z) %in% id.new))
+                            id.new.other <-
+                                which(!(seq_along(z) %in% id.new))
                             id.choose <-
                                 as.numeric(sample(as.character(x), length(y)))
                             codon.select <- z[id.choose]
                             codon.remainder <- z[-id.choose]
                             codon.all.new <- z
-                            codon.all.new[id.new] <- sample(codon.select, 1)
+                            codon.all.new[id.new] <-
+                                sample(codon.select, 1)
                             codon.all.new[id.new.other] <-
                                 sample(codon.remainder, 1)
                             return(codon.all.new)
                         }
                 },
-                id.target,
-                id.good,
-                codon.all,
-                SIMPLIFY = FALSE)
+                    id.target,
+                    id.good,
+                    codon.all,
+                    SIMPLIFY = FALSE)
 
                 seq.mut <- mapply(function(x, y, z) {
                     z[y] <- x
                     return(z)
                 },
-                codon.all.new,
-                pos.all,
-                seq.mut,
-                SIMPLIFY = FALSE)
+                    codon.all.new,
+                    pos.all,
+                    seq.mut,
+                    SIMPLIFY = FALSE)
             }
         }
 

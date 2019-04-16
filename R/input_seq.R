@@ -20,17 +20,17 @@
 #'
 #' # Optionally input with region dataframe
 #' filepath.fasta <- system.file("extdata", "example.fasta", package = "SynMut")
-#' filepath.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
-#' region <- read.csv(filepath.csv)
+#' fp.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
+#' region <- read.csv(fp.csv)
 #' rgd.seq <- input_seq(filepath.fasta, region)
 #'
 #' # Creating from exsisting DNAStringSet object
 #' seq <- Biostrings::DNAStringSet("ATCGATCGA")
 #' rgd.seq <- input_seq(seq)
 #'
-#' @exportMethod input_seq
 #' @name input_seq
 #' @rdname input_seq-methods
+#' @exportMethod input_seq
 setGeneric(
     name = "input_seq",
     def = function(object, region = NA, ...) {
@@ -56,7 +56,7 @@ setMethod(
                 region = list(NA)
             ))
         } else {
-            if (class(region) != "data.frame") {
+            if (!is(region, "data.frame")) {
                 stop("the region input must be in data.frame format")
             }
             region <- as.list(region)
@@ -87,7 +87,7 @@ setMethod(
                 region = list(NA)
             ))
         } else {
-            if (class(region) != "data.frame") {
+            if (!is(region, "data.frame")) {
                 stop("the region input must be in data.frame format")
             }
             region <- as.list(region)
@@ -118,7 +118,7 @@ setMethod(
                 region = list(NA)
             ))
         } else {
-            if (class(region) != "data.frame") {
+            if (!is(region, "data.frame")) {
                 stop("the region input must be in data.frame format")
             }
             region <- as.list(region)

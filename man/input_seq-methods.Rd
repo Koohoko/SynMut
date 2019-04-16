@@ -41,8 +41,8 @@ rgd.seq <- input_seq(filepath)
 
 # Optionally input with region dataframe
 filepath.fasta <- system.file("extdata", "example.fasta", package = "SynMut")
-filepath.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
-region <- read.csv(filepath.csv)
+fp.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
+region <- read.csv(fp.csv)
 rgd.seq <- input_seq(filepath.fasta, region)
 
 # Creating from exsisting DNAStringSet object
