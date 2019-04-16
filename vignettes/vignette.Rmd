@@ -1,5 +1,5 @@
 ---
-title: "SynMut: Tools for Designing Synonymous Mutants from DNA Sequences"
+title: "SynMut: Tools for Designing Synonymous Mutated Sequences"
 author: "Haogao Gu"
 date: "`r Sys.Date()`"
 output: 
