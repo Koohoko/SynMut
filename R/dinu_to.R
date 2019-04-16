@@ -50,15 +50,15 @@ setMethod(
         dinu.input <- dinu.input[!is.na(dinu.input)]
         if (length(dinu.input) == 0) {
             stop("please specify at least one parameter of
-                 'max.dinu' or 'min.dinu'")
+            'max.dinu' or 'min.dinu'")
         }
         if (all(!is.na(c(max.dinu, min.dinu)))) {
             stop("Only one parameter is supported between
-                 'max.dinu' and 'min.dinu'")
+            'max.dinu' and 'min.dinu'")
         }
         if (length(dinu.input) > 2) {
             stop("Only one dinucleotide is allowed for
-                 input in 'max.dinu' or 'min.dinu'")
+            input in 'max.dinu' or 'min.dinu'")
         }
         check.valid.dinu <-
             toupper(dinu.input) %in% toupper(seqinr::words(2))

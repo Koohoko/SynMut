@@ -56,7 +56,7 @@ setMethod(
                 region = list(NA)
             ))
         } else {
-            if (!is(region, "data.frame")) {
+            if (!methods::is(region, "data.frame")) {
                 stop("the region input must be in data.frame format")
             }
             region <- as.list(region)
@@ -87,7 +87,7 @@ setMethod(
                 region = list(NA)
             ))
         } else {
-            if (!is(region, "data.frame")) {
+            if (!methods::is(region, "data.frame")) {
                 stop("the region input must be in data.frame format")
             }
             region <- as.list(region)
@@ -118,7 +118,7 @@ setMethod(
                 region = list(NA)
             ))
         } else {
-            if (!is(region, "data.frame")) {
+            if (!methods::is(region, "data.frame")) {
                 stop("the region input must be in data.frame format")
             }
             region <- as.list(region)

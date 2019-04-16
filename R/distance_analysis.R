@@ -118,9 +118,8 @@ setMethod(
             all(nrow(seq.cu.freq) != nrow(ref.cu.freq),
                 nrow(ref.cu.freq) != 1)
         if (check) {
-            stop(
-                "the length of the reference sequences should be
-                1. of the same length as the input sequences OR 2. of length 1"
+            stop("the length of the reference sequences should be
+            1. of the same length as the input sequences OR 2. of length 1"
             )
         }
         if (nrow(ref.cu.freq) == 1) {

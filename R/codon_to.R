@@ -50,15 +50,15 @@ setMethod(
         codon.input <- codon.input[!is.na(codon.input)]
         if (length(codon.input) == 0) {
             stop("please specify at least one parameter of
-                 'max.codon' or 'min.codon'")
+            'max.codon' or 'min.codon'")
         }
         if (all(!is.na(c(max.codon, min.codon)))) {
             stop("Only one parameter is supported between
-                 'max.codon' and 'min.codon'")
+            'max.codon' and 'min.codon'")
         }
         if (length(codon.input) > 2) {
             stop("Only one codon is allowed for input in
-                 'max.codon' or 'min.codon'")
+            'max.codon' or 'min.codon'")
         }
         check.valid.codon <-
             toupper(codon.input) %in% names(Biostrings::GENETIC_CODE)

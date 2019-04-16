@@ -39,8 +39,7 @@ setValidity("regioned_dna",
             check.length <- TRUE
         }
         if (!check.3) {
-            stop("the length of the dna sequences must be divisible by
-                         3")
+            stop("the length of the dna sequences must be divisible by 3")
         }
         if (all(check.num, check.length)) {
             TRUE
