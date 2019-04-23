@@ -35,6 +35,7 @@
 #' @exportMethod codon_random
 #' @importFrom seqinr c2s s2c synsequence splitseq syncodons
 #' @importFrom Biostrings DNAStringSet
+#' @import methods
 #' @include regioned_dna_Class.R input_seq.R
 setGeneric(
     name = "codon_random",
@@ -71,7 +72,7 @@ setMethod(
 
         seq.mut <- region_back(seq.mut, check.region, seq, object)
 
-        return(methods::new(
+        return(new(
             "regioned_dna",
             dnaseq = seq.mut,
             region = object@region

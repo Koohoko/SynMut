@@ -20,6 +20,7 @@
 #' seq.nsc <- seq_random(n = 10, m = 100, no.stop.codon = TRUE)
 #' get_cu(seq.nsc)
 #' @name seq_random
+#' @import Biostrings
 #' @rdname seq_random-methods
 setGeneric(
     name = "seq_random",
@@ -85,6 +86,6 @@ setMethod(
                 }
             }, character(1), USE.NAMES = FALSE)
         }
-        Biostrings::DNAStringSet(tmp)
+        DNAStringSet(tmp)
     }
 )

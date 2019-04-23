@@ -26,6 +26,8 @@
 #' @include regioned_dna_Class.R
 #' @exportMethod dinu_to
 #' @importFrom stringr str_detect
+#' @import methods
+#' @importFrom Biostrings DNAStringSet
 #' @name dinu_to
 #' @rdname dinu_to-methods
 setGeneric(
@@ -110,8 +112,8 @@ setMethod(
 
         # merge region --------------------------------------------------------
 
-        seq.mut <- Biostrings::DNAStringSet(unlist(lapply(seq.mut, c2s)))
-        return(methods::new(
+        seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
+        return(new(
             "regioned_dna",
             dnaseq = seq.mut,
             region = object@region

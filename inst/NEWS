@@ -15,3 +15,6 @@ Changes in version 0.99.5 (2019-04-23)
 
 Changes in version 0.99.6 (2019-04-23)
 + Updated the Bioconductor installation instructions in readme and vignette.
+
+Changes in version 0.99.7 (2019-04-23)
++ Updated NAMESPACE.

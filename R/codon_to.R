@@ -27,6 +27,8 @@
 #' @exportMethod codon_to
 #' @name codon_to
 #' @rdname codon_to-methods
+#' @import methods
+#' @import Biostrings
 #' @include regioned_dna_Class.R
 setGeneric(
     name = "codon_to",
@@ -61,7 +63,7 @@ setMethod(
             'max.codon' or 'min.codon'")
         }
         check.valid.codon <-
-            toupper(codon.input) %in% names(Biostrings::GENETIC_CODE)
+            toupper(codon.input) %in% names(GENETIC_CODE)
         if (!check.valid.codon) {
             stop("Please input valid DNA codon")
         }
@@ -110,7 +112,7 @@ setMethod(
 
         seq.mut <- region_back(seq.mut, check.region, seq, object)
 
-        return(methods::new(
+        return(new(
             "regioned_dna",
             dnaseq = seq.mut,
             region = object@region

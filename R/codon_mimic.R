@@ -36,6 +36,8 @@
 #' get_freq(new) - get_freq(rgd.seq)
 #' get_rscu(new) - get_rscu(rgd.seq)
 #' @importFrom Biostrings oligonucleotideFrequency
+#' @import methods
+#' @import Biostrings
 #' @name codon_mimic
 #' @rdname codon_mimic-methods
 setGeneric(
@@ -54,7 +56,7 @@ setMethod(
             stop("The length of the target codon usage must be 64")
         }
         alt <- as.numeric(alt)
-        names(alt) <- sort(names(Biostrings::GENETIC_CODE))
+        names(alt) <- sort(names(GENETIC_CODE))
         result <-
             codon.mimic(alt, dna.seq = object@dnaseq, region = object@region)
         return(result)
@@ -112,8 +114,8 @@ codon.mimic <- function(cu.target, dna.seq, region) {
             return(x)
         }, seq, region, seq.mut, SIMPLIFY = FALSE)
     }
-    seq.mut <- Biostrings::DNAStringSet(unlist(lapply(seq.mut, c2s)))
-    return(methods::new("regioned_dna",
+    seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
+    return(new("regioned_dna",
         dnaseq = seq.mut,
         region = region))
 }
@@ -159,7 +161,7 @@ codon.mimic.region <- function(cu.target, dna.seq, region){
         return(x[!y])
     }, seq, region, SIMPLIFY = FALSE)
 
-    cu.fixed <- get_cu(Biostrings::DNAStringSet(unlist(lapply(seq.fixed, c2s))))
+    cu.fixed <- get_cu(DNAStringSet(unlist(lapply(seq.fixed, c2s))))
     cu.ori <- get_cu(dna.seq)
     freq.target <- freq(cu.target)
 

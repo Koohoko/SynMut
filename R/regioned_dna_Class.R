@@ -9,6 +9,7 @@
 #'   allowed to be mutated
 #'
 #' @importFrom methods setClass
+#' @import Biostrings
 #' @seealso \code{\link{input_seq}}, \code{\link{get_cu}},
 #'   \code{\link{get_region}}
 #' @author Haogao Gu
@@ -159,7 +160,7 @@ setMethod(
     signature = "regioned_dna",
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
-        Biostrings::oligonucleotideFrequency(dnaseq, width = 3, step = 3)
+        oligonucleotideFrequency(dnaseq, width = 3, step = 3)
     }
 )
 
@@ -168,7 +169,7 @@ setMethod(
     f = "get_cu",
     signature = "DNAStringSet",
     definition = function(object) {
-        Biostrings::oligonucleotideFrequency(object, width = 3, step = 3)
+        oligonucleotideFrequency(object, width = 3, step = 3)
     }
 )
 
@@ -203,7 +204,7 @@ setMethod(
     signature = "regioned_dna",
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
-        Biostrings::oligonucleotideFrequency(dnaseq, width = 2, step = 2)
+        oligonucleotideFrequency(dnaseq, width = 2, step = 2)
     }
 )
 
@@ -212,7 +213,7 @@ setMethod(
     f = "get_du",
     signature = "DNAStringSet",
     definition = function(object) {
-        Biostrings::oligonucleotideFrequency(object, width = 2, step = 2)
+        oligonucleotideFrequency(object, width = 2, step = 2)
     }
 )
 
@@ -246,7 +247,7 @@ setMethod(
     signature = "regioned_dna",
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
-        Biostrings::oligonucleotideFrequency(dnaseq, width = 1, step = 1)
+        oligonucleotideFrequency(dnaseq, width = 1, step = 1)
     }
 )
 
@@ -255,7 +256,7 @@ setMethod(
     f = "get_nu",
     signature = "DNAStringSet",
     definition = function(object) {
-        Biostrings::oligonucleotideFrequency(object, width = 1, step = 1)
+        oligonucleotideFrequency(object, width = 1, step = 1)
     }
 )
 
@@ -289,7 +290,7 @@ setMethod(
     signature = "regioned_dna",
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
-        tmp <- Biostrings::oligonucleotideFrequency(dnaseq,
+        tmp <- oligonucleotideFrequency(dnaseq,
             width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
@@ -307,7 +308,7 @@ setMethod(
     signature = "DNAStringSet",
     definition = function(object) {
         tmp <-
-            Biostrings::oligonucleotideFrequency(object, width = 3, step = 3)
+            oligonucleotideFrequency(object, width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
             names(r) <- NULL
@@ -375,7 +376,7 @@ setMethod(
     signature = "regioned_dna",
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
-        tmp <- Biostrings::oligonucleotideFrequency(dnaseq,
+        tmp <- oligonucleotideFrequency(dnaseq,
             width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
@@ -396,7 +397,7 @@ setMethod(
     signature = "DNAStringSet",
     definition = function(object) {
         tmp <-
-            Biostrings::oligonucleotideFrequency(object, width = 3, step = 3)
+            oligonucleotideFrequency(object, width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
             r <- freq(x)
             r <- lapply(r, function(x) {

@@ -30,6 +30,8 @@
 #'
 #' @name input_seq
 #' @rdname input_seq-methods
+#' @import methods
+#' @import BiocGenerics
 #' @exportMethod input_seq
 setGeneric(
     name = "input_seq",
@@ -48,7 +50,7 @@ setMethod(
     definition = function(object, region) {
         dnaseq <- readDNAStringSet(filepath = object)
         dnaseq <-
-            BiocGenerics::append(dnaseq, DNAStringSet('atg')) #helper sequence
+            append(dnaseq, DNAStringSet('atg')) #helper sequence
         gernerate_rgd(dnaseq, region)
     }
 )
@@ -59,7 +61,7 @@ setMethod(
     signature = signature(object = "DNAStringSet"),
     definition = function(object, region) {
         dnaseq <-
-            BiocGenerics::append(object, DNAStringSet('atg')) #helper sequence
+            append(object, DNAStringSet('atg')) #helper sequence
         gernerate_rgd(dnaseq, region)
     }
 )
@@ -70,7 +72,7 @@ setMethod(
     signature = signature(object = "DNAString"),
     definition = function(object, region) {
         dnaseq <- #helper sequence
-            BiocGenerics::append(DNAStringSet(object), DNAStringSet('atg'))
+            append(DNAStringSet(object), DNAStringSet('atg'))
         gernerate_rgd(dnaseq, region)
     }
 )
@@ -80,13 +82,13 @@ setMethod(
 
 gernerate_rgd <- function(dnaseq, region){
     if (all(is.na(region))) {
-        return(methods::new(
+        return(new(
             "regioned_dna",
             dnaseq = dnaseq,
             region = list(NA)
         ))
     } else {
-        if (!methods::is(region, "data.frame")) {
+        if (!is(region, "data.frame")) {
             stop("the region input must be in data.frame format")
         }
         region <- as.list(region)
@@ -94,7 +96,7 @@ gernerate_rgd <- function(dnaseq, region){
             lapply(region, function(x) {
                 as.logical(x[!is.na(x)])
             })
-        return(methods::new(
+        return(new(
             "regioned_dna",
             dnaseq = dnaseq,
             region = c(region, list(TRUE))
