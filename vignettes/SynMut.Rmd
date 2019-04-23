@@ -1,5 +1,5 @@
 ---
-title: "SynMut: Tools for Designing Synonymous Mutated Sequences"
+title: "SynMut: Tools for Designing Synonymously Mutated Sequences"
 author: "Haogao Gu"
 date: "`r Sys.Date()`"
 output: 
@@ -54,7 +54,9 @@ url <- paste0("https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/",
 ## Getting started
 ### Installation
 ```{r, eval=FALSE}
-if (!requireNamespace("SynMut", quietly = TRUE))
+if (!requireNamespace("BiocManager"))
+    install.packages("BiocManager")
+if (!requireNamespace("SynMut"))
     devtools::install_github("Koohoko/SynMut")
 ```
 
@@ -130,17 +132,25 @@ Generating random synonymous mutations (in specific region if provided in the
 bias.
 
 ```{r}
-get_cu(codon_random(rgd.seq)) - get_cu(rgd.seq)
+# Random synonymous mutations
+mut.seq <- codon_random(rgd.seq)
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
 
 # keeping the original codon usage pattern
-get_cu(codon_random(rgd.seq, keep = TRUE)) - get_cu(rgd.seq)
+mut.seq <- codon_random(rgd.seq, keep = TRUE)
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
 ```
 
 We can also specify the `n` parameter to control the proportion of the codons to
 be mutated.
 
 ```{r}
-get_cu(codon_random(rgd.seq, n = 0.5)) - get_cu(rgd.seq)
+# 50% of the codons were allowed for mutation
+mut.seq <- codon_random(rgd.seq, n = 0.5)
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
 ```
 
 ### Synonymous mutants with maximal/minimal usage of specific codon
@@ -152,8 +162,15 @@ will do this job for you. Pass a string of codon to either the `max.codon` or
 sequence.
 
 ```{r}
-get_cu(codon_to(rgd.seq, max.codon = "AAC")) - get_cu(rgd.seq)
-get_cu(codon_to(rgd.seq, min.codon = "AAC")) - get_cu(rgd.seq)
+# Generate AAC-maximized mutations
+mut.seq <- codon_to(rgd.seq, max.codon = "AAC")
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
+
+# Generate AAC-minimized mutations
+mut.seq <- codon_to(rgd.seq, min.codon = "AAC")
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
 ```
 
 ### Synonymous mutants with maximal/minimal usage of specific dinucleotide
@@ -170,15 +187,20 @@ dinucleotide usage.
 
 ```{r}
 # maximaize the usage of "CG" dinucleotide in the pre-defined region
+mut.seq <- dinu_to(rgd.seq, max.dinu = "cg")
 # check the dinucelotide usage difference between the mutant and the original
-get_du(dinu_to(rgd.seq, max.dinu = "cg")) - get_du(rgd.seq)
+get_du(mut.seq) - get_du(rgd.seq)
 
-# minimize the usage of "CA",
-get_du(dinu_to(rgd.seq, min.dinu = "CA")) - get_du(rgd.seq)
+# minimize the usage of "CA", and compare the dinucleotide usage.
+mut.seq <- dinu_to(rgd.seq, min.dinu = "CA")
+get_du(mut.seq) - get_du(rgd.seq)
 
 # maximize the usage of "CG" while keeping the original codon usage
-get_du(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_du(rgd.seq)
-get_cu(dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)) - get_cu(rgd.seq)
+mut.seq <- dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)
+# Compare the dinucleotide usage
+get_du(mut.seq) - get_du(rgd.seq)
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
 
 ```
 
@@ -193,17 +215,21 @@ vector (result from `get_cu`) or a DNAStringSet of length 1 representing the
 desired codon usage.
 
 ```{R}
-# use a codon usage vector as a target
+# Use a codon usage vector as a target
 target <- get_cu(rgd.seq)[2,]
-new <- codon_mimic(rgd.seq, alt = target)
-get_cu(new) - get_cu(rgd.seq)
+mut.seq <- codon_mimic(rgd.seq, alt = target)
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
 
 # use a sequence as a target
 target <- Biostrings::DNAStringSet("TTGAAAA-CTC-N--AAG")
-new <- codon_mimic(rgd.seq, alt = target)
-get_cu(new) - get_cu(rgd.seq)
-get_freq(new) - get_freq(rgd.seq)
-get_rscu(new) - get_rscu(rgd.seq)
+mut.seq <- codon_mimic(rgd.seq, alt = target)
+# Compare the codon usage
+get_cu(mut.seq) - get_cu(rgd.seq)
+# Compare the synonymous codon usage frequency
+get_freq(mut.seq) - get_freq(rgd.seq)
+# Compare the Relative Synonymous Codon Usage (RSCU)
+get_rscu(mut.seq) - get_rscu(rgd.seq)
 
 ```
 

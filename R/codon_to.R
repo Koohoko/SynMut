@@ -69,18 +69,8 @@ setMethod(
         # extract region ------------------------------------------------------
 
         check.region <- all(is.na(object@region))
-        if (!check.region) {
-            seq <- lapply(as.character(object@dnaseq), function(x) {
-                splitseq(s2c(x))
-            })
-            seq.region <- mapply(function(x, y) {
-                return(x[y])
-            }, seq, object@region, SIMPLIFY = FALSE)
-        } else {
-            seq.region <- lapply(as.character(object@dnaseq), function(x) {
-                splitseq(s2c(x))
-            })
-        }
+        seq <- convert_to_seq(object@dnaseq)
+        seq.region <- extract_region(object, check.region)
 
         # do mutation ---------------------------------------------------------
 
@@ -118,13 +108,7 @@ setMethod(
 
         # merge region --------------------------------------------------------
 
-        if (!check.region) {
-            seq.mut <- mapply(function(x, y, z) {
-                x[y] <- z
-                return(x)
-            }, seq, object@region, seq.mut, SIMPLIFY = FALSE)
-        }
-        seq.mut <- Biostrings::DNAStringSet(unlist(lapply(seq.mut, c2s)))
+        seq.mut <- region_back(seq.mut, check.region, seq, object)
 
         return(methods::new(
             "regioned_dna",

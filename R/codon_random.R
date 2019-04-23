@@ -64,57 +64,12 @@ setMethod(
         }
 
         check.region <- all(is.na(object@region))
-        if (!check.region) {
-            seq <- lapply(as.character(object@dnaseq), function(x) {
-                    splitseq(s2c(x))
-                })
-            seq.region <- mapply(function(x, y) {
-                return(x[y])
-            }, seq, object@region, SIMPLIFY = FALSE)
-        } else {
-            seq.region <- lapply(as.character(object@dnaseq),
-                function(x) {
-                    splitseq(s2c(x))
-                })
-        }
+        seq <- convert_to_seq(object@dnaseq)
+        seq.region <- extract_region(object, check.region)
 
-        if (n != 1) {
-            id <- lapply(seq.region, function(x) {
-                id <- sample(seq_len(length(x)), round(length(x) * n))
-            })
-            seq.mut <- mapply(function(x, y) {
-                x[y]
-            }, seq.region, id, SIMPLIFY = FALSE)
-        } else {
-            seq.mut <- seq.region
-        }
+        seq.mut <- mutation_random_main(seq.region, n, keep)
 
-        if (keep == FALSE) {
-            seq.mut <- lapply(seq.mut, function(x) {
-                toupper(vapply(syncodons(x), function(x) {
-                    sample(x, 1)
-                }, character(1)))
-            })
-        } else {
-            seq.mut <- lapply(seq.mut, function(x) {
-                splitseq(synsequence(s2c(c2s(x))))
-            })
-        }
-
-        if (n != 1) {
-            seq.mut <- mapply(function(x, y, z) {
-                x[y] <- z
-                return(x)
-            }, seq.region, id, seq.mut, SIMPLIFY = FALSE)
-        }
-
-        if (!check.region) {
-            seq.mut <- mapply(function(x, y, z) {
-                x[y] <- z
-                return(x)
-            }, seq, object@region, seq.mut, SIMPLIFY = FALSE)
-        }
-        seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
+        seq.mut <- region_back(seq.mut, check.region, seq, object)
 
         return(methods::new(
             "regioned_dna",
@@ -134,35 +89,7 @@ setMethod(
             splitseq(s2c(x))
         })
 
-        if (n != 1) {
-            id <- lapply(seq, function(x) {
-                id <- sample(seq_len(length(x)), round(length(x) * n))
-            })
-            seq.mut <- mapply(function(x, y) {
-                x[y]
-            }, seq, id, SIMPLIFY = FALSE)
-        } else {
-            seq.mut <- seq
-        }
-
-        if (keep == FALSE) {
-            seq.mut <- lapply(seq.mut, function(x) {
-                toupper(vapply(syncodons(x), function(x) {
-                    sample(x, 1)
-                }, character(1)))
-            })
-        } else {
-            seq.mut <- lapply(seq.mut, function(x) {
-                splitseq(synsequence(s2c(c2s(x))))
-            })
-        }
-
-        if (n != 1) {
-            seq.mut <- mapply(function(x, y, z) {
-                x[y] <- z
-                return(x)
-            }, seq, id, seq.mut, SIMPLIFY = FALSE)
-        }
+        seq.mut <- mutation_random_main(seq, n, keep)
 
         seq.mut <- seq.mut[seq_len(length(seq.mut) - 1)]
         seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
@@ -170,3 +97,41 @@ setMethod(
         return(seq.mut)
     }
 )
+
+
+# helper function ---------------------------------------------------------
+
+mutation_random_main <- function(seq.region, n, keep){
+    if (n != 1) {
+        id <- lapply(seq.region, function(x) {
+            id <- sample(seq_len(length(x)), round(length(x) * n))
+        })
+        seq.mut <- mapply(function(x, y) {
+            x[y]
+        }, seq.region, id, SIMPLIFY = FALSE)
+    } else {
+        seq.mut <- seq.region
+    }
+
+    if (keep == FALSE) {
+        seq.mut <- lapply(seq.mut, function(x) {
+            toupper(vapply(syncodons(x), function(x) {
+                sample(x, 1)
+            }, character(1)))
+        })
+    } else {
+        seq.mut <- lapply(seq.mut, function(x) {
+            splitseq(synsequence(s2c(c2s(x))))
+        })
+    }
+
+    if (n != 1) {
+        seq.mut <- mapply(function(x, y, z) {
+            x[y] <- z
+            return(x)
+        }, seq.region, id, seq.mut, SIMPLIFY = FALSE)
+    }
+
+    return(seq.mut)
+}
+

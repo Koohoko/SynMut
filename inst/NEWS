@@ -1,2 +1,14 @@
 Changes in version 0.99.0 (2019-04-16)
 + Submitted to Bioconductor
+
+Changes in version 0.99.5 (2019-04-23)
++ Added bioconductor installation instructions to README and vignette.
++ Added comments to vignette to make workflow more clear.
++ Duplicated code in the following functions were converted to helper functions.
+  o codon_random.R
+  o codon_to.R
+  o dinu_to.R
+  o codon_mimic.R
++ Added region_related.R to store the helper functions related to extracting or merging region.
++ Eliminated 67 lines of duplicated code in dinu_to.R
++ Eliminated duplicated code in input_seq.R

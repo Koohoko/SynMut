@@ -96,11 +96,9 @@ setMethod(
 
 codon.mimic <- function(cu.target, dna.seq, region) {
     check.region <- all(is.na(region))
+    seq <- convert_to_seq(dna.seq)
     if (!check.region) {
         #have region
-        seq <- lapply(as.character(dna.seq), function(x) {
-            splitseq(s2c(x))
-        })
         seq.mut <- codon.mimic.region(cu.target, dna.seq, region)
     } else {
         #no restriction of region
@@ -152,11 +150,8 @@ mut.assign.back <- function(seq.region, mut.need){
     })
 }
 
-
 codon.mimic.region <- function(cu.target, dna.seq, region){
-    seq <- lapply(as.character(dna.seq), function(x) {
-        splitseq(s2c(x))
-    })
+    seq <- convert_to_seq(dna.seq)
     seq.region <- mapply(function(x, y) {
         return(x[y])
     }, seq, region, SIMPLIFY = FALSE)
@@ -164,8 +159,7 @@ codon.mimic.region <- function(cu.target, dna.seq, region){
         return(x[!y])
     }, seq, region, SIMPLIFY = FALSE)
 
-    cu.fixed <-
-        get_cu(Biostrings::DNAStringSet(unlist(lapply(seq.fixed, c2s))))
+    cu.fixed <- get_cu(Biostrings::DNAStringSet(unlist(lapply(seq.fixed, c2s))))
     cu.ori <- get_cu(dna.seq)
     freq.target <- freq(cu.target)
 
@@ -197,9 +191,7 @@ codon.mimic.region <- function(cu.target, dna.seq, region){
 }
 
 codon.mimic.no.region <- function(cu.target, dna.seq, region){
-    seq.region <- lapply(as.character(dna.seq), function(x) {
-        splitseq(s2c(x))
-    })
+    seq.region <- convert_to_seq(dna.seq)
     freq.target <- freq(cu.target)
 
     seq.mut <- lapply(seq_along(seq.region), function(i) {

@@ -24,6 +24,12 @@ vector
 We use a least squares approach to estimate the dinucleotide usage
 difference between DNA sequences
 }
+\details{
+similar method that applied in "Daniel Macedo de Melo Jorge, Ryan E.
+  Mills, Adam S. Lauring, CodonShuffle: a tool for generating and analyzing
+  synonymously mutated sequences, Virus Evolution, Volume 1, Issue 1, March
+  2015, vev012, https://doi.org/10.1093/ve/vev012"
+}
 \examples{
 filepath <- system.file("extdata", "example.fasta", package = "SynMut")
 rgd.seq <- input_seq(filepath)

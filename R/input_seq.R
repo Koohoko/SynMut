@@ -49,88 +49,55 @@ setMethod(
         dnaseq <- readDNAStringSet(filepath = object)
         dnaseq <-
             BiocGenerics::append(dnaseq, DNAStringSet('atg')) #helper sequence
-        if (all(is.na(region))) {
-            return(methods::new(
-                "regioned_dna",
-                dnaseq = dnaseq,
-                region = list(NA)
-            ))
-        } else {
-            if (!methods::is(region, "data.frame")) {
-                stop("the region input must be in data.frame format")
-            }
-            region <- as.list(region)
-            region <-
-                lapply(region, function(x) {
-                    as.logical(x[!is.na(x)])
-                })
-            return(methods::new(
-                "regioned_dna",
-                dnaseq = dnaseq,
-                region = c(region, list(TRUE))
-            ))
-        }
+        gernerate_rgd(dnaseq, region)
     }
 )
 
 #' @rdname input_seq-methods
 setMethod(
     f = "input_seq",
-    signature = "DNAStringSet",
+    signature = signature(object = "DNAStringSet"),
     definition = function(object, region) {
         dnaseq <-
             BiocGenerics::append(object, DNAStringSet('atg')) #helper sequence
-        if (all(is.na(region))) {
-            return(methods::new(
-                "regioned_dna",
-                dnaseq = dnaseq,
-                region = list(NA)
-            ))
-        } else {
-            if (!methods::is(region, "data.frame")) {
-                stop("the region input must be in data.frame format")
-            }
-            region <- as.list(region)
-            region <-
-                lapply(region, function(x) {
-                    as.logical(x[!is.na(x)])
-                })
-            return(methods::new(
-                "regioned_dna",
-                dnaseq = dnaseq,
-                region = c(region, list(TRUE))
-            ))
-        }
+        gernerate_rgd(dnaseq, region)
     }
 )
 
 #' @rdname input_seq-methods
 setMethod(
     f = "input_seq",
-    signature = "DNAString",
+    signature = signature(object = "DNAString"),
     definition = function(object, region) {
         dnaseq <- #helper sequence
             BiocGenerics::append(DNAStringSet(object), DNAStringSet('atg'))
-        if (all(is.na(region))) {
-            return(methods::new(
-                "regioned_dna",
-                dnaseq = dnaseq,
-                region = list(NA)
-            ))
-        } else {
-            if (!methods::is(region, "data.frame")) {
-                stop("the region input must be in data.frame format")
-            }
-            region <- as.list(region)
-            region <-
-                lapply(region, function(x) {
-                    as.logical(x[!is.na(x)])
-                })
-            return(methods::new(
-                "regioned_dna",
-                dnaseq = dnaseq,
-                region = c(region, list(TRUE))
-            ))
-        }
+        gernerate_rgd(dnaseq, region)
     }
 )
+
+
+# helper function ---------------------------------------------------------
+
+gernerate_rgd <- function(dnaseq, region){
+    if (all(is.na(region))) {
+        return(methods::new(
+            "regioned_dna",
+            dnaseq = dnaseq,
+            region = list(NA)
+        ))
+    } else {
+        if (!methods::is(region, "data.frame")) {
+            stop("the region input must be in data.frame format")
+        }
+        region <- as.list(region)
+        region <-
+            lapply(region, function(x) {
+                as.logical(x[!is.na(x)])
+            })
+        return(methods::new(
+            "regioned_dna",
+            dnaseq = dnaseq,
+            region = c(region, list(TRUE))
+        ))
+    }
+}
