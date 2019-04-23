@@ -12,3 +12,6 @@ Changes in version 0.99.5 (2019-04-23)
 + Added region_related.R to store the helper functions related to extracting or merging region.
 + Eliminated 67 lines of duplicated code in dinu_to.R
 + Eliminated duplicated code in input_seq.R
+
+Changes in version 0.99.6 (2019-04-23)
++ Updated the Bioconductor installation instructions in readme and vignette.

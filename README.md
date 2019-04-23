@@ -18,7 +18,7 @@ if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
 
 if (!requireNamespace("SynMut", quietly = TRUE))
-    devtools::install_github("Koohoko/SynMut")
+    BiocManager::install("SynMut")
 
 library(SynMut)
 ```

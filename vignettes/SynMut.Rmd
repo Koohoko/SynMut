@@ -57,7 +57,7 @@ url <- paste0("https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/",
 if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
 if (!requireNamespace("SynMut"))
-    devtools::install_github("Koohoko/SynMut")
+    BiocManager::install("SynMut")
 ```
 
 ### Input data
