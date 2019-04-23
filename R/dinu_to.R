@@ -27,7 +27,7 @@
 #' @exportMethod dinu_to
 #' @importFrom stringr str_detect
 #' @import methods
-#' @importFrom Biostrings DNAStringSet
+#' @import Biostrings
 #' @name dinu_to
 #' @rdname dinu_to-methods
 setGeneric(
@@ -62,8 +62,8 @@ setMethod(
             stop("Only one dinucleotide is allowed for
             input in 'max.dinu' or 'min.dinu'")
         }
-        check.valid.dinu <-
-            toupper(dinu.input) %in% toupper(seqinr::words(2))
+        check.valid.dinu <- toupper(dinu.input) %in%
+            toupper(mkAllStrings(c("a", "t", "c", "g"), 2))
         if (!check.valid.dinu) {
             stop("Please input valid DNA dinucleotide")
         }

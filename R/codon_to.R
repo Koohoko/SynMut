@@ -77,7 +77,7 @@ setMethod(
         # do mutation ---------------------------------------------------------
 
         if (!is.na(max.codon)) {
-            max.aa <- seqinr::translate(s2c(max.codon))
+            max.aa <- as.character(translate(DNAString(max.codon)))
             seq.region.aa <- lapply(seq.region, function(x) {
                 seqinr::translate(s2c(c2s(x)))
             })
@@ -91,14 +91,14 @@ setMethod(
                 return(x)
             }, seq.region, id, SIMPLIFY = FALSE)
         } else {
-            min.aa <-  seqinr::translate(s2c(min.codon))
+            min.aa <- as.character(translate(DNAString(min.codon)))
             seq.region.aa <- lapply(seq.region, function(x) {
                 seqinr::translate(s2c(c2s(x)))
             })
             id <- lapply(seq.region.aa, function(x) {
                 which(x == min.aa)
             })
-            alt.codon <- toupper(seqinr::syncodons(min.codon)[[1]])
+            alt.codon <- toupper(syncodons(min.codon)[[1]])
             alt.codon <- alt.codon[!(alt.codon == min.codon)]
             seq.mut <- mapply(function(x, y) {
                 if (length(y) > 0) {

@@ -57,7 +57,8 @@ setMethod(
         }
         if (no.stop.codon) {
             stop.codons <- c("taa", "tga", "tag")
-            ok.codons <- setdiff(seqinr::words(), stop.codons)
+            ok.codons <- setdiff(mkAllStrings(c("a", "t", "c", "g"), 3),
+                                 stop.codons)
             tmp <- vapply(tmp, function(x) {
                 sst <- strsplit(x, "")[[1]]
                 if (length(sst) %% 3 != 0) {

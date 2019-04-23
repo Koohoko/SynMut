@@ -124,7 +124,7 @@ codon.mimic <- function(cu.target, dna.seq, region) {
 # helper function -------------------------------------------------------
 
 codon.count <- function(x) {
-    base::split(x, seqinr::translate(s2c(c2s(names(x)))))
+    base::split(x, GENETIC_CODE[order(names(GENETIC_CODE))])
 }
 
 freq <- function(x) {

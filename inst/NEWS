@@ -19,5 +19,8 @@ Changes in version 0.99.6 (2019-04-23)
 Changes in version 0.99.7 (2019-04-23)
 + Updated NAMESPACE.
 
-Changes in version 0.99.7 (2019-04-23)
+Changes in version 0.99.8 (2019-04-23)
 + Updated DESCRIPTION.
+
+Changes in version 0.99.9 (2019-04-23)
++ Reduced dependency on seqinr.
