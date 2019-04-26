@@ -2,8 +2,8 @@ Package: SynMut
 Type: Package
 Title: SynMut: Designing Synonymously Mutated Sequences with Different Genomic Signatures
 Version: 0.99.10
-Authors@R: c(person("Haogao ", "Gu", email = "hggu@connect.hku.hk", role = c("aut", "cre")),
-    c(person("Leo L.M. ", "Poon", email = "llmpoon@hku.hk", role = "led"))
+Authors@R: c(person("Haogao", "Gu", email = "hggu@connect.hku.hk", role = c("aut", "cre")),
+    person("Leo L.M.", "Poon", email = "llmpoon@hku.hk", role = "led"))
 Description: 
     There are increasing demands on designing virus mutants with specific dinucleotide or codon composition. 
     This tool can take both dinucleotide preference and/or codon usage bias into account while designing mutants.
