@@ -1,6 +1,8 @@
 ---
 title: "SynMut: Tools for Designing Synonymously Mutated Sequences"
-author: "Haogao Gu"
+author: 
+- "Haogao Gu, Leo L.M. Poon"
+- "School of Public Health, The University of Hong Kong"
 date: "`r Sys.Date()`"
 output: 
   prettydoc::html_pretty:
@@ -35,7 +37,7 @@ bias help to study their impacts on various biological functions. In fact, this
 method has been applied in many researches in virology.
 
 `SynMut` provides tools for generating multiple synonymous DNA sequences of
-different genomic features (in particular codon/dinucleotide usage pattern).
+different genomic features (in particular codon / dinucleotide usage pattern).
 Users can also specify mutable regions in the sequences (this is particular
 useful as there are some conserved regions in the genome which we do not want to
 modify). This tool was originally designed for generating recombinant virus
@@ -137,7 +139,7 @@ mut.seq <- codon_random(rgd.seq)
 # Compare the codon usage
 get_cu(mut.seq) - get_cu(rgd.seq)
 
-# keeping the original codon usage pattern
+# Keeping the original codon usage pattern
 mut.seq <- codon_random(rgd.seq, keep = TRUE)
 # Compare the codon usage
 get_cu(mut.seq) - get_cu(rgd.seq)
@@ -147,7 +149,7 @@ We can also specify the `n` parameter to control the proportion of the codons to
 be mutated.
 
 ```{r}
-# 50% of the codons were allowed for mutation
+# Fifty percent of the codons were allowed for mutation
 mut.seq <- codon_random(rgd.seq, n = 0.5)
 # Compare the codon usage
 get_cu(mut.seq) - get_cu(rgd.seq)
@@ -186,16 +188,16 @@ mutant sequences with similar codon usage bias but distinct specific
 dinucleotide usage.
 
 ```{r}
-# maximaize the usage of "CG" dinucleotide in the pre-defined region
+# Maximaize the usage of "CG" dinucleotide in the pre-defined region
 mut.seq <- dinu_to(rgd.seq, max.dinu = "cg")
-# check the dinucelotide usage difference between the mutant and the original
+# Check the dinucelotide usage difference between the mutant and the original
 get_du(mut.seq) - get_du(rgd.seq)
 
-# minimize the usage of "CA", and compare the dinucleotide usage.
+# Minimize the usage of "CA", and compare the dinucleotide usage.
 mut.seq <- dinu_to(rgd.seq, min.dinu = "CA")
 get_du(mut.seq) - get_du(rgd.seq)
 
-# maximize the usage of "CG" while keeping the original codon usage
+# Maximize the usage of "CG" while keeping the original codon usage
 mut.seq <- dinu_to(rgd.seq, max.dinu = "cg", keep = TRUE)
 # Compare the dinucleotide usage
 get_du(mut.seq) - get_du(rgd.seq)
@@ -221,7 +223,7 @@ mut.seq <- codon_mimic(rgd.seq, alt = target)
 # Compare the codon usage
 get_cu(mut.seq) - get_cu(rgd.seq)
 
-# use a sequence as a target
+# Use a sequence as a target
 target <- Biostrings::DNAStringSet("TTGAAAA-CTC-N--AAG")
 mut.seq <- codon_mimic(rgd.seq, alt = target)
 # Compare the codon usage
@@ -243,4 +245,3 @@ Biostrings::writeXStringSet(get_dna(rgd.seq), "rgd.fasta")
 ## Session information
 ```{R}
 sessionInfo()
-```
