@@ -1,7 +1,7 @@
 ## SynMut: Tools for Designing Synonymously Mutated Sequences with Different Genomic Signatures
 *Haogao Gu, Leo L.M. Poon*
 
-##### This work was conducted in School of Public Health, The University of Hong Kong under the supervison of Prof. Leo Poon. <img src="https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/master/SynMut/images/sph_logo.png" alt="drawing" width="200" ALIGN="RIGHT" /> 
+##### This work was conducted in School of Public Health, The University of Hong Kong under the supervison of Prof. Leo Poon. <img src="https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/master/SynMut/images/sph_logo.png" alt="drawing" width="200" ALIGN="LEFT" /> 
 
 ***
 ### Introduction
