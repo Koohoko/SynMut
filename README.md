@@ -19,16 +19,22 @@ This tool was originally designed for generating recombinant virus sequences in 
 ![image](https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/master/SynMut/images/component.png)
 
 ### Installation 
-Use the below code to install the development version of this package.
+Use the below code to install the package.
 
 ```r
+# Stable version
 if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
 
 if (!requireNamespace("SynMut"))
     BiocManager::install("SynMut")
 
-library(SynMut)
+# Development version
+if (!requireNamespace("devtools"))
+    install.packages("devtools")
+
+if (!requireNamespace("SynMut"))
+    devtools::install_github("Koohoko/SynMut")
 ```
 
 ### Example and methods
