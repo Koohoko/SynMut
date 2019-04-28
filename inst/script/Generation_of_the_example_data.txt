@@ -5,3 +5,4 @@ The example2.fasta is a subset of the example.fasta, which contains only the DNA
 
 The target_regions.csv is a manually edited annotatation table corresponding to the example.fasta. 
 There are two rows specifying the user-defined mutable positions (in amino acid position) correspond to the two DNA sequences for segment 7 and segment 8 in this case.
+
