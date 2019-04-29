@@ -93,7 +93,7 @@ setMethod(
             seq.mut <- seq.region
         }
 
-        # synonmous codon interchange -----------------------------------------
+        # merge region --------------------------------------------------------
 
         if (!check.region) {
             seq.mut <- mapply(function(x, y, z) {
@@ -102,15 +102,18 @@ setMethod(
             }, seq, region, seq.mut, SIMPLIFY = FALSE)
         }
 
+        # synonmous codon interchange -----------------------------------------
+
         seq.mut <-
             dinu_to.keep(check.region,
+                seq,
                 seq.mut,
                 max.dinu,
                 min.dinu,
                 codon.list.alt,
                 region)
 
-        # merge region --------------------------------------------------------
+        # export --------------------------------------------------------------
 
         seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
         return(new(
@@ -193,18 +196,19 @@ get_optimal_codon <- function(codon.list.alt, max.dinu, min.dinu){
 dinu_to.keep <-
     function(check.region,
         seq,
+        seq.mut,
         max.dinu,
         min.dinu,
         codon.list.alt,
         region) {
-        if (!check.region) {
+        if (check.region) {
             #not regioned data
-            seq.mut <- dinu_to.keep.no.region(codon.list.alt, seq,
+            seq.mut <- dinu_to.keep.no.region(codon.list.alt, seq.mut,
                 max.dinu, min.dinu)
         } else {
             #regioned data
             seq.mut <-
-                dinu_to.keep.region(codon.list.alt, seq, region,
+                dinu_to.keep.region(codon.list.alt, seq, seq.mut, region,
                     max.dinu, min.dinu)
         }
         return(seq.mut)
@@ -212,7 +216,7 @@ dinu_to.keep <-
 
 #2.1
 dinu_to.keep.no.region <- function(codon.list.alt,
-    seq,
+    seq.mut,
     max.dinu,
     min.dinu) {
     check.max <- !is.na(max.dinu)
@@ -221,10 +225,10 @@ dinu_to.keep.no.region <- function(codon.list.alt,
     } else {
         dinu.target <- min.dinu
     }
-    seq.aa <- lapply(seq, function(x) {
+    seq.aa <- lapply(seq.mut, function(x) {
         seqinr::translate(s2c(c2s(x)))
     })
-    seq.mut <- seq
+    seq.mut2 <- seq.mut
 
     #rearrange all synonymous codons in aa order
     for (i in seq_along(codon.list.alt)) {
@@ -240,19 +244,19 @@ dinu_to.keep.no.region <- function(codon.list.alt,
             })
             codon.all <- mapply(function(x, y) {
                 x[y]
-            }, seq, pos.all, SIMPLIFY = FALSE)
+            }, seq.mut, pos.all, SIMPLIFY = FALSE)
             id.target <- lapply(codon.all, function(x) {
                 which(x %in% codon.target)
             })
 
             if (check.max) {
-                id.good <- lapply(seq, function(x) {
+                id.good <- lapply(seq.mut, function(x) {
                     #max
                     codon2nd <- x[which(x %in% codon.tmp) + 1]
                     which(substr(codon2nd, 1, 1) == substr(dinu.target, 2, 2))
                 })
             } else {
-                id.good <- lapply(seq, function(x) {
+                id.good <- lapply(seq.mut, function(x) {
                     #min
                     codon2nd <- x[which(x %in% codon.tmp) + 1]
                     #note this difference between min and max
@@ -272,9 +276,9 @@ dinu_to.keep.no.region <- function(codon.list.alt,
                         codon.remainder <- z[-x]
                         codon.all.new <- z
                         codon.all.new[id.new] <-
-                            sample(codon.select, 1)
+                            sample(codon.select, length(id.new))
                         codon.all.new[id.new.other] <-
-                            sample(codon.remainder, 1)
+                            sample(codon.remainder, length(id.new.other))
                         return(codon.all.new)
                     } else {
                         id.new <- y
@@ -286,9 +290,9 @@ dinu_to.keep.no.region <- function(codon.list.alt,
                         codon.remainder <- z[-id.choose]
                         codon.all.new <- z
                         codon.all.new[id.new] <-
-                            sample(codon.select, 1)
+                            sample(codon.select, length(id.new))
                         codon.all.new[id.new.other] <-
-                            sample(codon.remainder, 1)
+                            sample(codon.remainder, length(id.new.other))
                         return(codon.all.new)
                     }
             },
@@ -297,22 +301,22 @@ dinu_to.keep.no.region <- function(codon.list.alt,
                 codon.all,
                 SIMPLIFY = FALSE)
 
-            seq.mut <- mapply(function(x, y, z) {
+            seq.mut2 <- mapply(function(x, y, z) {
                 z[y] <- x
                 return(z)
             },
                 codon.all.new,
                 pos.all,
-                seq.mut,
+                seq.mut2,
                 SIMPLIFY = FALSE)
         }
     }
-    return(seq.mut)
+    return(seq.mut2)
 }
 
 #2.2
 dinu_to.keep.region <-
-    function(codon.list.alt, seq, region, max.dinu, min.dinu) {
+    function(codon.list.alt, seq, seq.mut, region, max.dinu, min.dinu) {
         check.max <- !is.na(max.dinu)
         if (check.max) {
             dinu.target <- max.dinu
@@ -322,7 +326,7 @@ dinu_to.keep.region <-
         seq.aa <- lapply(seq, function(x) {
             seqinr::translate(s2c(c2s(x)))
         })
-        seq.mut <- seq
+        seq.mut2 <- seq.mut
 
         #rearrange all synonymous codons in aa order
         for (i in seq_along(codon.list.alt)) {
@@ -373,9 +377,9 @@ dinu_to.keep.region <-
                             codon.remainder <- z[-x]
                             codon.all.new <- z
                             codon.all.new[id.new] <-
-                                sample(codon.select, 1)
+                                sample(codon.select, length(id.new))
                             codon.all.new[id.new.other] <-
-                                sample(codon.remainder, 1)
+                                sample(codon.remainder, length(id.new.other))
                             return(codon.all.new)
                         } else {
                             id.new <- y
@@ -387,9 +391,9 @@ dinu_to.keep.region <-
                             codon.remainder <- z[-id.choose]
                             codon.all.new <- z
                             codon.all.new[id.new] <-
-                                sample(codon.select, 1)
+                                sample(codon.select, length(id.new))
                             codon.all.new[id.new.other] <-
-                                sample(codon.remainder, 1)
+                                sample(codon.remainder, length(id.new.other))
                             return(codon.all.new)
                         }
                 },
@@ -398,7 +402,7 @@ dinu_to.keep.region <-
                     codon.all,
                     SIMPLIFY = FALSE)
 
-                seq.mut <- mapply(function(x, y, z) {
+                seq.mut2 <- mapply(function(x, y, z) {
                     z[y] <- x
                     return(z)
                 },
@@ -409,5 +413,5 @@ dinu_to.keep.region <-
             }
         }
 
-        return(seq.mut)
+        return(seq.mut2)
     }

@@ -2,7 +2,7 @@
 
 convert_to_seq <- function(dna.seq){
     seq <- lapply(as.character(dna.seq), function(x) {
-        seqinr::splitseq(s2c(x))
+        splitseq(s2c(x))
     })
     return(seq)
 }

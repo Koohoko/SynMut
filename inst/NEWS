@@ -25,5 +25,11 @@ Changes in version 0.99.8 (2019-04-23)
 Changes in version 0.99.9 (2019-04-23)
 + Reduced dependency on seqinr.
 
+Changes in version 0.99.10 (2019-04-23)
++ Update documents.
+
 Changes in version 0.99.11 (2019-04-29)
 + Important bug fix in function "get_du": fixed the step parameter in oligonucleotideFrequency.
+
+Changes in version 0.99.12 (2019-04-29)
++ Important bug fix in function "dinu_to": fixed wrong result in sample methods.
