@@ -31,7 +31,7 @@ if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
 
 if (!requireNamespace("SynMut"))
-    BiocManager::install("SynMut")
+    BiocManager::install("SynMut", version = "3.9")
 
 # Development version
 if (!requireNamespace("devtools"))
