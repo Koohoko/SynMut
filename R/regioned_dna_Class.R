@@ -204,7 +204,7 @@ setMethod(
     signature = "regioned_dna",
     definition = function(object) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
-        oligonucleotideFrequency(dnaseq, width = 2, step = 2)
+        oligonucleotideFrequency(dnaseq, width = 2, step = 1)
     }
 )
 
@@ -213,7 +213,7 @@ setMethod(
     f = "get_du",
     signature = "DNAStringSet",
     definition = function(object) {
-        oligonucleotideFrequency(object, width = 2, step = 2)
+        oligonucleotideFrequency(object, width = 2, step = 1)
     }
 )
 

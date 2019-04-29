@@ -72,7 +72,7 @@ sequences of *Influenza A/Brisbane/59/2007 (H1N1) (BR59)*.
 specifying the user-defined mutable positions (in amino acid position)
 correspond to the DNA sequences.
 
-```{r}
+```{r, message=FALSE}
 library("SynMut")
 filepath.fasta <- system.file("extdata", "example.fasta", package = "SynMut")
 filepath.csv <- system.file("extdata", "target_regions.csv", package = "SynMut")
@@ -245,3 +245,5 @@ Biostrings::writeXStringSet(get_dna(rgd.seq), "rgd.fasta")
 ## Session information
 ```{R}
 sessionInfo()
+```
+***

@@ -6,6 +6,7 @@
  ##### This work was conducted in School of Public Health, The University of Hong Kong under the supervison of Prof. Leo Poon.
 
 ***
+[DOI: 10.18129/B9.bioc.SynMut](https://doi.org/doi:10.18129/B9.bioc.SynMut)
 ### Introduction
 
 *SynMut* designs synonymous mutants for DNA sequences. 
