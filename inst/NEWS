@@ -33,3 +33,6 @@ Changes in version 0.99.11 (2019-04-29)
 
 Changes in version 0.99.12 (2019-04-29)
 + Important bug fix in function "dinu_to": fixed wrong result in sample methods.
+
+Changes in version 1.1.0 (2019-05-06)
++ Bump
