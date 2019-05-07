@@ -106,7 +106,6 @@ setMethod(
 
         seq.mut <-
             dinu_to.keep(check.region,
-                seq,
                 seq.mut,
                 max.dinu,
                 min.dinu,
@@ -195,7 +194,6 @@ get_optimal_codon <- function(codon.list.alt, max.dinu, min.dinu){
 #2: keep codon usage, mutate at only 31 regions
 dinu_to.keep <-
     function(check.region,
-        seq,
         seq.mut,
         max.dinu,
         min.dinu,
@@ -208,7 +206,7 @@ dinu_to.keep <-
         } else {
             #regioned data
             seq.mut <-
-                dinu_to.keep.region(codon.list.alt, seq, seq.mut, region,
+                dinu_to.keep.region(codon.list.alt, seq.mut, region,
                     max.dinu, min.dinu)
         }
         return(seq.mut)
@@ -228,7 +226,6 @@ dinu_to.keep.no.region <- function(codon.list.alt,
     seq.aa <- lapply(seq.mut, function(x) {
         seqinr::translate(s2c(c2s(x)))
     })
-    seq.mut2 <- seq.mut
 
     #rearrange all synonymous codons in aa order
     for (i in seq_along(codon.list.alt)) {
@@ -297,32 +294,31 @@ dinu_to.keep.no.region <- function(codon.list.alt,
                 codon.all,
                 SIMPLIFY = FALSE)
 
-            seq.mut2 <- mapply(function(x, y, z) {
+            seq.mut <- mapply(function(x, y, z) {
                 z[y] <- x
                 return(z)
             },
                 codon.all.new,
                 pos.all,
-                seq.mut2,
+                seq.mut,
                 SIMPLIFY = FALSE)
         }
     }
-    return(seq.mut2)
+    return(seq.mut)
 }
 
 #2.2
 dinu_to.keep.region <-
-    function(codon.list.alt, seq, seq.mut, region, max.dinu, min.dinu) {
+    function(codon.list.alt, seq.mut, region, max.dinu, min.dinu) {
         check.max <- !is.na(max.dinu)
         if (check.max) {
             dinu.target <- max.dinu
         } else {
             dinu.target <- min.dinu
         }
-        seq.aa <- lapply(seq, function(x) {
+        seq.aa <- lapply(seq.mut, function(x) {
             seqinr::translate(s2c(c2s(x)))
         })
-        seq.mut2 <- seq.mut
 
         #rearrange all synonymous codons in aa order
         for (i in seq_along(codon.list.alt)) {
@@ -339,7 +335,7 @@ dinu_to.keep.region <-
                 }, seq.aa, region, SIMPLIFY = FALSE)
                 codon.all <- mapply(function(x, y) {
                     x[y]
-                }, seq, pos.all, SIMPLIFY = FALSE)
+                }, seq.mut, pos.all, SIMPLIFY = FALSE)
                 id.target <- lapply(codon.all, function(x) {
                     which(x %in% codon.target)
                 })
@@ -350,7 +346,7 @@ dinu_to.keep.region <-
                         codon2nd <- x[y + 1]
                         which(substr(codon2nd, 1, 1) == substr(dinu.target,
                             2, 2))
-                    }, seq, pos.all, SIMPLIFY = FALSE)
+                    }, seq.mut, pos.all, SIMPLIFY = FALSE)
                 } else {
                     id.good <- mapply(function(x, y) {
                         #min
@@ -358,7 +354,7 @@ dinu_to.keep.region <-
                         #note this difference between min and max
                         which(substr(codon2nd, 1, 1) != substr(dinu.target,
                             2, 2))
-                    }, seq, pos.all, SIMPLIFY = FALSE)
+                    }, seq.mut, pos.all, SIMPLIFY = FALSE)
                 }
 
                 codon.all.new <- mapply(function(x, y, z) {
@@ -394,7 +390,7 @@ dinu_to.keep.region <-
                     codon.all,
                     SIMPLIFY = FALSE)
 
-                seq.mut2 <- mapply(function(x, y, z) {
+                seq.mut <- mapply(function(x, y, z) {
                     z[y] <- x
                     return(z)
                 },
@@ -405,5 +401,5 @@ dinu_to.keep.region <-
             }
         }
 
-        return(seq.mut2)
+        return(seq.mut)
     }
