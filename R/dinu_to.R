@@ -267,34 +267,30 @@ dinu_to.keep.no.region <- function(codon.list.alt,
             codon.all.new <- mapply(function(x, y, z) {
                 if (any(length(y) == 0, length(x) == 0)) {
                     return(z)
-                } else
-                    if (length(x) <= length(y)) {
-                        id.new <- as.numeric(sample(as.character(y), length(x)))
-                        id.new.other <-
-                            which(!(seq_along(z) %in% id.new))
-                        codon.select <- z[x]
-                        codon.remainder <- z[-x]
-                        codon.all.new <- z
-                        codon.all.new[id.new] <-
-                            sample(codon.select, length(id.new))
-                        codon.all.new[id.new.other] <-
-                            sample(codon.remainder, length(id.new.other))
-                        return(codon.all.new)
-                    } else {
-                        id.new <- y
-                        id.new.other <-
-                            which(!(seq_along(z) %in% id.new))
-                        id.choose <-
-                            as.numeric(sample(as.character(x), length(y)))
-                        codon.select <- z[id.choose]
-                        codon.remainder <- z[-id.choose]
-                        codon.all.new <- z
-                        codon.all.new[id.new] <-
-                            sample(codon.select, length(id.new))
-                        codon.all.new[id.new.other] <-
-                            sample(codon.remainder, length(id.new.other))
-                        return(codon.all.new)
-                    }
+                } else if (length(x) <= length(y)) {
+                    id.new <- as.numeric(sample(as.character(y),
+                        length(x)))
+                    codon.ori <- z[id.new]
+                    codon.select <- z[x]
+                    codon.all.new <- z
+                    codon.all.new[id.new] <-
+                        sample(codon.select, length(id.new))
+                    codon.all.new[x] <-
+                        sample(codon.ori, length(x))
+                    return(codon.all.new)
+                } else {
+                    id.new <- y
+                    codon.ori <- z[id.new]
+                    id.choose <-
+                        as.numeric(sample(as.character(x), length(y)))
+                    codon.select <- z[id.choose]
+                    codon.all.new <- z
+                    codon.all.new[id.new] <-
+                        sample(codon.select, length(id.new))
+                    codon.all.new[id.choose] <-
+                        sample(codon.ori, length(id.choose))
+                    return(codon.all.new)
+                }
             },
                 id.target,
                 id.good,
@@ -371,29 +367,25 @@ dinu_to.keep.region <-
                     } else if (length(x) <= length(y)) {
                             id.new <- as.numeric(sample(as.character(y),
                                 length(x)))
-                            id.new.other <-
-                                which(!(seq_along(z) %in% id.new))
+                            codon.ori <- z[id.new]
                             codon.select <- z[x]
-                            codon.remainder <- z[-x]
                             codon.all.new <- z
                             codon.all.new[id.new] <-
                                 sample(codon.select, length(id.new))
-                            codon.all.new[id.new.other] <-
-                                sample(codon.remainder, length(id.new.other))
+                            codon.all.new[x] <-
+                                sample(codon.ori, length(x))
                             return(codon.all.new)
                         } else {
                             id.new <- y
-                            id.new.other <-
-                                which(!(seq_along(z) %in% id.new))
+                            codon.ori <- z[id.new]
                             id.choose <-
                                 as.numeric(sample(as.character(x), length(y)))
                             codon.select <- z[id.choose]
-                            codon.remainder <- z[-id.choose]
                             codon.all.new <- z
                             codon.all.new[id.new] <-
                                 sample(codon.select, length(id.new))
-                            codon.all.new[id.new.other] <-
-                                sample(codon.remainder, length(id.new.other))
+                            codon.all.new[id.choose] <-
+                                sample(codon.ori, length(id.choose))
                             return(codon.all.new)
                         }
                 },

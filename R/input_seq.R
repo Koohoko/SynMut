@@ -7,7 +7,7 @@
 #'   be in open reading frame(ORF).
 #' @param region \code{NA}. A data.frame specifying paticular regions (positions
 #'   in amino acid sequence) that is allowed to be mutated in the sequences.
-#'   Both \code{0 / 1} or \code{TRUE / FALSE} encoding is OK. Please refer to
+#'   Both \code{1 / 0} or \code{TRUE / FALSE} encoding is OK. Please refer to
 #'   Examples below for reference.
 #' @param ... ...
 #' @return A regioned_dna-class object
