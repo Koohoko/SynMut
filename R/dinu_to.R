@@ -201,123 +201,8 @@ get_optimal_codon <- function(codon.list.alt, max.dinu, min.dinu){
 
 #2: keep codon usage, mutate at only 31 regions
 dinu_to.keep <-
-    function(check.region,
-        seq.mut,
-        max.dinu,
-        min.dinu,
-        codon.list.alt,
+    function(check.region, seq.mut, max.dinu, min.dinu, codon.list.alt,
         region) {
-        if (check.region) {
-            #not regioned data
-            seq.mut <- dinu_to.keep.no.region(codon.list.alt, seq.mut,
-                max.dinu, min.dinu)
-        } else {
-            #regioned data
-            seq.mut <-
-                dinu_to.keep.region(codon.list.alt, seq.mut, region,
-                    max.dinu, min.dinu)
-        }
-        return(seq.mut)
-    }
-
-#2.1
-dinu_to.keep.no.region <- function(codon.list.alt,
-    seq.mut,
-    max.dinu,
-    min.dinu) {
-    check.max <- !is.na(max.dinu)
-    if (check.max) {
-        dinu.target <- max.dinu
-    } else {
-        dinu.target <- min.dinu
-    }
-    seq.aa <- lapply(seq.mut, function(x) {
-        seqinr::translate(s2c(c2s(x)))
-    })
-
-    #rearrange all synonymous codons in aa order
-    for (i in seq_along(codon.list.alt)) {
-        aa.tmp <- names(codon.list.alt)[i]
-        codon.tmp <- codon.list.alt[[i]]
-        #check whether need to rearrange
-        codon.target <-
-            codon.tmp[substr(codon.tmp, 3, 3) == substr(dinu.target, 1, 1)]
-        check.need <- length(codon.target) > 0
-        if (check.need) {
-            pos.all <- lapply(seq.aa, function(x) {
-                which(x == aa.tmp)
-            })
-            codon.all <- mapply(function(x, y) {
-                x[y]
-            }, seq.mut, pos.all, SIMPLIFY = FALSE)
-            id.target <- lapply(codon.all, function(x) {
-                which(x %in% codon.target)
-            })
-
-            if (check.max) {
-                id.good <- lapply(seq.mut, function(x) {
-                    #max
-                    codon2nd <- x[which(x %in% codon.tmp) + 1]
-                    which(substr(codon2nd, 1, 1) == substr(dinu.target, 2, 2))
-                })
-            } else {
-                id.good <- lapply(seq.mut, function(x) {
-                    #min
-                    codon2nd <- x[which(x %in% codon.tmp) + 1]
-                    #note this difference between min and max
-                    which(substr(codon2nd, 1, 1) != substr(dinu.target, 2, 2))
-                })
-            }
-
-            codon.all.new <- mapply(function(x, y, z) {
-                if (any(length(y) == 0, length(x) == 0)) {
-                    return(z)
-                } else if (length(x) <= length(y)) {
-                    id.new <- as.numeric(sample(as.character(y),
-                        length(x)))
-                    codon.ori <- z[id.new]
-                    codon.select <- z[x]
-                    codon.all.new <- z
-                    codon.all.new[id.new] <-
-                        sample(codon.select, length(id.new))
-                    codon.all.new[x] <-
-                        sample(codon.ori, length(x))
-                    return(codon.all.new)
-                } else {
-                    id.new <- y
-                    codon.ori <- z[id.new]
-                    id.choose <-
-                        as.numeric(sample(as.character(x), length(y)))
-                    codon.select <- z[id.choose]
-                    codon.all.new <- z
-                    codon.all.new[id.new] <-
-                        sample(codon.select, length(id.new))
-                    codon.all.new[id.choose] <-
-                        sample(codon.ori, length(id.choose))
-                    return(codon.all.new)
-                }
-            },
-                id.target,
-                id.good,
-                codon.all,
-                SIMPLIFY = FALSE)
-
-            seq.mut <- mapply(function(x, y, z) {
-                z[y] <- x
-                return(z)
-            },
-                codon.all.new,
-                pos.all,
-                seq.mut,
-                SIMPLIFY = FALSE)
-        }
-    }
-    return(seq.mut)
-}
-
-#2.2
-dinu_to.keep.region <-
-    function(codon.list.alt, seq.mut, region, max.dinu, min.dinu) {
         check.max <- !is.na(max.dinu)
         if (check.max) {
             dinu.target <- max.dinu
@@ -328,86 +213,87 @@ dinu_to.keep.region <-
             seqinr::translate(s2c(c2s(x)))
         })
 
-        #rearrange all synonymous codons in aa order
-        for (i in seq_along(codon.list.alt)) {
-            aa.tmp <- names(codon.list.alt)[i]
-            codon.tmp <- codon.list.alt[[i]]
-            #check whether need to rearrange
-            codon.target <-
-                codon.tmp[substr(codon.tmp, 3, 3) == substr(dinu.target, 1, 1)]
-            check.need <- length(codon.target) > 0
-            if (check.need) {
-                #specify region
-                pos.all <- mapply(function(x, y) {
-                    which(x == aa.tmp & y)
-                }, seq.aa, region, SIMPLIFY = FALSE)
-                codon.all <- mapply(function(x, y) {
-                    x[y]
-                }, seq.mut, pos.all, SIMPLIFY = FALSE)
-                id.target <- lapply(codon.all, function(x) {
-                    which(x %in% codon.target)
-                })
+        check.head.g <- lapply(seq.mut, function(x){
+            substr(x, 1, 1) == substr(dinu.target, 2, 2)
+        })
 
-                if (check.max) {
-                    id.good <- mapply(function(x, y) {
-                        #max
-                        codon2nd <- x[y + 1]
-                        which(substr(codon2nd, 1, 1) == substr(dinu.target,
-                            2, 2))
-                    }, seq.mut, pos.all, SIMPLIFY = FALSE)
-                } else {
-                    id.good <- mapply(function(x, y) {
-                        #min
-                        codon2nd <- x[y + 1]
-                        #note this difference between min and max
-                        which(substr(codon2nd, 1, 1) != substr(dinu.target,
-                            2, 2))
-                    }, seq.mut, pos.all, SIMPLIFY = FALSE)
-                }
-
-                codon.all.new <- mapply(function(x, y, z) {
-                    if (any(length(y) == 0, length(x) == 0)) {
-                        return(z)
-                    } else if (length(x) <= length(y)) {
-                        id.new <- as.numeric(sample(as.character(y),
-                            length(x)))
-                        codon.ori <- z[id.new]
-                        codon.select <- z[x]
-                        codon.all.new <- z
-                        codon.all.new[id.new] <-
-                            sample(codon.select, length(id.new))
-                        codon.all.new[x] <-
-                            sample(codon.ori, length(x))
-                        return(codon.all.new)
-                    } else {
-                        id.new <- y
-                        codon.ori <- z[id.new]
-                        id.choose <-
-                            as.numeric(sample(as.character(x), length(y)))
-                        codon.select <- z[id.choose]
-                        codon.all.new <- z
-                        codon.all.new[id.new] <-
-                            sample(codon.select, length(id.new))
-                        codon.all.new[id.choose] <-
-                            sample(codon.ori, length(id.choose))
-                        return(codon.all.new)
-                    }
-                },
-                    id.target,
-                    id.good,
-                    codon.all,
-                    SIMPLIFY = FALSE)
-
-                seq.mut <- mapply(function(x, y, z) {
-                    z[y] <- x
-                    return(z)
-                },
-                    codon.all.new,
-                    pos.all,
-                    seq.mut,
-                    SIMPLIFY = FALSE)
-            }
+        if(!check.region){ # have region
+            pos.to.mut <- mapply(function(x, y){
+                intersect((which(x) - 1), which(y))
+            }, check.head.g, region)
+        } else { # no region
+            pos.to.mut <- lapply(check.head.g, function(x){
+                which(x) - 1
+            })
         }
+
+        seq.mut <- mapply(function(seq.mut.i, pos.to.mut.i, seq.aa.i, region.i){
+            if(length(pos.to.mut.i) < 1){
+                return(seq.mut.i)
+            } else {
+                aa.to.mut <- seq.aa.i[pos.to.mut.i]
+                aa.to.mut.unique <- unique(aa.to.mut)
+
+                for(i in seq_along(aa.to.mut.unique)){
+                    aa.tmp <- aa.to.mut.unique[i]
+                    pos.to.mut.tmp <- pos.to.mut.i[aa.to.mut == aa.tmp]
+
+                    substr(codon.list.alt[[aa.tmp]], 3, 3)
+
+                    if(!check.region){ # have region
+                        pos.for.select <- intersect(which(seq.aa.i == aa.tmp),
+                            which(region.i))
+                    } else { # no region
+                        pos.for.select <- which(seq.aa.i == aa.tmp)
+                    }
+                    pos.for.select <- setdiff(pos.for.select, pos.to.mut.tmp)
+
+                    if(check.max){ # max dinu
+                        pos.to.mut.tmp <-
+                            pos.to.mut.tmp[substr(seq.mut.i[pos.to.mut.tmp],
+                                3, 3) != substr(dinu.target, 1, 1)]
+                        pos.for.select <-
+                            pos.for.select[substr(seq.mut.i[pos.for.select],
+                                3, 3) == substr(dinu.target, 1, 1)]
+                        if(length(pos.to.mut.tmp) > 0){
+                            if(length(pos.to.mut.tmp)>=length(pos.for.select)){
+                                pos.to.mut.tmp <-as.numeric(sample(as.character(
+                                    pos.to.mut.tmp), length(pos.for.select)))
+                            } else {
+                                pos.for.select <-as.numeric(sample(as.character(
+                                    pos.for.select), length(pos.to.mut.tmp)))
+                            }
+                            codon.to.mut <- seq.mut.i[pos.to.mut.tmp]
+                            codon.for.select <- seq.mut.i[pos.for.select]
+                            seq.mut.i[pos.to.mut.tmp] <- codon.for.select
+                            seq.mut.i[pos.for.select] <- codon.to.mut
+                        }
+
+                    } else { # min dinu
+                        pos.to.mut.tmp <-
+                            pos.to.mut.tmp[substr(seq.mut.i[pos.to.mut.tmp],
+                                3, 3) == substr(dinu.target, 1, 1)]
+                        pos.for.select <-
+                            pos.for.select[substr(seq.mut.i[pos.for.select],
+                                3, 3) != substr(dinu.target, 1, 1)]
+                        if(length(pos.to.mut.tmp) > 0){
+                            if(length(pos.to.mut.tmp)>=length(pos.for.select)){
+                                pos.to.mut.tmp <-as.numeric(sample(as.character(
+                                    pos.to.mut.tmp), length(pos.for.select)))
+                            } else {
+                                pos.for.select <-as.numeric(sample(as.character(
+                                    pos.for.select), length(pos.to.mut.tmp)))
+                            }
+                            codon.to.mut <- seq.mut.i[pos.to.mut.tmp]
+                            codon.for.select <- seq.mut.i[pos.for.select]
+                            seq.mut.i[pos.to.mut.tmp] <- codon.for.select
+                            seq.mut.i[pos.for.select] <- codon.to.mut
+                        }
+                    }
+                }
+                return(seq.mut.i)
+            }
+        }, seq.mut, pos.to.mut, seq.aa, region)
 
         return(seq.mut)
     }
