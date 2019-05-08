@@ -223,7 +223,7 @@ dinu_to.keep <-
             }, check.head.g, region)
         } else { # no region
             pos.to.mut <- lapply(check.head.g, function(x){
-                which(x) - 1
+                setdiff((which(x) - 1), 0)
             })
         }
 
@@ -237,8 +237,6 @@ dinu_to.keep <-
                 for(i in seq_along(aa.to.mut.unique)){
                     aa.tmp <- aa.to.mut.unique[i]
                     pos.to.mut.tmp <- pos.to.mut.i[aa.to.mut == aa.tmp]
-
-                    substr(codon.list.alt[[aa.tmp]], 3, 3)
 
                     if(!check.region){ # have region
                         pos.for.select <- intersect(which(seq.aa.i == aa.tmp),
