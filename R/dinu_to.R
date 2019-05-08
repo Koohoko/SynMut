@@ -157,9 +157,12 @@ get_optimal_codon <- function(codon.list.alt, max.dinu, min.dinu){
     check.max <- !is.na(max.dinu)
     target.codon <- c(max.dinu, min.dinu)[!is.na(c(max.dinu, min.dinu))]
     codon.list.optm <- lapply(codon.list.alt, function(x) {
-        filter1 <- ifelse(check.max,
-            x[str_detect(x, pattern = target.codon)],
-            x[!str_detect(x, pattern = target.codon)])
+        filter1 <- if(check.max){
+            x[str_detect(x, pattern = target.codon)]
+        } else {
+            x[!str_detect(x, pattern = target.codon)]
+        }
+
         if (length(filter1) == 1) {
             return(filter1)
         } else {
@@ -169,12 +172,17 @@ get_optimal_codon <- function(codon.list.alt, max.dinu, min.dinu){
             if (length(filter1) > 1){
                 x <- filter1
             }
-            filter2.1 <- ifelse(check.max,
-                x[str_detect(x, pattern = pattern2.1)],
-                x[!str_detect(x, pattern = pattern2.1)])
-            filter2.2 <- ifelse(check.max,
-                x[str_detect(x, pattern = pattern2.2)],
-                x[!str_detect(x, pattern = pattern2.2)])
+            filter2.1 <- if(check.max){
+                x[str_detect(x, pattern = pattern2.1)]
+            } else {
+                x[!str_detect(x, pattern = pattern2.1)]
+            }
+
+            filter2.2 <- if(check.max){
+                x[str_detect(x, pattern = pattern2.2)]
+            } else {
+                x[!str_detect(x, pattern = pattern2.2)]
+            }
 
             filter2 <- c(filter2.1, filter2.2)
             if (length(filter2) < 1) {
@@ -361,29 +369,29 @@ dinu_to.keep.region <-
                     if (any(length(y) == 0, length(x) == 0)) {
                         return(z)
                     } else if (length(x) <= length(y)) {
-                            id.new <- as.numeric(sample(as.character(y),
-                                length(x)))
-                            codon.ori <- z[id.new]
-                            codon.select <- z[x]
-                            codon.all.new <- z
-                            codon.all.new[id.new] <-
-                                sample(codon.select, length(id.new))
-                            codon.all.new[x] <-
-                                sample(codon.ori, length(x))
-                            return(codon.all.new)
-                        } else {
-                            id.new <- y
-                            codon.ori <- z[id.new]
-                            id.choose <-
-                                as.numeric(sample(as.character(x), length(y)))
-                            codon.select <- z[id.choose]
-                            codon.all.new <- z
-                            codon.all.new[id.new] <-
-                                sample(codon.select, length(id.new))
-                            codon.all.new[id.choose] <-
-                                sample(codon.ori, length(id.choose))
-                            return(codon.all.new)
-                        }
+                        id.new <- as.numeric(sample(as.character(y),
+                            length(x)))
+                        codon.ori <- z[id.new]
+                        codon.select <- z[x]
+                        codon.all.new <- z
+                        codon.all.new[id.new] <-
+                            sample(codon.select, length(id.new))
+                        codon.all.new[x] <-
+                            sample(codon.ori, length(x))
+                        return(codon.all.new)
+                    } else {
+                        id.new <- y
+                        codon.ori <- z[id.new]
+                        id.choose <-
+                            as.numeric(sample(as.character(x), length(y)))
+                        codon.select <- z[id.choose]
+                        codon.all.new <- z
+                        codon.all.new[id.new] <-
+                            sample(codon.select, length(id.new))
+                        codon.all.new[id.choose] <-
+                            sample(codon.ori, length(id.choose))
+                        return(codon.all.new)
+                    }
                 },
                     id.target,
                     id.good,
