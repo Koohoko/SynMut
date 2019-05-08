@@ -39,3 +39,6 @@ Changes in version 1.1.0 (2019-05-06)
 
 Changes in version 1.1.1 (2019-05-06)
 + Bug fix: "dinu_to" fix wrong result with "keep == TRUE" parameter.
+
+Changes in version 1.1.2 (2019-05-08)
++ Bug fix: "dinu_to" ifelse issue in get_optimal_codon.
