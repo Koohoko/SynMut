@@ -30,9 +30,7 @@
 #' @rdname dinu_dist-methods
 setGeneric(
     name = "dinu_dist",
-    def = function(seq, ref) {
-        standardGeneric("dinu_dist")
-    }
+    def = function(seq, ref) standardGeneric("dinu_dist")
 )
 
 #' @rdname dinu_dist-methods
@@ -102,9 +100,7 @@ setMethod(
 #' @rdname codon_dist-methods
 setGeneric(
     name = "codon_dist",
-    def = function(seq, ref) {
-        standardGeneric("codon_dist")
-    }
+    def = function(seq, ref) standardGeneric("codon_dist")
 )
 
 #' @rdname codon_dist-methods

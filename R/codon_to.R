@@ -32,12 +32,8 @@
 #' @include regioned_dna_Class.R
 setGeneric(
     name = "codon_to",
-    def = function(object,
-        max.codon = NA,
-        min.codon = NA,
-        ...) {
-        standardGeneric(f = "codon_to")
-    }
+    def = function(object, max.codon = NA, min.codon = NA,
+                   ...) standardGeneric(f = "codon_to")
 )
 
 

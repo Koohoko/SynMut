@@ -35,9 +35,7 @@
 #' @exportMethod input_seq
 setGeneric(
     name = "input_seq",
-    def = function(object, region = NA, ...) {
-        standardGeneric("input_seq")
-    }
+    def = function(object, region = NA, ...) standardGeneric("input_seq")
 )
 
 #' @importFrom Biostrings readDNAStringSet

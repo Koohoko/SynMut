@@ -39,12 +39,8 @@
 #' @include regioned_dna_Class.R input_seq.R
 setGeneric(
     name = "codon_random",
-    def = function(object,
-        n = 1,
-        keep = FALSE,
-        ...) {
-        standardGeneric(f = "codon_random")
-    }
+    def = function(object, n = 1, keep = FALSE,
+                   ...) standardGeneric(f = "codon_random")
 )
 
 #' @rdname codon_random-methods

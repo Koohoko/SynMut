@@ -80,9 +80,7 @@ setMethod(
 #' @exportMethod get_region
 setGeneric(
     name = "get_region",
-    def = function(object, ...) {
-        standardGeneric("get_region")
-    }
+    def = function(object, ...) standardGeneric("get_region")
 )
 
 #' @rdname get_region-methods
@@ -112,9 +110,7 @@ setMethod(
 #' get_dna(rgd.seq)
 setGeneric(
     name = "get_dna",
-    def = function(object, ...) {
-        standardGeneric("get_dna")
-    }
+    def = function(object, ...) standardGeneric("get_dna")
 )
 
 #' @rdname get_dna-methods
@@ -149,9 +145,7 @@ setMethod(
 #' @rdname get_cu-methods
 setGeneric(
     name = "get_cu",
-    def = function(object, ...) {
-        standardGeneric("get_cu")
-    }
+    def = function(object, ...) standardGeneric("get_cu")
 )
 
 #' @rdname get_cu-methods
@@ -193,9 +187,7 @@ setMethod(
 #' @rdname get_du-methods
 setGeneric(
     name = "get_du",
-    def = function(object, ...) {
-        standardGeneric("get_du")
-    }
+    def = function(object, ...) standardGeneric("get_du")
 )
 
 #' @rdname get_du-methods
@@ -236,9 +228,7 @@ setMethod(
 #' @rdname get_nu-methods
 setGeneric(
     name = "get_nu",
-    def = function(object, ...) {
-        standardGeneric("get_nu")
-    }
+    def = function(object, ...) standardGeneric("get_nu")
 )
 
 #' @rdname get_nu-methods
@@ -279,9 +269,7 @@ setMethod(
 #' @rdname get_freq-methods
 setGeneric(
     name = "get_freq",
-    def = function(object, ...) {
-        standardGeneric("get_freq")
-    }
+    def = function(object, ...) standardGeneric("get_freq")
 )
 
 #' @rdname get_freq-methods
@@ -365,9 +353,7 @@ setMethod(
 #' @rdname get_rscu-methods
 setGeneric(
     name = "get_rscu",
-    def = function(object, ...) {
-        standardGeneric("get_rscu")
-    }
+    def = function(object, ...) standardGeneric("get_rscu")
 )
 
 #' @rdname get_rscu-methods

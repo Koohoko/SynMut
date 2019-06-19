@@ -24,12 +24,8 @@
 #' @rdname seq_random-methods
 setGeneric(
     name = "seq_random",
-    def = function(n = 1,
-        m,
-        no.stop.codon = FALSE,
-        ...) {
-        standardGeneric("seq_random")
-    }
+    def = function(n = 1, m, no.stop.codon = FALSE,
+                   ...) standardGeneric("seq_random")
 )
 
 #' @rdname seq_random-methods

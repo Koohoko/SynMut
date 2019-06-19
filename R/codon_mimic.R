@@ -42,9 +42,7 @@
 #' @rdname codon_mimic-methods
 setGeneric(
     name = "codon_mimic",
-    def = function(object, alt, ...) {
-        standardGeneric("codon_mimic")
-    }
+    def = function(object, alt, ...) standardGeneric("codon_mimic")
 )
 
 #' @rdname codon_mimic-methods

@@ -32,13 +32,8 @@
 #' @rdname dinu_to-methods
 setGeneric(
     name = "dinu_to",
-    def = function(object,
-        max.dinu = NA,
-        min.dinu = NA,
-        keep = FALSE,
-        ...) {
-        standardGeneric("dinu_to")
-    }
+    def = function(object, max.dinu = NA, min.dinu = NA, keep = FALSE,
+                   ...) standardGeneric("dinu_to")
 )
 
 #' @rdname dinu_to-methods
