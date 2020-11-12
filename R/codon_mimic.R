@@ -141,7 +141,7 @@ mut.assign.back <- function(seq.region, mut.need){
             for.sample <- as.character(which(seq.tmp.aa == aa.names[j]))
             pos.tmp <- as.numeric(sample(for.sample))
             mut.cd.tmp <- round(mut.need.tmp[[aa.names[j]]])
-            if (!any(is.na(mut.cd.tmp))) {
+            if (!any(is.na(mut.cd.tmp)) & any(mut.cd.tmp>1)) {
                 suppressWarnings(seq.tmp[pos.tmp] <-
                         rep(names(mut.cd.tmp), mut.cd.tmp))
             }
