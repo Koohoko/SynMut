@@ -1,7 +1,7 @@
 Package: SynMut
 Type: Package
 Title: SynMut: Designing Synonymously Mutated Sequences with Different Genomic Signatures
-Version: 1.9.0
+Version: 1.10.0
 Authors@R: c(person("Haogao", "Gu", email = "hggu@connect.hku.hk", role = c("aut", "cre")),
     person("Leo L.M.", "Poon", email = "llmpoon@hku.hk", role = "led"))
 Description: 
