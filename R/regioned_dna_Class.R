@@ -255,6 +255,7 @@ setMethod(
 #' Access the synonymous codon usage frequency
 #'
 #' @param object regioned_dna / DNAStringSet / codon usage matrix (vector)
+#' @param numcode The ncbi genetic code number for translation. Default value: \code{1}. Details please refer to \code{?seqinr::translate} ("https://rdrr.io/cran/seqinr/man/translate.html").
 #' @param ... ...
 #'
 #' @return matrix
@@ -269,19 +270,19 @@ setMethod(
 #' @rdname get_freq-methods
 setGeneric(
     name = "get_freq",
-    def = function(object, ...) standardGeneric("get_freq")
+    def = function(object, numcode = 1, ...) standardGeneric("get_freq")
 )
 
 #' @rdname get_freq-methods
 setMethod(
     f = "get_freq",
     signature = "regioned_dna",
-    definition = function(object) {
+    definition = function(object, numcode) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
         tmp <- oligonucleotideFrequency(dnaseq,
             width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
-            r <- freq(x)
+            r <- freq(x, numcode)
             names(r) <- NULL
             r <- unlist(r)[names(x)]
             return(r)
@@ -294,11 +295,11 @@ setMethod(
 setMethod(
     f = "get_freq",
     signature = "DNAStringSet",
-    definition = function(object) {
+    definition = function(object, numcode) {
         tmp <-
             oligonucleotideFrequency(object, width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
-            r <- freq(x)
+            r <- freq(x, numcode)
             names(r) <- NULL
             r <- unlist(r)[names(x)]
             return(r)
@@ -311,9 +312,9 @@ setMethod(
 setMethod(
     f = "get_freq",
     signature = "matrix",
-    definition = function(object) {
+    definition = function(object, numcode) {
         tmp <- apply(object, 1, function(x) {
-            r <- freq(x)
+            r <- freq(x, numcode)
             names(r) <- NULL
             r <- unlist(r)[names(x)]
             return(r)
@@ -326,8 +327,8 @@ setMethod(
 setMethod(
     f = "get_freq",
     signature = "vector",
-    definition = function(object) {
-        r <- freq(object)
+    definition = function(object, numcode) {
+        r <- freq(object, numcode)
         names(r) <- NULL
         r <- unlist(r)[names(object)]
         return(r)
@@ -339,6 +340,7 @@ setMethod(
 #' Access the Relative Synonymous Codon Usage rscu
 #'
 #' @param object regioned_dna / DNAStringSet / codon usage matrix (vector)
+#' @param numcode The ncbi genetic code number for translation. Default value: \code{1}. Details please refer to \code{?seqinr::translate} ("https://rdrr.io/cran/seqinr/man/translate.html").
 #' @param ... ...
 #'
 #' @return matrix
@@ -353,19 +355,19 @@ setMethod(
 #' @rdname get_rscu-methods
 setGeneric(
     name = "get_rscu",
-    def = function(object, ...) standardGeneric("get_rscu")
+    def = function(object, numcode=1, ...) standardGeneric("get_rscu")
 )
 
 #' @rdname get_rscu-methods
 setMethod(
     f = "get_rscu",
     signature = "regioned_dna",
-    definition = function(object) {
+    definition = function(object, numcode) {
         dnaseq <- object@dnaseq[seq_len(length(object@dnaseq) - 1)]
         tmp <- oligonucleotideFrequency(dnaseq,
             width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
-            r <- freq(x)
+            r <- freq(x, numcode)
             r <- lapply(r, function(x) {
                 return(x / ((1 / length(x)) * sum(x)))
             })
@@ -381,11 +383,11 @@ setMethod(
 setMethod(
     f = "get_rscu",
     signature = "DNAStringSet",
-    definition = function(object) {
+    definition = function(object, numcode) {
         tmp <-
             oligonucleotideFrequency(object, width = 3, step = 3)
         tmp <- apply(tmp, 1, function(x) {
-            r <- freq(x)
+            r <- freq(x, numcode)
             r <- lapply(r, function(x) {
                 return(x / ((1 / length(x)) * sum(x)))
             })
@@ -396,16 +398,3 @@ setMethod(
         return(t(tmp))
     }
 )
-
-
-# internal function -------------------------------------------------------
-
-codon.count <- function(x) {
-    base::split(x, GENETIC_CODE[order(names(GENETIC_CODE))])
-}
-
-freq <- function(x) {
-    lapply(codon.count(x), function(x) {
-        x / sum(x)
-    })
-}

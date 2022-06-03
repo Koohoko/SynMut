@@ -7,7 +7,6 @@
 
 ***
 [DOI: 10.18129/B9.bioc.SynMut](https://doi.org/doi:10.18129/B9.bioc.SynMut)  
-<img border="0" src="https://bioconductor.org/shields/availability/3.9/SynMut.svg">
 <img border="0" src="https://bioconductor.org/shields/build/devel/bioc/SynMut.svg">
 
 ### Introduction
@@ -50,3 +49,19 @@ The strategies and functionalities of the `codom_mimic` and `dinu_to` functions 
 ### Find it at Bioconductor
 https://bioconductor.org/packages/devel/bioc/html/SynMut.html
 ***
+
+### Changelog
+Changes in version 1.1.5 (2022-06-03)
++ Enhancement: add other non-standard genetic codes for functions codon_random, dinu_to, codon_mimic.
+
+Changes in version 1.1.4 (2020-11-12)
++ bug fix: fix for function codon_mimic.
+
+Changes in version 1.1.3 (2019-05-08)
++ Revise dinu_to.keep algorithm, enhance performance.
+
+Changes in version 1.1.2 (2019-05-08)
++ Bug fix: "dinu_to" ifelse issue in get_optimal_codon.
+
+Changes in version 1.1.1 (2019-05-06)
++ Bug fix: "dinu_to" fix wrong result with "keep == TRUE" parameter.

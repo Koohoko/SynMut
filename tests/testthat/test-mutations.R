@@ -26,6 +26,17 @@ test_that("codon_random", {
     expect_true(class(tmp)[1] == "regioned_dna")
     expect_silent(codon_random(rgd.seq.single, n = 0.5))
     expect_silent(codon_random(rgd.seq.no.region, n = 0.5))
+
+    # test numcode
+    expect_silent(codon_random(rgd.seq.single, n = 0.5, numcode=2))
+    ori <- get_dna(rgd.seq.single)
+    mut_1 <- get_dna(codon_random(rgd.seq.single, n = 1, keep = TRUE, numcode=1)) 
+    mut_2 <- get_dna(codon_random(rgd.seq.single, n = 1, keep = TRUE)) 
+    mut_3 <- get_dna(codon_random(rgd.seq.single, n = 1, keep = TRUE, numcode=5)) 
+    expect_true(Biostrings::translate(mut_1) == Biostrings::translate(mut_2))
+    expect_false(Biostrings::translate(ori) == Biostrings::translate(mut_3))
+    expect_true(Biostrings::translate(ori, genetic.code=getGeneticCode("5")) == Biostrings::translate(mut_3, genetic.code=getGeneticCode("5")))
+    expect_true(all(get_cu(mut_1) == get_cu(mut_3)))
 })
 
 test_that("codon_to", {
@@ -65,6 +76,19 @@ test_that("dinu_to", {
     expect_silent(get_du(dinu_to(
         rgd.seq.no.region, min.dinu = "tg", keep = TRUE
     )))
+
+    # test numcode
+    ori <- get_dna(rgd.seq.single)
+    mut_1 <- get_dna(dinu_to(rgd.seq.single, max.dinu = "cg", keep = TRUE, numcode=1)) 
+    mut_2 <- get_dna(dinu_to(rgd.seq.single, max.dinu = "cg", keep = TRUE)) 
+    mut_3 <- get_dna(dinu_to(rgd.seq.single, max.dinu = "cg", keep = TRUE, numcode=5)) 
+
+    expect_true(Biostrings::translate(mut_1) == Biostrings::translate(mut_2))
+    expect_true(Biostrings::translate(ori) == Biostrings::translate(mut_2))
+    expect_true(Biostrings::translate(ori, genetic.code=getGeneticCode("5")) == Biostrings::translate(mut_3, genetic.code=getGeneticCode("5")))
+    expect_true(all(get_cu(mut_1) == get_cu(mut_3)))
+    expect_true(all(get_cu(ori) == get_cu(mut_3)))
+
 })
 
 test_that("codon_mimic", {
@@ -80,6 +104,22 @@ test_that("codon_mimic", {
 
     expect_silent(codon_mimic(rgd.seq.single, alt = target))
     expect_silent(codon_mimic(rgd.seq.no.region, alt = target))
+
+     # test numcode
+    ori <- get_dna(rgd.seq.single)
+    target <- get_cu(rgd.seq)[2,]
+    mut_1 <- get_dna(codon_mimic(rgd.seq.single, alt = target))
+    mut_2 <- get_dna(codon_mimic(rgd.seq.single, alt = target, numcode=1))
+    mut_3 <- get_dna(codon_mimic(rgd.seq.single, alt = target, numcode=5))
+
+    idx <- which(strsplit(consensusString(c(Biostrings::translate(ori), Biostrings::translate(mut_1))), "")[[1]]=="?")
+
+    expect_true(Biostrings::translate(ori) == Biostrings::translate(mut_1))
+    expect_true(Biostrings::translate(mut_1) == Biostrings::translate(mut_2))
+
+    # expect_false(Biostrings::translate(ori, genetic.code=getGeneticCode("1")) == Biostrings::translate(mut_3, genetic.code=getGeneticCode("1")))
+    expect_true(Biostrings::translate(ori, genetic.code=getGeneticCode("5")) == Biostrings::translate(mut_3, genetic.code=getGeneticCode("5")))
+
 })
 
 test_that("dinu_dist", {

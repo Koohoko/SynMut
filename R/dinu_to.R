@@ -10,6 +10,7 @@
 #' @param min.dinu A string of a dinucleotide.
 #' @param keep A logical varibale stating if the codon usage of the original
 #'   sequences should be keep. Default: False.
+#' @param numcode The ncbi genetic code number for translation. Default value: \code{1}. Details please refer to \code{?seqinr::translate} ("https://rdrr.io/cran/seqinr/man/translate.html").
 #' @param ... ...
 #' @details The detail strategy for this function please refer to:
 #' https://koohoko.github.io/SynMut/algorithm.html
@@ -33,14 +34,14 @@
 setGeneric(
     name = "dinu_to",
     def = function(object, max.dinu = NA, min.dinu = NA, keep = FALSE,
-                   ...) standardGeneric("dinu_to")
+    numcode = 1, ...) standardGeneric("dinu_to")
 )
 
 #' @rdname dinu_to-methods
 setMethod(
     f = "dinu_to",
     signature = "regioned_dna",
-    definition = function(object, max.dinu, min.dinu, keep) {
+    definition = function(object, max.dinu, min.dinu, keep, numcode) {
         max.dinu <- toupper(max.dinu)
         min.dinu <- toupper(min.dinu)
         dinu.input <- c(max.dinu, min.dinu)
@@ -73,7 +74,7 @@ setMethod(
         # mutation ------------------------------------------------------------
 
         codon.list <-
-            lapply(seqinr::ucoweight(''), function(x) {
+            lapply(seqinr::ucoweight('', numcode=numcode), function(x) {
                 toupper(names(x))
             })
         codon.list.alt <-
@@ -105,7 +106,8 @@ setMethod(
                 max.dinu,
                 min.dinu,
                 codon.list.alt,
-                region)
+                region,
+                numcode)
 
         # export --------------------------------------------------------------
 
@@ -197,7 +199,7 @@ get_optimal_codon <- function(codon.list.alt, max.dinu, min.dinu){
 #2: keep codon usage, mutate at only 31 regions
 dinu_to.keep <-
     function(check.region, seq.mut, max.dinu, min.dinu, codon.list.alt,
-        region) {
+        region, numcode) {
         check.max <- !is.na(max.dinu)
         if (check.max) {
             dinu.target <- max.dinu
@@ -205,7 +207,7 @@ dinu_to.keep <-
             dinu.target <- min.dinu
         }
         seq.aa <- lapply(seq.mut, function(x) {
-            seqinr::translate(s2c(c2s(x)))
+            seqinr::translate(s2c(c2s(x)), numcode=numcode)
         })
 
         check.head.g <- lapply(seq.mut, function(x){
