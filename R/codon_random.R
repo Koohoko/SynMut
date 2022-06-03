@@ -5,9 +5,10 @@
 #'
 #' @param object A regioned_dna object.
 #' @param n Optional n parameter specifying what proportion of the codons to be
-#'   mutate. Default value: \code{1}.
+#'   mutated. Default value: \code{1}.
 #' @param keep Logical parameter controling whether keeping the codon usage bias
-#'   of the original sequence. Default value: \code{FALSE}.
+# '   of the original sequence. Default value: \code{FALSE}.
+#' @param numcode The ncbi genetic code number for translation. Default value: \code{1}. Details please refer to \code{?seqinr::translate} ("https://rdrr.io/cran/seqinr/man/translate.html").
 #' @param ... ...
 #'
 #' @details This method randomly sample synonymous codons for \code{n} propotion
@@ -18,7 +19,7 @@
 #'   \code{synsequence} function essentially swaps the position of the
 #'   synonymous codons without introducing new codons into the original
 #'   sequences.
-#'
+#' 
 #' @return A regioned_dna object containing the mutants; Or a DNAStringSet
 #'   object if the input is a DNAStringSet object.
 #' @seealso \code{\link{input_seq}}, \code{\link{dinu_to}},
@@ -39,7 +40,7 @@
 #' @include regioned_dna_Class.R input_seq.R
 setGeneric(
     name = "codon_random",
-    def = function(object, n = 1, keep = FALSE,
+    def = function(object, n = 1, keep = FALSE, numcode = 1,
                    ...) standardGeneric(f = "codon_random")
 )
 
@@ -47,7 +48,7 @@ setGeneric(
 setMethod(
     f = "codon_random",
     signature = "regioned_dna",
-    definition = function(object, n, keep) {
+    definition = function(object, n, keep, numcode) {
         if (!is.logical(keep)) {
             stop("'keep' should be either TRUE or FALSE")
         }
@@ -64,7 +65,7 @@ setMethod(
         seq <- convert_to_seq(object@dnaseq)
         seq.region <- extract_region(object, check.region)
 
-        seq.mut <- mutation_random_main(seq.region, n, keep)
+        seq.mut <- mutation_random_main(seq.region, n, keep, numcode)
 
         seq.mut <- region_back(seq.mut, check.region, seq, object)
 
@@ -80,13 +81,13 @@ setMethod(
 setMethod(
     f = "codon_random",
     signature = "DNAStringSet",
-    definition = function(object, n, keep) {
+    definition = function(object, n, keep, numcode) {
         object <- c(object, DNAStringSet("ATG"))
         seq <- lapply(as.character(object), function(x) {
             splitseq(s2c(x))
         })
 
-        seq.mut <- mutation_random_main(seq, n, keep)
+        seq.mut <- mutation_random_main(seq, n, keep, numcode)
 
         seq.mut <- seq.mut[seq_len(length(seq.mut) - 1)]
         seq.mut <- DNAStringSet(unlist(lapply(seq.mut, c2s)))
@@ -98,7 +99,7 @@ setMethod(
 
 # helper function ---------------------------------------------------------
 
-mutation_random_main <- function(seq.region, n, keep){
+mutation_random_main <- function(seq.region, n, keep, numcode){
     if (n != 1) {
         id <- lapply(seq.region, function(x) {
             id <- sample(seq_len(length(x)), round(length(x) * n))
@@ -112,13 +113,13 @@ mutation_random_main <- function(seq.region, n, keep){
 
     if (keep == FALSE) {
         seq.mut <- lapply(seq.mut, function(x) {
-            toupper(vapply(syncodons(x), function(x) {
+            toupper(vapply(syncodons(x, numcode = numcode), function(x) {
                 sample(x, 1)
             }, character(1)))
         })
     } else {
         seq.mut <- lapply(seq.mut, function(x) {
-            splitseq(synsequence(s2c(c2s(x))))
+            splitseq(synsequence(s2c(c2s(x)), numcode = numcode))
         })
     }
 

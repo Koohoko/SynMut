@@ -6,6 +6,7 @@
 #' @param object regioned_dna object
 #' @param alt target codon usage vector or DNAStringSet object representing
 #'   target codon usage
+#' @param numcode The ncbi genetic code number for translation. Default value: \code{1}. Details please refer to \code{?seqinr::translate} ("https://rdrr.io/cran/seqinr/man/translate.html").
 #' @param ... ...
 #'
 #' @details The ideas for \code{codon_mimic} is similar to
@@ -42,21 +43,21 @@
 #' @rdname codon_mimic-methods
 setGeneric(
     name = "codon_mimic",
-    def = function(object, alt, ...) standardGeneric("codon_mimic")
+    def = function(object, alt, numcode = 1, ...) standardGeneric("codon_mimic")
 )
 
 #' @rdname codon_mimic-methods
 setMethod(
     f = "codon_mimic",
     signature = signature(object = "regioned_dna", alt = "vector"),
-    definition = function(object, alt) {
+    definition = function(object, alt, numcode) {
         if (length(alt) != 64) {
             stop("The length of the target codon usage must be 64")
         }
         alt <- as.numeric(alt)
         names(alt) <- sort(names(GENETIC_CODE))
         result <-
-            codon.mimic(alt, dna.seq = object@dnaseq, region = object@region)
+            codon.mimic(alt, dna.seq = object@dnaseq, region = object@region, numcode)
         return(result)
     }
 )
@@ -65,14 +66,15 @@ setMethod(
 setMethod(
     f = "codon_mimic",
     signature = signature(object = "regioned_dna", alt = "DNAStringSet"),
-    definition = function(object, alt) {
+    definition = function(object, alt, numcode) {
         if (length(alt) > 1) {
             warning("only the first one sequence in the the target was used")
         }
         cu.target <- oligonucleotideFrequency(alt, width = 3, step = 3)[1, ]
         result <- codon.mimic(cu.target,
             dna.seq = object@dnaseq,
-            region = object@region)
+            region = object@region,
+            numcode)
         return(result)
     }
 )
@@ -81,7 +83,7 @@ setMethod(
 setMethod(
     f = "codon_mimic",
     signature = signature(object = "DNAStringSet", alt = "DNAStringSet"),
-    definition = function(object, alt) {
+    definition = function(object, alt, numcode) {
         if (length(alt) > 1) {
             warning("only the first one sequence in the the target was used")
         }
@@ -89,20 +91,21 @@ setMethod(
         object <- input_seq(object)
         result <- codon.mimic(cu.target,
             dna.seq = object@dnaseq,
-            region = object@region)
+            region = object@region,
+            numcode)
         return(result)
     }
 )
 
-codon.mimic <- function(cu.target, dna.seq, region) {
+codon.mimic <- function(cu.target, dna.seq, region, numcode) {
     check.region <- all(is.na(region))
     seq <- convert_to_seq(dna.seq)
     if (!check.region) {
         #have region
-        seq.mut <- codon.mimic.region(cu.target, dna.seq, region)
+        seq.mut <- codon.mimic.region(cu.target, dna.seq, region, numcode)
     } else {
         #no restriction of region
-        seq.mut <- codon.mimic.no.region(cu.target, dna.seq, region)
+        seq.mut <- codon.mimic.no.region(cu.target, dna.seq, region, numcode)
     }
     # merge region ------------------------------------------------------------
 
@@ -121,20 +124,24 @@ codon.mimic <- function(cu.target, dna.seq, region) {
 
 # helper function -------------------------------------------------------
 
-codon.count <- function(x) {
-    base::split(x, GENETIC_CODE[order(names(GENETIC_CODE))])
+codon.count <- function(x, numcode) {
+    gen_code <- sapply(names(GENETIC_CODE), function(x){
+        seqinr::translate(strsplit(x, "")[[1]], numcode = numcode)
+    })
+    gen_code <- gen_code[order(names(gen_code))]
+    base::split(x, gen_code)
 }
 
-freq <- function(x) {
-    lapply(codon.count(x), function(x) {
+freq <- function(x, numcode) {
+    lapply(codon.count(x, numcode), function(x) {
         x / sum(x)
     })
 }
 
-mut.assign.back <- function(seq.region, mut.need){
+mut.assign.back <- function(seq.region, mut.need, numcode){
     seq.mut <- lapply(seq_along(seq.region), function(i) {
         seq.tmp <- seq.region[[i]]
-        seq.tmp.aa <- seqinr::translate(s2c(c2s(seq.tmp)))
+        seq.tmp.aa <- seqinr::translate(s2c(c2s(seq.tmp)), numcode = numcode)
         aa.names <- names(table(seq.tmp.aa))
         mut.need.tmp <- mut.need[[i]]
         for (j in seq_along(aa.names)) {
@@ -150,7 +157,7 @@ mut.assign.back <- function(seq.region, mut.need){
     })
 }
 
-codon.mimic.region <- function(cu.target, dna.seq, region){
+codon.mimic.region <- function(cu.target, dna.seq, region, numcode){
     seq <- convert_to_seq(dna.seq)
     seq.region <- mapply(function(x, y) {
         return(x[y])
@@ -161,11 +168,11 @@ codon.mimic.region <- function(cu.target, dna.seq, region){
 
     cu.fixed <- get_cu(DNAStringSet(unlist(lapply(seq.fixed, c2s))))
     cu.ori <- get_cu(dna.seq)
-    freq.target <- freq(cu.target)
+    freq.target <- freq(cu.target, numcode)
 
     mut.need <- lapply(seq_along(seq), function(i) {
-        count.ori <- codon.count(cu.ori[i,])
-        count.fixed <- codon.count(cu.fixed[i,])
+        count.ori <- codon.count(cu.ori[i,], numcode)
+        count.fixed <- codon.count(cu.fixed[i,], numcode)
         mut.usage <- mapply(function(x, y) {
             sum(x) * y
         }, count.ori, freq.target, SIMPLIFY = FALSE)
@@ -185,18 +192,19 @@ codon.mimic.region <- function(cu.target, dna.seq, region){
             }
         })
     })
-    seq.mut <- mut.assign.back(seq.region, mut.need)
+    seq.mut <- mut.assign.back(seq.region, mut.need, numcode)
     names(seq.mut) <- names(seq.region)
     return(seq.mut)
 }
 
-codon.mimic.no.region <- function(cu.target, dna.seq, region){
+codon.mimic.no.region <- function(cu.target, dna.seq, region, numcode){
     seq.region <- convert_to_seq(dna.seq)
-    freq.target <- freq(cu.target)
+    freq.target <- freq(cu.target, numcode)
 
     seq.mut <- lapply(seq_along(seq.region), function(i) {
         seq.tmp <- seq.region[[i]]
-        seq.tmp.aa <- seqinr::translate(s2c(c2s(seq.tmp)))
+        seq.tmp.aa <- seqinr::translate(s2c(c2s(seq.tmp)), numcode=numcode)
+        # print(numcode)
         aa.names <- names(table(seq.tmp.aa))
         for (j in seq_along(aa.names)) {
             for.sample <- as.character(which(seq.tmp.aa == aa.names[j]))
@@ -210,5 +218,6 @@ codon.mimic.no.region <- function(cu.target, dna.seq, region){
         return(seq.tmp)
     })
     names(seq.mut) <- names(seq.region)
+
     return(seq.mut)
 }
