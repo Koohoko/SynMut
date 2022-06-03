@@ -52,7 +52,7 @@ https://bioconductor.org/packages/devel/bioc/html/SynMut.html
 
 ### Changelog
 Changes in version 1.1.5 (2022-06-03)
-+ Enhancement: add other non-standard genetic codes for funtions codon_random, dinu_to, codon_mimic.
++ Enhancement: add other non-standard genetic codes for functions codon_random, dinu_to, codon_mimic.
 
 Changes in version 1.1.4 (2020-11-12)
 + bug fix: fix for function codon_mimic.
