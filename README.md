@@ -7,7 +7,6 @@
 
 ***
 [DOI: 10.18129/B9.bioc.SynMut](https://doi.org/doi:10.18129/B9.bioc.SynMut)  
-<img border="0" src="https://bioconductor.org/shields/availability/3.9/SynMut.svg">
 <img border="0" src="https://bioconductor.org/shields/build/devel/bioc/SynMut.svg">
 
 ### Introduction
