@@ -1,7 +1,7 @@
 ## SynMut: Tools for Designing Synonymously Mutated Sequences with Different Genomic Signatures
 *Haogao Gu, Leo L.M. Poon*
 
- <img src="https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/master/SynMut/images/sph_logo.png" alt="drawing" width="200" ALIGN="LEFT" /> 
+ <img src="https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/master/files/SynMut/images/sph_logo.png" alt="drawing" width="200" ALIGN="LEFT" /> 
  
  ##### This work was conducted in School of Public Health, The University of Hong Kong under the supervison of Prof. Leo Poon.
 
@@ -19,7 +19,7 @@ This tool was originally designed for generating recombinant virus sequences in 
 
 ### Components of the package
 
-![image](https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/master/SynMut/images/component.png)
+![image](https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/master/files/SynMut/images/component.png)
 
 ### Installation 
 Use the below code to install the package.
