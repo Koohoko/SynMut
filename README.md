@@ -42,9 +42,9 @@ if (!requireNamespace("SynMut"))
 
 ### Example and methods
 
-Details tutorial please refer to the [vignette](https://koohoko.github.io/SynMut/index.html).
+Details tutorial please refer to the [vignette](https://koohoko.github.io/files/SynMut/index.html).
 
-The strategies and functionalities of the `codom_mimic` and `dinu_to` functions can be found at [here](https://koohoko.github.io/SynMut/algorithm.html).
+The strategies and functionalities of the `codom_mimic` and `dinu_to` functions can be found at [here](https://koohoko.github.io/files/SynMut/algorithm.html).
 
 ### Find it at Bioconductor
 https://bioconductor.org/packages/devel/bioc/html/SynMut.html
