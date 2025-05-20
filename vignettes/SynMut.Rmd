@@ -49,7 +49,7 @@ Below is a flowchart illustrating how the components work togaether in this
 package.
 ```{r, echo=FALSE, message = FALSE}
 url <- paste0("https://raw.githubusercontent.com/Koohoko/Koohoko.github.io/",
-  "master/SynMut/images/component.png")
+  "master/files/SynMut/images/component.png")
 ```
 <center><img src="`r url`"></center>
 
